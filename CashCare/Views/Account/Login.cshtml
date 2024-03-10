@@ -3,27 +3,72 @@
 *@
 @{
 }
+@{
+    Layout = null; // ou Layout = "";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="~/css/login.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <title>Login</title>
+</head>
+<body>
 
-<form action="action_page.php" method="post">
-  <div class="imgcontainer">
-    <img src="img_avatar2.png" alt="Avatar" class="avatar">
-  </div>
+    <div class="container">
 
-  <div class="container">
-    <label for="uname"><b>Username</b></label>
-    <input type="text" placeholder="Enter Username" name="uname" required>
+        <div id="content" class="contentContainer activeContent contentContainerBordered">
+            <div class="img">
+                <img src="/assets/cashnow.png" />
+            </div>
 
-    <label for="psw"><b>Password</b></label>
-    <input type="password" placeholder="Enter Password" name="psw" required>
+            <input class="username" type="text" id="username" placeholder="Email or mobile number" />
 
-    <button type="submit">Login</button>
-    <label>
-      <input type="checkbox" checked="checked" name="remember"> Remember me
-    </label>
-  </div>
+            <input class="pwd" type="password" id="password" placeholder="Password" />
 
-  <div class="container" style="background-color:#f1f1f1">
-    <button type="button" class="cancelbtn">Cancel</button>
-    <span class="psw">Forgot <a href="#">password?</a></span>
-  </div>
-</form>
+            <a class="forgetPWD" href="/">Forgot password?</a>
+
+            <button class="login-button" type="submit">Log in</button>
+
+            <div class="loginSignUpSeparator ">
+                <span class="textInSeparator">or</span>
+            </div>
+
+            <button class="signup-button" type="submit">Sign up</button>
+
+            <div class="lang">
+                <a target="_blank" href="/" pa-marked="1">English </a> &nbsp;|
+                <a target="_blank" href="/" pa-marked="1">Deutsch</a>
+            </div>
+
+        </div>       
+    </div>
+
+    <footer class="footer">
+
+        <a target="_blank" href="/" pa-marked="1">Contact Us</a>
+        <a target="_blank" href="/" pa-marked="1">Privacy</a>
+        <a target="_blank" href="/" pa-marked="1">Legal</a>
+        <a target="_blank" href="/" pa-marked="1">Policy Updates</a>
+        <a target="_blank" href="/" pa-marked="1">Worldwide</a>
+
+    </footer>
+
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
