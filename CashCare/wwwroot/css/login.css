@@ -5,12 +5,11 @@
 }
 
 .container {
-    /*border: 1px solid #eaeced;*/
     border-radius: 20px;
-    width: 460px; /* Ajustez la largeur selon vos besoins */
+    width: 460px; 
     height: 660px;
     margin: auto;
-    margin-top: 100px; /* Ajustez la marge supérieure selon vos besoins */
+    margin-top: 100px; 
     text-align: center;
 }
 
@@ -20,14 +19,38 @@
     padding: 8px;
     margin-bottom: 6%;
     box-sizing: border-box;
+    transition: border-color 0.3s;
+    font-size:18px;
 }
+    .username:hover {
+        border-color: #0070ba; 
+    }
+    .username::placeholder {
+        font-size: 18px;
+    }
+    .username:focus {
+        border-color: blue; 
+        outline: none; 
+    }
 .pwd {
     margin-bottom: 0% !important;
     width: 100%;
     height: 65px;
     padding: 8px;
     box-sizing: border-box;
+    transition: border-color 0.3s;
+    font-size:18px;
 }
+    .pwd:hover {
+        border-color: #0070ba; 
+    }
+    .pwd::placeholder {
+        font-size: 18px;
+    }
+    .pwd:focus {
+    border-color: blue;
+    outline: none;
+    }
 
 .forgetPWD {
     margin-top: 4%;
@@ -43,15 +66,19 @@
 
 .login-button {
     width: 100%;
-    height:55px;
+    height: 55px;
     padding: 10px;
-    background-color: #0070ba; 
-    color: #fff; 
+    background-color: #0070ba;
+    color: #fff;
     border: none;
     cursor: pointer;
-    border-radius:40px;
-    font-size:18px;
+    border-radius: 40px;
+    font-size: 18px;
+    transition: background-color 0.3s;
 }
+    .login-button:hover {
+        background-color: #00588a;
+    }
 .signup-button {
     font-size: 18px;
     border-radius: 40px;
