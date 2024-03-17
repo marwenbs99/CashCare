@@ -92,7 +92,7 @@
     cursor: pointer;
     transition: border-width 0.2s; /* Animation de transition pour l'épaisseur de la bordure */
     text-decoration: none; /* Supprimer le soulignement du texte */
-    line-height: 20px; /* Ajuster la hauteur de ligne pour centrer verticalement le texte */
+    line-height: 24px; /* Ajuster la hauteur de ligne pour centrer verticalement le texte */
     text-align: center; /* Centrer horizontalement le texte */
 }
 
