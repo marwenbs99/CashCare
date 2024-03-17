@@ -79,5 +79,10 @@ namespace CashCare.Controllers.Account
                 return View();
             }
         }
+
+        public ActionResult Signup()
+        {
+            return View();
+        }
     }
 }
