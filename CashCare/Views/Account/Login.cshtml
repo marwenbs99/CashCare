@@ -21,10 +21,10 @@
 
         <div id="content" class="contentContainer activeContent contentContainerBordered">
             <div class="img">
-                <img src="/assets/cashnow.png" />
+                <a href="/"><img src="/assets/cashnow.png" /></br></a>
             </div>
 
-            <input class="username" type="text" id="username" placeholder="Email or mobile number" />
+            <input class="Email" type="text" id="username" placeholder="Email or mobile number" />
 
             <input class="pwd" type="password" id="password" placeholder="Password" />
 
@@ -36,7 +36,7 @@
                 <span class="textInSeparator">or</span>
             </div>
 
-            <button class="signup-button" type="submit">Sign up</button>
+            <a  sp-controller="Account" asp-action="Signup" class="signup-button"  >Signup</a>
 
             <div class="lang">
                 <a target="_blank" href="/" pa-marked="1">English </a> &nbsp;|
