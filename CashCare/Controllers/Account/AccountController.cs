@@ -1,7 +1,12 @@
 ﻿using CashCare.Data;
 using CashCare.Models;
 using CashCare.ViewModels;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace CashCare.Controllers.Account
 {
@@ -14,6 +19,7 @@ namespace CashCare.Controllers.Account
             _context = context;
         }
 
+        [AllowAnonymous]
         public ActionResult Login()
         {
             return View();
@@ -21,18 +27,42 @@ namespace CashCare.Controllers.Account
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Login(LoginViewModel loginInfo)
+        public async Task<IActionResult> Login(LoginViewModel loginInfo)
         {
-            var currentUser = _context.AppUsers.FirstOrDefault(user => user.Email.Equals(loginInfo.Email) && user.Password.Equals(loginInfo.Password));
+            var currentUser = _context.AppUsers.FirstOrDefault(user => user.Email.Equals(loginInfo.Email));
 
             if (currentUser != null)
             {
-                return RedirectToAction("Index", "Home");
+                var passwordHasher = new PasswordHasher<AppUser>();
+                var verificationResult = passwordHasher.VerifyHashedPassword(currentUser, currentUser.Password, loginInfo.Password);
+
+                if (verificationResult == PasswordVerificationResult.Success)
+                {
+                    var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Name, currentUser.Email),
+                    new Claim(ClaimTypes.NameIdentifier, currentUser.Id.ToString())
+                };
+
+                    var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                    var authProperties = new AuthenticationProperties
+                    {
+                        AllowRefresh = true,
+                        IsPersistent = true
+                    };
+
+                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
+
+                    return RedirectToAction("Index", "Home");
+                }
             }
 
+            ModelState.AddModelError("", "Invalid login attempt.");
             return View();
         }
 
+        [AllowAnonymous]
         public ActionResult Signup()
         {
             return View();
@@ -42,19 +72,24 @@ namespace CashCare.Controllers.Account
         [ValidateAntiForgeryToken]
         public ActionResult Signup(SignUpViewModel SignupVM)
         {
-            if (SignupVM.Password != SignupVM.RepeatedPassword)
+            if (SignupVM.Password != SignupVM.RepeatedPassword || !ModelState.IsValid)
             {
-                return View();
+                ModelState.AddModelError("", "Invalid logout attempt.");
+                return View(SignupVM);
             }
 
-            AppUser newUser = new AppUser
+            var passwordHasher = new PasswordHasher<AppUser>();
+
+            AppUser newUser = new()
             {
                 Email = SignupVM.Email,
-                Password = SignupVM.Password,
                 FirstName = SignupVM.FirstName,
                 LastName = SignupVM.LastName,
                 PhoneNumber = SignupVM.PhoneNumber,
+                Password = SignupVM.Password,
             };
+
+            newUser.Password = passwordHasher.HashPassword(newUser, SignupVM.Password);
 
             _context.AppUsers.Add(newUser);
             _context.SaveChanges();
