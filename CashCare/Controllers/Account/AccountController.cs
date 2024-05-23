@@ -1,88 +1,65 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using CashCare.Data;
+using CashCare.Models;
+using CashCare.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CashCare.Controllers.Account
 {
+
     public class AccountController : Controller
     {
-        // GET: LoginController
+        private readonly ApplicationDbContext _context;
+        public AccountController(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
         public ActionResult Login()
         {
             return View();
         }
 
-        // GET: LoginController/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: LoginController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: LoginController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Login(LoginViewModel loginInfo)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+            var currentUser = _context.AppUsers.FirstOrDefault(user => user.Email.Equals(loginInfo.Email) && user.Password.Equals(loginInfo.Password));
 
-        // GET: LoginController/Edit/5
-        public ActionResult Edit(int id)
-        {
+            if (currentUser != null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             return View();
-        }
-
-        // POST: LoginController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: LoginController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: LoginController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
         }
 
         public ActionResult Signup()
         {
             return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Signup(SignUpViewModel SignupVM)
+        {
+            if (SignupVM.Password != SignupVM.RepeatedPassword)
+            {
+                return View();
+            }
+
+            AppUser newUser = new AppUser
+            {
+                Email = SignupVM.Email,
+                Password = SignupVM.Password,
+                FirstName = SignupVM.FirstName,
+                LastName = SignupVM.LastName,
+                PhoneNumber = SignupVM.PhoneNumber,
+            };
+
+            _context.AppUsers.Add(newUser);
+            _context.SaveChanges();
+
+            return RedirectToAction("Login", "Account");
         }
     }
 }
