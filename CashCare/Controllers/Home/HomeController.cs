@@ -22,6 +22,16 @@ namespace CashCare.Controllers.Home
             return View();
         }
 
+        public IActionResult WeekDetails()
+        {
+            return View();
+        }
+
+        public IActionResult Investing()
+        {
+            return View();
+        }
+
         public IActionResult Privacy()
         {
             return View();
