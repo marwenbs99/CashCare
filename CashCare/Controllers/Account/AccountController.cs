@@ -94,6 +94,14 @@ namespace CashCare.Controllers.Account
             _context.AppUsers.Add(newUser);
             _context.SaveChanges();
 
+            CashCare.Models.Wallet.Wallet newWallet = new CashCare.Models.Wallet.Wallet
+            {
+                UserId = newUser.Id,
+            };
+
+            _context.Wallets.Add(newWallet);
+            _context.SaveChanges();
+
             return RedirectToAction("Login", "Account");
         }
     }
