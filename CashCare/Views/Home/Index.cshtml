@@ -17,6 +17,7 @@
                 </h2>
                 <div id="@collapseId" class="accordion-collapse collapse" aria-labelledby="@headerId" data-bs-parent="#@accordionId">
                     <div class="accordion-body">
+                        <strong>You Save 400 euro this Month. congratulation</strong>
                         <table class="table">
                             <thead>
                                 <tr>
@@ -24,24 +25,31 @@
                                     <th scope="col">income</th>
                                     <th scope="col">Expenses</th>
                                     <th scope="col">Saving</th>
+                                    <th scope="col">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @{
-                                    for (var day = 1; day <= 31; day++)
+                                    for (var week = 1; week <= 4; week++)
                                     {
                                         <tr>
-                                            <th scope="row">Day @day</th>
-                                            <td>Mark</td>
-                                            <td>Otto</td>
-                                            <td>mdo</td>
+                                            <th scope="row">Week @week</th>
+                                            <td>0$</td>
+                                            <td>80$</td>
+                                            <td>100$</td>
+                                            <td><a href="/Home/WeekDetails">Details </a></td>
                                         </tr>
                                     }
+                                    <tr>
+                                        <th scope="row">Result</th>
+                                        <td><b>0$</b></td>
+                                        <td><b>320$</b></td>
+                                        <td><b>400$</b></td>
+                                    </tr>
                                 }
 
                             </tbody>
                         </table>
-                        <strong>This is the body of accordion item #@i.</strong> You can customize this content as needed.
                     </div>
                 </div>
             </div>

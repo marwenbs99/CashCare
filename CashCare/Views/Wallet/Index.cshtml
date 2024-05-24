@@ -1,0 +1,204 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+
+@* CETTE PARTIE Appartient au revenue !! ----------------------------------------------------------------------------------------------------------------------- *@
+<div class="accordion" id="accordionId">
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="headerId1">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseId1" aria-expanded="true" aria-controls="collapseId1">
+                Income - 2000$
+            </button>
+        </h2>
+        <div id="collapseId1" class="accordion-collapse collapse" aria-labelledby="headerId1" data-bs-parent="#accordionId">
+            <div class="accordion-body">
+                <div class="row g-3">
+
+                    <div class="col-md">
+                        <div class="form-floating">
+                            <select class="form-select" id="floatingSelectGrid">
+                                <option selected>Open this select menu</option>
+                                <option value="1">Monthly salary</option>
+                                <option value="2">Rental income</option>
+                                <option value="3">Social benefits</option>
+                                <option value="3">Others</option>
+                            </select>
+                            <label for="floatingSelectGrid">Type of income</label>
+                        </div>
+                    </div>
+
+                    <div class="col-md">
+                        <div class="form-floating">
+                            <input type="email" class="form-control" id="floatingInputGrid" placeholder="2500$" value="">
+                            <label for="floatingInputGrid">Amount</label>
+                        </div>
+                    </div>
+
+                    <div class="col-md">
+                        <button style="width:100%; height:calc(3.5rem + 2px);" class="btn btn-success">Save</button>
+                    </div>
+                </div>
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Type of income</th>
+                            <th scope="col">Amount</th>
+                            <th scope="col">Date of recive</th>
+                            <th style="text-align:right;padding-right:10%" scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr>
+                            <th scope="row">Monthly salary </th>
+                            <td>2000$</td>
+                            <td>the 27th of each month</td>
+                            <td style="text-align:right;padding-right:10%"><a href="#">Edit</a></td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+@* CETTE PARTIE Appartient au dette !! ----------------------------------------------------------------------------------------------------------------------- *@
+
+<div class="accordion" id="accordionId">
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="headerId2">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseId2" aria-expanded="true" aria-controls="collapseId2">
+                Debt - repaid per month - 300$
+            </button>
+        </h2>
+        <div id="collapseId2" class="accordion-collapse collapse" aria-labelledby="headerId2" data-bs-parent="#accordionId">
+            <div class="accordion-body">
+                <div class="row g-3">
+
+                    <div class="col-md">
+                        <div class="form-floating">
+                            <select class="form-select" id="floatingSelectGrid">
+                                <option selected>Open this select menu</option>
+                                <option value="1">Personal Debt</option>
+                                <option value="2">Student Debt</option>
+                                <option value="3">Consumer Debt</option>
+                                <option value="3">Medical Debt</option>
+                                <option value="4">Others</option>
+                            </select>
+                            <label for="floatingSelectGrid">Type of Debt</label>
+                        </div>
+                    </div>
+
+                    <div class="col-md">
+                        <div class="form-floating">
+                            <input type="email" class="form-control" id="floatingInputGrid" placeholder="50$" value="">
+                            <label for="floatingInputGrid">Amount</label>
+                        </div>
+                    </div>
+
+                    <div class="col-md">
+                        <button style="width:100%; height:calc(3.5rem + 2px);" class="btn btn-success">Save</button>
+                    </div>
+                </div>
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Type of Debt</th>
+                            <th scope="col">Amount</th>
+                            <th style="text-align:right; padding-right:10%" scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">Personal Debt</th>
+                            <td>400$</td>
+                            <td style="text-align:right;padding-right:10%"><a href="#">Edit</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@* CETTE PARTIE Appartient au expense !! ----------------------------------------------------------------------------------------------------------------------- *@
+
+
+<div class="accordion" id="accordionId">
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="headerId3">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseId3" aria-expanded="true" aria-controls="collapseId3">
+                Fixed expense - 900$
+            </button>
+        </h2>
+        <div id="collapseId3" class="accordion-collapse collapse" aria-labelledby="headerId3" data-bs-parent="#accordionId">
+            <div class="accordion-body">
+                <div class="row g-3">
+
+                    <div class="col-md">
+                        <div class="form-floating">
+                            <select class="form-select" id="floatingSelectGrid">
+                                <option selected>Open this select menu</option>
+                                <option value="1">Housing Rent</option>
+                                <option value="2">Abonnements</option>
+                                <option value="3">Tuition</option>
+                                <option value="3">Transportation</option>
+                                <option value="4">Others</option>
+                            </select>
+                            <label for="floatingSelectGrid">Type of expense</label>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md">
+                        <div class="form-floating">
+                            <input type="email" class="form-control" id="floatingInputGrid" placeholder="500$" value="">
+                            <label for="floatingInputGrid">Amount</label>
+                        </div>
+                    </div>
+
+                    <div class="col-md">
+                        <button style="width:100%; height:calc(3.5rem + 2px);" class="btn btn-success">Save</button>
+                    </div>
+                </div>
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Type of expense</th>
+                            <th scope="col">Amount</th>
+                            <th style="text-align:right;padding-right:10%" scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">Housing Rent</th>
+                            <td>500$</td>
+                            <td style="text-align:right;padding-right:10%"><a href="#">Edit</a></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Abonnements</th>
+                            <td>45$</td>
+                            <td style="text-align:right;padding-right:10%"><a href="#">Edit</a></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Abonnements</th>
+                            <td>60$</td>
+                            <td style="text-align:right;padding-right:10%"><a href="#">Edit</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
