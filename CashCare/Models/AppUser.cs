@@ -16,5 +16,6 @@ namespace CashCare.Models
         public int PhoneNumber { get; set; }
         [Required]
         public required string Password { get; set; }
+        public DateTime DateOfInscription { get; set; } = DateTime.Now;
     }
 }
