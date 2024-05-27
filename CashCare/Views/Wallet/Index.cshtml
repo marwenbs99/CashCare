@@ -13,62 +13,62 @@
     }
 } *@
 @* CETTE PARTIE Appartient au revenue !! ----------------------------------------------------------------------------------------------------------------------- *@
- <form method="post" asp-controller="Wallet" asp-action="Index" enctype="multipart/form-data"> 
-<div class="accordion" id="accordionId">
-    <div class="accordion-item">
-        <h2 class="accordion-header" id="headerId1">
-                <button class="accordion-button" type="button"  data-bs-toggle="collapse" data-bs-target="#collapseId1" aria-expanded="true" aria-controls="collapseId1">
-                Income - @Model.TotalIncome $
-            </button>
-        </h2>
-        <div id="collapseId1" class="accordion-collapse collapse @Model.MenuState.IncomeMenu" aria-labelledby="headerId1" data-bs-parent="#accordionId">
-            <div class="accordion-body">
-                <div class="row g-4">
+<form method="post" asp-controller="Wallet" asp-action="Index" enctype="multipart/form-data">
+    <div class="accordion" id="accordionId">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headerId1">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseId1" aria-expanded="true" aria-controls="collapseId1">
+                    Income - @Model.TotalIncome $
+                </button>
+            </h2>
+            <div id="collapseId1" class="accordion-collapse collapse @Model.MenuState.IncomeMenu" aria-labelledby="headerId1" data-bs-parent="#accordionId">
+                <div class="accordion-body">
+                    <div class="row g-4">
 
-                    <div class="col-md">
-                        <div class="form-floating">
-                            <select asp-for="Income.TypeOfIncome" class="form-select" id="floatingSelectGrid">
-                                <option selected>Open this select menu</option>
+                        <div class="col-md">
+                            <div class="form-floating">
+                                <select asp-for="Income.TypeOfIncome" class="form-select" id="floatingSelectGrid">
+                                    <option selected>Open this select menu</option>
                                     <option value="@IncomeType.MonthlySalary">@IncomeType.MonthlySalary.ToString()</option>
                                     <option value="@IncomeType.RentalIncome">@IncomeType.RentalIncome.ToString()</option>
                                     <option value="@IncomeType.SocialBenefits">@IncomeType.SocialBenefits.ToString()</option>
                                     <option value="@IncomeType.Others">@IncomeType.Others.ToString()</option>
-                            </select>
-                            <label for="floatingSelectGrid">Type of income</label>
+                                </select>
+                                <label for="floatingSelectGrid">Type of income</label>
+                            </div>
                         </div>
-                    </div>
-
-                    <div class="col-md">
-                        <div class="form-floating">
-                                <input asp-for="Income.Amount" class="form-control" id="floatingInputGrid" placeholder="2500$" oninput="validateDecimalInput(this)" value="">
-                            <label for="floatingInputGrid">Amount</label>
-                        </div>
-                    </div>
 
                         <div class="col-md">
                             <div class="form-floating">
-                                <input asp-for="Income.DataOfRecive" class="form-control" id="floatingInputGrid" placeholder="27" step="1" min="1" max="30"  value="">
+                                <input asp-for="Income.Amount" class="form-control" id="floatingInputGrid" placeholder="2500$" oninput="validateDecimalInput(this)" value="">
+                                <label for="floatingInputGrid">Amount</label>
+                            </div>
+                        </div>
+
+                        <div class="col-md">
+                            <div class="form-floating">
+                                <input asp-for="Income.DataOfRecive" class="form-control" id="floatingInputGrid" placeholder="27" step="1" min="1" max="30" value="">
                                 <label for="floatingInputGrid">Date of recive 1-30</label>
                             </div>
                         </div>
 
-                    <div class="col-md">
-                            <button asp-for="BtnAction" value="@ButtonActionType.IncomeBTN" style="width:100%; height:calc(3.5rem + 2px);" class="btn btn-success">Save</button>
+                        <div class="col-md">
+                            <button asp-for="BtnAction" value="@ButtonActionType.IncomeBTN" name="BtnAction" style="width:100%; height:calc(3.5rem + 2px);" class="btn btn-success">Save</button>
+                        </div>
                     </div>
-                </div>
 
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">Type of income</th>
-                            <th scope="col">Amount</th>
-                            <th scope="col">Date of recive</th>
-                            <th style="text-align:right;padding-right:10%" scope="col">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Type of income</th>
+                                <th scope="col">Amount</th>
+                                <th scope="col">Date of recive</th>
+                                <th style="text-align:right;padding-right:10%" scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
                             @{
-                                foreach(var income in Model.Wallet.Incomes)
+                                foreach (var income in Model.Wallet.Incomes)
                                 {
                                     <tr>
                                         <th scope="row"> @income.TypeOfIncome.ToString() </th>
@@ -76,149 +76,158 @@
                                         <td>the @income.DataOfRecive th of each month</td>
                                         <td style="text-align:right;padding-right:10%">
                                             <a href="@Url.Action("EditIncome",new {id = income.Id})">Edit</a>
-                                            <a  value="@ButtonActionType.DeleteIncome" asp-for="BtnAction" href="@Url.Action("DeleteIncome",new {id = income.Id})">Delete</a>
+                                            <a value="@ButtonActionType.DeleteIncome" asp-for="BtnAction" href="@Url.Action("DeleteIncome",new {id = income.Id})">Delete</a>
                                         </td>
                                     </tr>
                                 }
-                            }                       
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</div>
-@* CETTE PARTIE Appartient au dette !! ----------------------------------------------------------------------------------------------------------------------- *@
-
-<div class="accordion" id="accordionId">
-    <div class="accordion-item">
-        <h2 class="accordion-header" id="headerId2">
-            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseId2" aria-expanded="true" aria-controls="collapseId2">
-                Debt - repaid per month - 300$
-            </button>
-        </h2>
-        <div id="collapseId2" class="accordion-collapse collapse @Model.MenuState.DebtMenu" aria-labelledby="headerId2" data-bs-parent="#accordionId">
-            <div class="accordion-body">
-                <div class="row g-3">
-
-                    <div class="col-md">
-                        <div class="form-floating">
-                            <select class="form-select" id="floatingSelectGrid">
-                                <option selected>Open this select menu</option>
-                                <option value="1">Personal Debt</option>
-                                <option value="2">Student Debt</option>
-                                <option value="3">Consumer Debt</option>
-                                <option value="3">Medical Debt</option>
-                                <option value="4">Others</option>
-                            </select>
-                            <label for="floatingSelectGrid">Type of Debt</label>
-                        </div>
-                    </div>
-
-                    <div class="col-md">
-                        <div class="form-floating">
-                                <input type="" class="form-control" id="floatingInputGrid" placeholder="50$" oninput="validateDecimalInput(this)" value="">
-                            <label for="floatingInputGrid">Amount</label>
-                        </div>
-                    </div>
-
-                    <div class="col-md">
-                        <button style="width:100%; height:calc(3.5rem + 2px);" class="btn btn-success">Save</button>
-                    </div>
+                            }
+                        </tbody>
+                    </table>
                 </div>
-
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">Type of Debt</th>
-                            <th scope="col">Amount</th>
-                            <th style="text-align:right; padding-right:10%" scope="col">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th scope="row">Personal Debt</th>
-                            <td>400$</td>
-                            <td style="text-align:right;padding-right:10%"><a href="#">Edit</a></td>
-                        </tr>
-                    </tbody>
-                </table>
             </div>
         </div>
     </div>
-</div>
+    @* CETTE PARTIE Appartient au dette !! ----------------------------------------------------------------------------------------------------------------------- *@
 
+    <div class="accordion" id="accordionId">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headerId2">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseId2" aria-expanded="true" aria-controls="collapseId2">
+                    Debt - repaid per month - @Model.TotalDebts $
+                </button>
+            </h2>
+            <div id="collapseId2" class="accordion-collapse collapse @Model.MenuState.DebtMenu" aria-labelledby="headerId2" data-bs-parent="#accordionId">
+                <div class="accordion-body">
+                    <div class="row g-3">
 
-@* CETTE PARTIE Appartient au expense !! ----------------------------------------------------------------------------------------------------------------------- *@
+                        <div class="col-md">
+                            <div class="form-floating">
+                                <select asp-for="Debt.DebtType" class="form-select" id="floatingSelectGrid">
+                                    <option selected>Open this select menu</option>
+                                    <option value="@DebtType.PersonalDebt">Personal Debt</option>
+                                    <option value="@DebtType.StudentDebt">Student Debt</option>
+                                    <option value="@DebtType.ConsumerDebt">Consumer Debt</option>
+                                    <option value="@DebtType.MedicalDebt">Medical Debt</option>
+                                    <option value="@DebtType.Others">Others</option>
+                                </select>
+                                <label for="floatingSelectGrid">Type of Debt</label>
+                            </div>
+                        </div>
 
+                        <div class="col-md">
+                            <div class="form-floating">
+                                <input asp-for="Debt.Amount" class="form-control" id="floatingInputGrid" placeholder="50$" oninput="validateDecimalInput(this)" value="">
+                                <label for="floatingInputGrid">Amount paid monthly</label>
+                            </div>
+                        </div>
 
-<div class="accordion" id="accordionId">
-    <div class="accordion-item">
-        <h2 class="accordion-header" id="headerId3">
-            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseId3" aria-expanded="true" aria-controls="collapseId3">
-                Fixed expense - 900$
-            </button>
-        </h2>
-        <div id="collapseId3" class="accordion-collapse collapse @Model.MenuState.ExpenseMenu" aria-labelledby="headerId3" data-bs-parent="#accordionId">
-            <div class="accordion-body">
-                <div class="row g-3">
-
-                    <div class="col-md">
-                        <div class="form-floating">
-                            <select class="form-select" id="floatingSelectGrid">
-                                <option selected>Open this select menu</option>
-                                <option value="1">Housing Rent</option>
-                                <option value="2">Abonnements</option>
-                                <option value="3">Tuition</option>
-                                <option value="3">Transportation</option>
-                                <option value="4">Others</option>
-                            </select>
-                            <label for="floatingSelectGrid">Type of expense</label>
+                        <div class="col-md">
+                            <button value="@ButtonActionType.DebtBTN" asp-for="BtnAction" name="BtnAction" style="width:100%; height:calc(3.5rem + 2px);" class="btn btn-success">Save</button>
                         </div>
                     </div>
 
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Type of Debt</th>
+                                <th scope="col">Amount</th>
+                                <th style="text-align:right; padding-right:10%" scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
 
-                    <div class="col-md">
-                        <div class="form-floating">
+                            @{
+                                foreach (var debt in Model.Wallet.Debts)
+                                {
+                                    <tr>
+                                        <th scope="row"> @debt.DebtType.ToString()</th>
+                                        <td>@debt.Amount $</td>
+                                        <td style="text-align:right;padding-right:10%">
+                                            <a href="#">Edit</a>
+                                            <a value="@ButtonActionType.DeleteIncome" asp-for="BtnAction" href="@Url.Action("DeleteDebt",new {id = debt.Id})">Delete</a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    @* CETTE PARTIE Appartient au expense !! ----------------------------------------------------------------------------------------------------------------------- *@
+
+
+    <div class="accordion" id="accordionId">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headerId3">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseId3" aria-expanded="true" aria-controls="collapseId3">
+                    Fixed expense - 900$
+                </button>
+            </h2>
+            <div id="collapseId3" class="accordion-collapse collapse @Model.MenuState.ExpenseMenu" aria-labelledby="headerId3" data-bs-parent="#accordionId">
+                <div class="accordion-body">
+                    <div class="row g-3">
+
+                        <div class="col-md">
+                            <div class="form-floating">
+                                <select class="form-select" id="floatingSelectGrid">
+                                    <option selected>Open this select menu</option>
+                                    <option value="1">Housing Rent</option>
+                                    <option value="2">Abonnements</option>
+                                    <option value="3">Tuition</option>
+                                    <option value="3">Transportation</option>
+                                    <option value="4">Others</option>
+                                </select>
+                                <label for="floatingSelectGrid">Type of expense</label>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md">
+                            <div class="form-floating">
                                 <input type="" class="form-control" id="floatingInputGrid" placeholder="500$" oninput="validateDecimalInput(this)" value="">
-                            <label for="floatingInputGrid">Amount</label>
+                                <label for="floatingInputGrid">Amount</label>
+                            </div>
+                        </div>
+
+                        <div class="col-md">
+                            <button name="BtnAction" style="width:100%; height:calc(3.5rem + 2px);" class="btn btn-success">Save</button>
                         </div>
                     </div>
 
-                    <div class="col-md">
-                        <button style="width:100%; height:calc(3.5rem + 2px);" class="btn btn-success">Save</button>
-                    </div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Type of expense</th>
+                                <th scope="col">Amount</th>
+                                <th style="text-align:right;padding-right:10%" scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">Housing Rent</th>
+                                <td>500$</td>
+                                <td style="text-align:right;padding-right:10%"><a href="#">Edit</a></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Abonnements</th>
+                                <td>45$</td>
+                                <td style="text-align:right;padding-right:10%"><a href="#">Edit</a></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Abonnements</th>
+                                <td>60$</td>
+                                <td style="text-align:right;padding-right:10%"><a href="#">Edit</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
-
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">Type of expense</th>
-                            <th scope="col">Amount</th>
-                            <th style="text-align:right;padding-right:10%" scope="col">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th scope="row">Housing Rent</th>
-                            <td>500$</td>
-                            <td style="text-align:right;padding-right:10%"><a href="#">Edit</a></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Abonnements</th>
-                            <td>45$</td>
-                            <td style="text-align:right;padding-right:10%"><a href="#">Edit</a></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Abonnements</th>
-                            <td>60$</td>
-                            <td style="text-align:right;padding-right:10%"><a href="#">Edit</a></td>
-                        </tr>
-                    </tbody>
-                </table>
             </div>
         </div>
     </div>
-</div>
 </form>
 
 <script src="~/js/wallet.js"></script>

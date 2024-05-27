@@ -8,7 +8,7 @@ namespace CashCare.ViewModels
         public Models.Wallet.Wallet Wallet { get; set; } = new Models.Wallet.Wallet();
         public ButtonActionType BtnAction { get; set; }
         public Income Income { get; set; }
-
+        public Debt Debt { get; set; }
         public MenuStateVM MenuState { get; set; }
 
         public decimal TotalIncome
@@ -16,6 +16,14 @@ namespace CashCare.ViewModels
             get
             {
                 return Wallet?.Incomes?.Sum(i => i.Amount) ?? 0;
+            }
+        }
+
+        public decimal TotalDebts
+        {
+            get
+            {
+                return Wallet?.Debts?.Sum(i => i.Amount) ?? 0;
             }
         }
     }

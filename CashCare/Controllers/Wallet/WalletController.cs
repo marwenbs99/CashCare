@@ -36,18 +36,21 @@ namespace CashCare.Controllers.Wallet
             //if (!ModelState.IsValid) return View(walletVM);
 
             var currentWallet = GetCurrentWallet();
+            MenuStateVM currentMenuStatet = new MenuStateVM();
 
             switch (walletVM.BtnAction)
             {
                 case ViewModels.Enum.ButtonActionType.IncomeBTN:
 
+                    currentMenuStatet = new MenuStateVM { IncomeMenu = "show", DebtMenu = "hide", ExpenseMenu = "hide" };
+
                     if (!walletVM.Income.Validate())
                     {
                         //TODO add notification "User have to verify that all input are correctly added"
-                        return RedirectToAction("index");
+                        return RedirectToAction("index", currentMenuStatet);
                     }
 
-                    Income income = new Income
+                    Income newIncome = new Income
                     {
                         Amount = walletVM.Income.Amount,
                         TypeOfIncome = walletVM.Income.TypeOfIncome,
@@ -55,19 +58,35 @@ namespace CashCare.Controllers.Wallet
                         WalletId = currentWallet.Id,
                     };
 
-                    _context.Incomes.Add(income);
+                    _context.Incomes.Add(newIncome);
                     _context.SaveChanges();
 
-                    MenuStateVM currentMenuStatet = new MenuStateVM
+                    break;
+
+                case ViewModels.Enum.ButtonActionType.DebtBTN:
+
+                    currentMenuStatet = new MenuStateVM { IncomeMenu = "hide", DebtMenu = "show", ExpenseMenu = "hide" };
+
+                    if (!walletVM.Debt.Validate())
                     {
-                        IncomeMenu = "show",
+                        //TODO add notification "User have to verify that all input are correctly added"
+                        return RedirectToAction("index", currentMenuStatet);
+                    }
+
+                    Debt newDebt = new Debt
+                    {
+                        Amount = walletVM.Debt.Amount,
+                        DebtType = walletVM.Debt.DebtType,
+                        WalletId = currentWallet.Id,
                     };
 
-                    return RedirectToAction("Index", currentMenuStatet);
-                    //breack;
+                    _context.Debts.Add(newDebt);
+                    _context.SaveChanges();
+
+                    break;
             }
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", currentMenuStatet);
         }
 
 
@@ -87,23 +106,6 @@ namespace CashCare.Controllers.Wallet
 
             return RedirectToAction("Index", currentMenuSTatet);
         }
-
-        private Models.Wallet.Wallet GetCurrentWallet()
-        {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (userId != null)
-            {
-                var currentWallet = _context.Wallets
-                                                    .Include(w => w.Debts)   // Inclure les dettes
-                                                    .Include(w => w.ExpenseListe)  // Inclure les dépenses
-                                                    .Include(w => w.Incomes)  // Inclure les revenus
-                                                    .FirstOrDefault(u => u.UserId == int.Parse(userId));
-
-                return currentWallet;
-            }
-            return null;
-        }
-
         public IActionResult EditIncome(int id)
         {
             Income currentIncome = _walletRepository.GetIncomeById(id);
@@ -138,6 +140,38 @@ namespace CashCare.Controllers.Wallet
 
             MenuStateVM currentMenuSTatet = new MenuStateVM { IncomeMenu = "show", };
             return RedirectToAction("Index", currentMenuSTatet);
+        }
+
+        public IActionResult DeleteDebt(int id)
+        {
+            MenuStateVM currentMenuSTatet = new MenuStateVM { DebtMenu = "show", };
+            try
+            {
+                var debtToDelete = _walletRepository.GetDebtById(id);
+                if (debtToDelete != null)
+                {
+                    _context.Debts.Remove(debtToDelete);
+                    _context.SaveChanges();
+                }
+            }
+            catch (Exception ex) { }
+
+            return RedirectToAction("Index", currentMenuSTatet);
+        }
+        private Models.Wallet.Wallet GetCurrentWallet()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId != null)
+            {
+                var currentWallet = _context.Wallets
+                                                    .Include(w => w.Debts)   // Inclure les dettes
+                                                    .Include(w => w.ExpenseListe)  // Inclure les dépenses
+                                                    .Include(w => w.Incomes)  // Inclure les revenus
+                                                    .FirstOrDefault(u => u.UserId == int.Parse(userId));
+
+                return currentWallet;
+            }
+            return null;
         }
     }
 }

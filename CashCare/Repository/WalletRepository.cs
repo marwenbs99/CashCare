@@ -18,5 +18,11 @@ namespace CashCare.Repository
 
             return currentIncome;
         }
+
+        public Debt GetDebtById(int id)
+        {
+            var currentDebt = _context.Debts.FirstOrDefault(x => x.Id == id);
+            return currentDebt;
+        }
     }
 }
