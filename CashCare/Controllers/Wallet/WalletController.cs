@@ -84,6 +84,28 @@ namespace CashCare.Controllers.Wallet
                     _context.SaveChanges();
 
                     break;
+
+                case ViewModels.Enum.ButtonActionType.ExpenseBTN:
+
+                    currentMenuStatet = new MenuStateVM { IncomeMenu = "hide", DebtMenu = "hide", ExpenseMenu = "show" };
+
+                    if (!walletVM.Expense.Validate())
+                    {
+                        //TODO add notification "User have to verify that all input are correctly added"
+                        return RedirectToAction("index", currentMenuStatet);
+                    }
+
+                    Expense newExpense = new Expense
+                    {
+                        Amount = walletVM.Expense.Amount,
+                        TypeOfExpense = walletVM.Expense.TypeOfExpense,
+                        WalletId = currentWallet.Id,
+                    };
+
+                    _context.Expenses.Add(newExpense);
+                    _context.SaveChanges();
+
+                    break;
             }
 
             return RedirectToAction("Index", currentMenuStatet);

@@ -12,5 +12,20 @@ namespace CashCare.Models.Wallet
         [ForeignKey("Wallet")]
         public int WalletId { get; set; }
         public Wallet Wallet { get; set; }
+
+        public bool Validate()
+        {
+            if (TypeOfExpense.ToString() == "")
+            {
+                return false;
+            }
+
+            if (Amount <= 0)
+            {
+                return false;
+            }
+
+            return true;
+        }
     }
 }
