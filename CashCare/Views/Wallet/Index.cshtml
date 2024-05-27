@@ -43,7 +43,7 @@
 
                     <div class="col-md">
                         <div class="form-floating">
-                            <input asp-for="Income.Amount" class="form-control" id="floatingInputGrid" placeholder="2500$" value="">
+                                <input asp-for="Income.Amount" class="form-control" id="floatingInputGrid" placeholder="2500$" oninput="validateDecimalInput(this)" value="">
                             <label for="floatingInputGrid">Amount</label>
                         </div>
                     </div>
@@ -109,7 +109,7 @@
 
                     <div class="col-md">
                         <div class="form-floating">
-                            <input type="" class="form-control" id="floatingInputGrid" placeholder="50$" value="">
+                                <input type="" class="form-control" id="floatingInputGrid" placeholder="50$" oninput="validateDecimalInput(this)" value="">
                             <label for="floatingInputGrid">Amount</label>
                         </div>
                     </div>
@@ -172,7 +172,7 @@
 
                     <div class="col-md">
                         <div class="form-floating">
-                            <input type="" class="form-control" id="floatingInputGrid" placeholder="500$" value="">
+                                <input type="" class="form-control" id="floatingInputGrid" placeholder="500$" oninput="validateDecimalInput(this)" value="">
                             <label for="floatingInputGrid">Amount</label>
                         </div>
                     </div>
@@ -213,6 +213,9 @@
     </div>
 </div>
 </form>
+
+<script src="~/js/wallet.js"></script>
+
 
 
 
