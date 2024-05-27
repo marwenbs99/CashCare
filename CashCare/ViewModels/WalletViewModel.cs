@@ -35,5 +35,13 @@ namespace CashCare.ViewModels
                 return Wallet?.ExpenseListe?.Sum(i => i.Amount) ?? 0;
             }
         }
+
+        public decimal NettIncomeAfter
+        {
+            get
+            {
+                return TotalIncome - TotalDebts - TotalExpense;
+            }
+        }
     }
 }

@@ -12,7 +12,7 @@
         <div class="accordion-item">
             <h2 class="accordion-header" id="headerId1">
                 <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseId1" aria-expanded="true" aria-controls="collapseId1">
-                    Income - @Model.TotalIncome $
+                    Income - @Model.TotalIncome $  <span style="width:80%;text-align:center">Nett Income After Debts and Expense: @Model.NettIncomeAfter $</span>
                 </button>
             </h2>
             <div id="collapseId1" class="accordion-collapse collapse @Model.MenuState.IncomeMenu" aria-labelledby="headerId1" data-bs-parent="#accordionId">
