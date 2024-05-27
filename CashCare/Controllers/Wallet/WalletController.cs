@@ -17,12 +17,13 @@ namespace CashCare.Controllers.Wallet
             _context = context;
             _walletRepository = iwalletRepository;
         }
-        public IActionResult Index()
+        public IActionResult Index(MenuStateVM? menu)
         {
             var currentWallet = GetCurrentWallet();
             WalletViewModel WalletVM = new WalletViewModel
             {
                 Wallet = currentWallet,
+                MenuState = menu ?? new MenuStateVM(),
             };
 
             return View(WalletVM);
@@ -40,26 +41,42 @@ namespace CashCare.Controllers.Wallet
             {
                 case ViewModels.Enum.ButtonActionType.IncomeBTN:
 
+                    if (!walletVM.Income.Validate())
+                    {
+                        //TODO add notification "User have to verify that all input are correctly added"
+                        return RedirectToAction("index");
+                    }
+
                     Income income = new Income
                     {
                         Amount = walletVM.Income.Amount,
                         TypeOfIncome = walletVM.Income.TypeOfIncome,
+                        DataOfRecive = walletVM.Income.DataOfRecive,
                         WalletId = currentWallet.Id,
                     };
 
                     _context.Incomes.Add(income);
                     _context.SaveChanges();
 
-                    break;
+                    MenuStateVM currentMenuStatet = new MenuStateVM
+                    {
+                        IncomeMenu = "show",
+                    };
 
+                    return RedirectToAction("Index", currentMenuStatet);
+                    //breack;
             }
 
             return RedirectToAction("Index");
         }
 
 
-        public IActionResult Delete(int id)
+        public IActionResult DeleteIncome(int id)
         {
+            MenuStateVM currentMenuSTatet = new MenuStateVM
+            {
+                IncomeMenu = "show",
+            };
             try
             {
                 var incomeToDelete = _walletRepository.GetIncomeById(id);
@@ -71,7 +88,7 @@ namespace CashCare.Controllers.Wallet
             }
             catch (Exception ex) { }
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", currentMenuSTatet);
         }
 
         private Models.Wallet.Wallet GetCurrentWallet()
