@@ -138,7 +138,7 @@
                                         <td>@debt.Amount $</td>
                                         <td style="text-align:right;padding-right:10%">
                                             <a href="@Url.Action("EditDebt",new {id = debt.Id})">Edit</a>
-                                            <a value="@ButtonActionType.DeleteIncome" asp-for="BtnAction" href="@Url.Action("DeleteDebt",new {id = debt.Id})">Delete</a>
+                                            <a href="@Url.Action("DeleteDebt",new {id = debt.Id})">Delete</a>
                                         </td>
                                     </tr>
                                 }
@@ -163,7 +163,7 @@
             </h2>
             <div id="collapseId3" class="accordion-collapse collapse @Model.MenuState.ExpenseMenu" aria-labelledby="headerId3" data-bs-parent="#accordionId">
                 <div class="accordion-body">
-                    <div class="row g-3">
+                    <div class="row g-4">
 
                         <div class="col-md">
                             <div class="form-floating">
@@ -179,10 +179,16 @@
                             </div>
                         </div>
 
+                        <div class="col-md">
+                            <div class="form-floating">
+                                <input asp-for="Expense.details" class="form-control" id="floatingInputGrid" placeholder=""  >
+                                <label for="floatingInputGrid">Details: ex. Vodafone Abonnement</label>
+                            </div>
+                        </div>
 
                         <div class="col-md">
                             <div class="form-floating">
-                                <input asp-for="Expense.Amount" class="form-control" id="floatingInputGrid" placeholder="400$" oninput="validateDecimalInput(this)" value="">
+                                <input asp-for="Expense.Amount" class="form-control" id="floatingInputGrid" placeholder="400$" oninput="validateDecimalInput(this)" >
                                 <label for="floatingInputGrid">Amount</label>
                             </div>
                         </div>
@@ -196,6 +202,7 @@
                         <thead>
                             <tr>
                                 <th scope="col">Type of expense</th>
+                                <th scope="col">Details</th>
                                 <th scope="col">Amount</th>
                                 <th style="text-align:right;padding-right:10%" scope="col">Action</th>
                             </tr>
@@ -206,10 +213,11 @@
                                 {
                                     <tr>
                                         <th scope="row"> @expense.TypeOfExpense.ToString()</th>
+                                        <td>@expense.details</td>
                                         <td>@expense.Amount $</td>
                                         <td style="text-align:right;padding-right:10%">
-                                            <a>Edit</a>
-                                            <a>Delete</a>
+                                            <a href="@Url.Action("EditExpense",new {id = expense.Id})">Edit</a>
+                                            <a href="@Url.Action("DeleteExpense",new {id = expense.Id})">Delete</a>
                                         </td>
                                     </tr>
                                 }

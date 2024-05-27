@@ -99,6 +99,7 @@ namespace CashCare.Controllers.Wallet
                     {
                         Amount = walletVM.Expense.Amount,
                         TypeOfExpense = walletVM.Expense.TypeOfExpense,
+                        details = walletVM.Expense.details,
                         WalletId = currentWallet.Id,
                     };
 
@@ -213,6 +214,59 @@ namespace CashCare.Controllers.Wallet
             }
 
             MenuStateVM currentMenuSTatet = new MenuStateVM { DebtMenu = "show", };
+            return RedirectToAction("Index", currentMenuSTatet);
+        }
+
+        public IActionResult DeleteExpense(int id)
+        {
+            MenuStateVM currentMenuSTatet = new MenuStateVM { ExpenseMenu = "show", };
+            try
+            {
+                var expenseToDelete = _walletRepository.GetExpenseById(id);
+                if (expenseToDelete != null)
+                {
+                    _context.Expenses.Remove(expenseToDelete);
+                    _context.SaveChanges();
+                }
+            }
+            catch (Exception ex) { }
+
+            return RedirectToAction("Index", currentMenuSTatet);
+        }
+
+        public IActionResult EditExpense(int id)
+        {
+            Expense currentExpense = _walletRepository.GetExpenseById(id);
+            return View(currentExpense);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditExpense(Expense currentExpense)
+        {
+            if (!currentExpense.Validate())
+            {
+                return View(currentExpense);
+            }
+
+            // Récupérer l'objet Income existant
+            var existingExpense = _context.Expenses.Find(currentExpense.Id);
+
+            // Vérifier si l'objet existe
+            if (existingExpense != null)
+            {
+                // Mettre à jour les propriétés de l'objet existant avec les nouvelles valeurs
+                existingExpense.TypeOfExpense = currentExpense.TypeOfExpense;
+                existingExpense.Amount = currentExpense.Amount;
+                existingExpense.details = currentExpense.details;
+                _context.SaveChanges();
+            }
+            else
+            {
+                // Gérer le cas où l'objet n'existe pas
+            }
+
+            MenuStateVM currentMenuSTatet = new MenuStateVM { ExpenseMenu = "show", };
             return RedirectToAction("Index", currentMenuSTatet);
         }
 

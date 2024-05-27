@@ -24,5 +24,11 @@ namespace CashCare.Repository
             var currentDebt = _context.Debts.FirstOrDefault(x => x.Id == id);
             return currentDebt;
         }
+
+        public Expense GetExpenseById(int id)
+        {
+            var currentExpense = _context.Expenses.FirstOrDefault(x => x.Id == id);
+            return currentExpense;
+        }
     }
 }

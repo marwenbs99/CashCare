@@ -1,0 +1,33 @@
+﻿@using CashCare.Models.Wallet
+@using CashCare.Models.Wallet.Enum;
+@using CashCare.ViewModels;
+@model Expense
+
+<form method="post" asp-controller="Wallet" asp-action="EditExpense" enctype="multipart/form-data">
+
+    <h1>Edit Income</h1>
+
+    <div class="form-floating" style="padding-bottom:20px">
+        <select asp-for="TypeOfExpense" class="form-select" id="floatingSelectGrid">
+            <option value="@ExpenseType.HousingRent" selected="@(Model.TypeOfExpense == ExpenseType.HousingRent)">Housing Rent</option>
+            <option value="@ExpenseType.Abonnements" selected="@(Model.TypeOfExpense == ExpenseType.Abonnements)">Abonnements</option>
+            <option value="@ExpenseType.Tuition" selected="@(Model.TypeOfExpense == ExpenseType.Tuition)">Tuition</option>
+            <option value="@ExpenseType.Transportation" selected="@(Model.TypeOfExpense == ExpenseType.Transportation)">Transportation</option>
+            <option value="@ExpenseType.Others" selected="@(Model.TypeOfExpense == ExpenseType.Others)">Others</option>
+        </select>
+        <label for="floatingSelectGrid">Type of income</label>
+    </div>
+
+    <div class="form-floating" style="padding-bottom:20px">
+        <input asp-for="details" class="form-control" id="floatingInputGrid"  value="@Model.details">
+        <label for="floatingInputGrid">Details</label>
+    </div>
+
+    <div class="form-floating" style="padding-bottom:20px">
+        <input asp-for="Amount" class="form-control" id="floatingInputGrid" placeholder="400$" oninput="validateDecimalInput(this)" value="@Model.Amount">
+        <label for="floatingInputGrid">Amount</label>
+    </div>
+
+    <button class="btn btn-success"> save changes</button> <a href="@Url.Action("Index",new {ExpenseMenu = "show" })" class="btn btn-dark">Cancel</a>
+
+</form>
