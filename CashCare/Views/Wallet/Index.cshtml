@@ -181,14 +181,14 @@
 
                         <div class="col-md">
                             <div class="form-floating">
-                                <input asp-for="Expense.details" class="form-control" id="floatingInputGrid" placeholder=""  >
+                                <input asp-for="Expense.details" class="form-control" id="floatingInputGrid" placeholder="">
                                 <label for="floatingInputGrid">Details: ex. Vodafone Abonnement</label>
                             </div>
                         </div>
 
                         <div class="col-md">
                             <div class="form-floating">
-                                <input asp-for="Expense.Amount" class="form-control" id="floatingInputGrid" placeholder="400$" oninput="validateDecimalInput(this)" >
+                                <input asp-for="Expense.Amount" class="form-control" id="floatingInputGrid" placeholder="400$" oninput="validateDecimalInput(this)">
                                 <label for="floatingInputGrid">Amount</label>
                             </div>
                         </div>
@@ -228,9 +228,207 @@
             </div>
         </div>
     </div>
+    <div style="height:300px;text-align:center;">
+        <canvas style="display:inline-block" height="300" width="300" id="Total"></canvas>
+        <canvas style="display:inline-block" height="300" width="300" id="Income"></canvas>
+        <canvas style="display:inline-block" height="300" width="300" id="Debt"></canvas>
+        <canvas style="display:inline-block" height="300" width="300" id="Expense"></canvas>
+       
+    </div>
+    <div>
+       
+    </div>
+
 </form>
 
+@{
+    var IncomeLabelList = new List<string>();
+    var IncomePriceList = new List<decimal>();
+
+    var DebtLabelList = new List<string>();
+    var DebtPriceList = new List<decimal>();
+
+    var ExpenseLabelList = new List<string>();
+    var ExpensePriceList = new List<decimal>();
+
+    foreach (var income in Model.Wallet.Incomes)
+    {
+        IncomeLabelList.Add(income.TypeOfIncome.ToString());
+        IncomePriceList.Add(income.Amount);
+    }
+
+    foreach (var debt in Model.Wallet.Debts)
+    {
+        DebtLabelList.Add(debt.DebtType.ToString());
+        DebtPriceList.Add(debt.Amount);
+    }
+
+    foreach (var expense in Model.Wallet.ExpenseListe)
+    {
+        ExpenseLabelList.Add(expense.TypeOfExpense.ToString());
+        ExpensePriceList.Add(expense.Amount);
+    }
+}
+
+
 <script src="~/js/wallet.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+<script>
+    var ctx = document.getElementById('Total').getContext('2d');
+    var myPieChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: ['Rest Income', 'Expenses', 'Debt'],
+            datasets: [{
+                label: 'Statistics',
+                data: [
+    @Model.NettIncomeAfter,
+    @Model.TotalDebts,
+    @Model.TotalExpense
+                            ],
+                backgroundColor: [
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'distribution of the Income'
+                }
+            }
+        }
+    });
+
+    var incomeLabels = @Html.Raw(Json.Serialize(IncomeLabelList));
+    var incomePrices = @Html.Raw(Json.Serialize(IncomePriceList));
+
+    var ctx1 = document.getElementById('Income').getContext('2d');
+    var myPieChart1 = new Chart(ctx1, {
+        type: 'pie',
+        data: {
+            labels: incomeLabels,
+            datasets: [{
+                label: 'Statistics',
+                data: incomePrices,
+                backgroundColor: [
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+         
+        plugins: {
+            title: {
+                display: true,
+                text: 'Income sources'
+            }
+        }
+        }
+    });
+
+    var debtLabels = @Html.Raw(Json.Serialize(DebtLabelList));
+    var debtPrices = @Html.Raw(Json.Serialize(DebtPriceList));
+
+    var ctx2 = document.getElementById('Debt').getContext('2d');
+    var myPieChart1 = new Chart(ctx2, {
+        type: 'pie',
+        data: {
+            labels: debtLabels,
+            datasets: [{
+                label: 'Statistics',
+                data: debtPrices,
+                backgroundColor: [
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Debt sources'
+                }
+            }
+        }
+    });
+
+    var expenseLabels = @Html.Raw(Json.Serialize(ExpenseLabelList));
+    var expensePrices = @Html.Raw(Json.Serialize(ExpensePriceList));
+
+    var ctx3 = document.getElementById('Expense').getContext('2d');
+    var myPieChart3 = new Chart(ctx3, {
+        type: 'pie',
+        data: {
+            labels: expenseLabels,
+            datasets: [{
+                label: 'Statistics',
+                data: expensePrices,
+                backgroundColor: [
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Expense sources'
+                },
+                datalabels: {
+                    display: true,
+                    color: 'black',
+                    formatter: (value, context) => {
+                        return context.chart.data.labels[context.dataIndex];
+                    },
+                    font: {
+                        weight: 'bold'
+                    }
+                }
+            }
+        }
+    });
+</script>
 
 
 
