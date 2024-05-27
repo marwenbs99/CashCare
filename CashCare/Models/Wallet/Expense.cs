@@ -8,6 +8,7 @@ namespace CashCare.Models.Wallet
         public int Id { get; set; }
         public ExpenseType TypeOfExpense { get; set; }
         public decimal Amount { get; set; }
+        public string details { get; set; }
 
         [ForeignKey("Wallet")]
         public int WalletId { get; set; }
