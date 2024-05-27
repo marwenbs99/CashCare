@@ -1,8 +1,6 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@* @{
+    var currentUrl = Context.Request.Path + Context.Request.QueryString;
+} *@
 @using CashCare.ViewModels.Enum;
 @using CashCare.Models.Wallet.Enum;
 @using CashCare.ViewModels;
@@ -14,7 +12,6 @@
         totalincome += income.Amount;
     }
 } *@
-
 @* CETTE PARTIE Appartient au revenue !! ----------------------------------------------------------------------------------------------------------------------- *@
  <form method="post" asp-controller="Wallet" asp-action="Index" enctype="multipart/form-data"> 
 <div class="accordion" id="accordionId">
@@ -77,7 +74,10 @@
                                         <th scope="row"> @income.TypeOfIncome.ToString() </th>
                                         <td>@income.Amount $</td>
                                         <td>the @income.DataOfRecive th of each month</td>
-                                        <td style="text-align:right;padding-right:10%"><a href="#">Edit</a> <a  value="@ButtonActionType.DeleteIncome" asp-for="BtnAction" href="@Url.Action("DeleteIncome",new {id = income.Id})">Delete</a></td>
+                                        <td style="text-align:right;padding-right:10%">
+                                            <a href="@Url.Action("EditIncome",new {id = income.Id})">Edit</a>
+                                            <a  value="@ButtonActionType.DeleteIncome" asp-for="BtnAction" href="@Url.Action("DeleteIncome",new {id = income.Id})">Delete</a>
+                                        </td>
                                     </tr>
                                 }
                             }                       

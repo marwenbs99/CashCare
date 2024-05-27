@@ -73,10 +73,7 @@ namespace CashCare.Controllers.Wallet
 
         public IActionResult DeleteIncome(int id)
         {
-            MenuStateVM currentMenuSTatet = new MenuStateVM
-            {
-                IncomeMenu = "show",
-            };
+            MenuStateVM currentMenuSTatet = new MenuStateVM { IncomeMenu = "show", };
             try
             {
                 var incomeToDelete = _walletRepository.GetIncomeById(id);
@@ -105,6 +102,42 @@ namespace CashCare.Controllers.Wallet
                 return currentWallet;
             }
             return null;
+        }
+
+        public IActionResult EditIncome(int id)
+        {
+            Income currentIncome = _walletRepository.GetIncomeById(id);
+            return View(currentIncome);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditIncome(Income currentIncome)
+        {
+            if (!currentIncome.Validate())
+            {
+                return View(currentIncome);
+            }
+
+            // Récupérer l'objet Income existant
+            var existingIncome = _context.Incomes.Find(currentIncome.Id);
+
+            // Vérifier si l'objet existe
+            if (existingIncome != null)
+            {
+                // Mettre à jour les propriétés de l'objet existant avec les nouvelles valeurs
+                existingIncome.TypeOfIncome = currentIncome.TypeOfIncome;
+                existingIncome.Amount = currentIncome.Amount;
+                existingIncome.DataOfRecive = currentIncome.DataOfRecive;
+                _context.SaveChanges();
+            }
+            else
+            {
+                // Gérer le cas où l'objet n'existe pas
+            }
+
+            MenuStateVM currentMenuSTatet = new MenuStateVM { IncomeMenu = "show", };
+            return RedirectToAction("Index", currentMenuSTatet);
         }
     }
 }

@@ -18,8 +18,5 @@ namespace CashCare.ViewModels
                 return Wallet?.Incomes?.Sum(i => i.Amount) ?? 0;
             }
         }
-
-
-
     }
 }
