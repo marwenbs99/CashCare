@@ -1,0 +1,29 @@
+﻿@using CashCare.Models.Wallet
+@using CashCare.Models.Wallet.Enum;
+@using CashCare.ViewModels;
+@model Debt
+
+
+<form method="post" asp-controller="Wallet" asp-action="EditDebt" enctype="multipart/form-data">
+
+    <h1>Edit Income</h1>
+
+    <div class="form-floating" style="padding-bottom:20px">
+        <select asp-for="DebtType" class="form-select" id="floatingSelectGrid">
+            <option value="@DebtType.PersonalDebt" selected="@(Model.DebtType == DebtType.PersonalDebt)">Personal Debt</option>
+            <option value="@DebtType.StudentDebt" selected="@(Model.DebtType == DebtType.StudentDebt)">Student Debt</option>
+            <option value="@DebtType.ConsumerDebt" selected="@(Model.DebtType == DebtType.ConsumerDebt)">Consumer Debt</option>
+            <option value="@DebtType.MedicalDebt" selected="@(Model.DebtType == DebtType.MedicalDebt)">Medical Debt</option>
+            <option value="@DebtType.Others" selected="@(Model.DebtType == DebtType.Others)">Others</option>
+        </select>
+        <label for="floatingSelectGrid">Type of income</label>
+    </div>
+
+    <div class="form-floating" style="padding-bottom:20px">
+        <input asp-for="Amount" class="form-control" id="floatingInputGrid" placeholder="200$" oninput="validateDecimalInput(this)" value="@Model.Amount">
+        <label for="floatingInputGrid">Amount</label>
+    </div>
+
+    <button class="btn btn-success"> save changes</button> <a href="@Url.Action("Index",new {DebtMenu = "show" })" class="btn btn-dark">Cancel</a>
+
+</form>

@@ -158,6 +158,42 @@ namespace CashCare.Controllers.Wallet
 
             return RedirectToAction("Index", currentMenuSTatet);
         }
+
+        public IActionResult EditDebt(int id)
+        {
+            Debt currentDebt = _walletRepository.GetDebtById(id);
+            return View(currentDebt);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditDebt(Debt currentDebt)
+        {
+            if (!currentDebt.Validate())
+            {
+                return View(currentDebt);
+            }
+
+            // Récupérer l'objet Income existant
+            var existingDebt = _context.Debts.Find(currentDebt.Id);
+
+            // Vérifier si l'objet existe
+            if (existingDebt != null)
+            {
+                // Mettre à jour les propriétés de l'objet existant avec les nouvelles valeurs
+                existingDebt.DebtType = currentDebt.DebtType;
+                existingDebt.Amount = currentDebt.Amount;
+                _context.SaveChanges();
+            }
+            else
+            {
+                // Gérer le cas où l'objet n'existe pas
+            }
+
+            MenuStateVM currentMenuSTatet = new MenuStateVM { DebtMenu = "show", };
+            return RedirectToAction("Index", currentMenuSTatet);
+        }
+
         private Models.Wallet.Wallet GetCurrentWallet()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
