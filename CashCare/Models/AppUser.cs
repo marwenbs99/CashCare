@@ -17,5 +17,7 @@ namespace CashCare.Models
         [Required]
         public required string Password { get; set; }
         public DateTime DateOfInscription { get; set; } = DateTime.Now;
+
+        public ICollection<DailyExpense> ExpensesDaily { get; set; }
     }
 }

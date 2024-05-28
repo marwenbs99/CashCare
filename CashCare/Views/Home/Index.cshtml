@@ -3,16 +3,15 @@
 }
 @{
     var accordionId = "accordionExample";
-    for (var i = 0; i <= 12; i++)
-    {
-        var headerId = $"heading{i}";
-        var collapseId = $"collapse{i}";
-        var buttonId = $"button{i}";
+
+        var headerId = $"heading";
+        var collapseId = $"collapse";
+        var buttonId = $"button";
         <div class="accordion" id="@accordionId">
             <div class="accordion-item">
                 <h2 class="accordion-header" id="@headerId">
                     <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#@collapseId" aria-expanded="true" aria-controls="@collapseId">
-                        Month @i
+                    current month
                     </button>
                 </h2>
                 <div id="@collapseId" class="accordion-collapse collapse" aria-labelledby="@headerId" data-bs-parent="#@accordionId">
@@ -29,11 +28,20 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @{
-                                    for (var week = 1; week <= 4; week++)
+                            @{
+                                var heute = DateTime.Now.Day;
+                                for (var day = heute; day >= 1; day--)
                                     {
                                         <tr>
-                                            <th scope="row">Week @week</th>
+                                        <th scope="row"> @{
+                                                if (day == heute)
+                                                {
+                                                    <span>today</span>
+                                                }else
+                                                {
+                                                    <span>Day @day</span>
+                                                }
+                                            }</th>
                                             <td>0$</td>
                                             <td>80$</td>
                                             <td>100$</td>
@@ -54,6 +62,6 @@
                 </div>
             </div>
         </div>
-    }
+
 }
 
