@@ -12,7 +12,7 @@
         <div class="accordion-item">
             <h2 class="accordion-header" id="headerId1">
                 <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseId1" aria-expanded="true" aria-controls="collapseId1">
-                    Income - @Model.TotalIncome $  <span style="width:80%;text-align:center">Nett Income After Debts and Expense: @Model.NettIncomeAfter $</span>
+                    Income - @Model.TotalIncome $  <span style="width:80%;text-align:right">Nett Income After Debts, Expense and aving: @Model.NettIncomeAfter $</span>
                 </button>
             </h2>
             <div id="collapseId1" class="accordion-collapse collapse @Model.MenuState.IncomeMenu" aria-labelledby="headerId1" data-bs-parent="#accordionId">
@@ -235,32 +235,32 @@
         <div class="accordion-item">
             <h2 class="accordion-header" id="headerId4">
                 <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseId4" aria-expanded="true" aria-controls="collapseId4">
-                    Saving program - @Model.TotalExpense $
+                    Saving program - @Model.Wallet.Saving.MonthlySavingAmount $ per Month
                 </button>
             </h2>
-            <div id="collapseId4" class="accordion-collapse collapse @Model.MenuState.ExpenseMenu" aria-labelledby="headerId4" data-bs-parent="#accordionId">
+            <div id="collapseId4" class="accordion-collapse collapse @Model.MenuState.SavingMenu" aria-labelledby="headerId4" data-bs-parent="#accordionId">
                 <div class="accordion-body">
                     <div class="row g-4">
 
                         <div class="col-md">
                             <div class="form-floating">
-                                <select asp-for="Expense.TypeOfExpense" class="form-select" id="floatingSelectGrid">
+                                <select class="form-select" id="floatingSelectGrid">
                                     <option selected>Manuel amount</option>
                                     <option>% of the salary</option>
                                 </select>
-                                <label for="floatingSelectGrid">Type of expense</label>
+                                <label for="floatingSelectGrid">Saving Options</label>
                             </div>
                         </div>
 
                         <div class="col-md">
                             <div class="form-floating">
-                                <input asp-for="Expense.Amount" class="form-control" id="floatingInputGrid" placeholder="400$" oninput="validateDecimalInput(this)">
-                                <label for="floatingInputGrid">Amount</label>
+                                <input asp-for="Wallet.Saving.MonthlySavingAmount" class="form-control" id="floatingInputGrid" placeholder="400$" value="Model.Wallet.Saving.MonthlySavingAmount" oninput="validateDecimalInput(this)">
+                                <label for="floatingInputGrid">@Model.Wallet.Saving.MonthlySavingAmount</label>
                             </div>
                         </div>
 
                         <div class="col-md">
-                            <button name="BtnAction" value="@ButtonActionType.ExpenseBTN" style="width:100%; height:calc(3.5rem + 2px);" class="btn btn-success">Save</button>
+                            <button name="BtnAction" value="@ButtonActionType.SavingBTN" style="width:100%; height:calc(3.5rem + 2px);" class="btn btn-success">Save</button>
                         </div>
                     </div>
 
@@ -275,18 +275,19 @@
                         </thead>
                         <tbody>
                             @{
-                                foreach (var expense in Model.Wallet.ExpenseListe)
-                                {
-                                    <tr>
-                                        <th scope="row"> @expense.TypeOfExpense.ToString()</th>
-                                        <td>@expense.details</td>
-                                        <td>@expense.Amount $</td>
-                                        <td style="text-align:right;padding-right:10%">
-                                            <a href="@Url.Action("EditExpense",new {id = expense.Id})">Edit</a>
-                                            <a href="@Url.Action("DeleteExpense",new {id = expense.Id})">Delete</a>
-                                        </td>
-                                    </tr>
-                                }
+                                <tr>
+                                    <th scope="row">Expecting</th>
+                                    <td>@Model.Wallet.Saving.MonthlySavingAmount.ToString("F2") $</td>
+                                    <td>
+                                        @{
+                                           var x = (Model.Wallet.Saving.MonthlySavingAmount * 12).ToString("F2");
+                                        }
+                                        @x
+                                    </td>
+                                    <td style="text-align:right;padding-right:10%">
+                                        <a href="#">Delete</a>
+                                    </td>
+                                </tr>
                             }
                         </tbody>
                     </table>
@@ -299,13 +300,11 @@
 
     <div style="height:300px;text-align:center;">
         <canvas style="display:inline-block" height="300" width="300" id="Total"></canvas>
-        <canvas style="display:inline-block" height="300" width="300" id="Income"></canvas>
         <canvas style="display:inline-block" height="300" width="300" id="Debt"></canvas>
         <canvas style="display:inline-block" height="300" width="300" id="Expense"></canvas>
-       
+
     </div>
     <div>
-       
     </div>
 
 </form>
@@ -375,42 +374,6 @@
                     text: 'distribution of the Income'
                 }
             }
-        }
-    });
-
-    var incomeLabels = @Html.Raw(Json.Serialize(IncomeLabelList));
-    var incomePrices = @Html.Raw(Json.Serialize(IncomePriceList));
-
-    var ctx1 = document.getElementById('Income').getContext('2d');
-    var myPieChart1 = new Chart(ctx1, {
-        type: 'pie',
-        data: {
-            labels: incomeLabels,
-            datasets: [{
-                label: 'Statistics',
-                data: incomePrices,
-                backgroundColor: [
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)'
-                ],
-                borderColor: [
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)'
-                ],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-         
-        plugins: {
-            title: {
-                display: true,
-                text: 'Income sources'
-            }
-        }
         }
     });
 

@@ -38,6 +38,7 @@ namespace CashCare.Repository
                                                 .Include(w => w.Debts)   // Inclure les dettes
                                                 .Include(w => w.ExpenseListe)  // Inclure les dépenses
                                                 .Include(w => w.Incomes)  // Inclure les revenus
+                                                .Include(w => w.Saving) // Inclure les epargnes
                                                 .FirstOrDefault(u => u.UserId == id);
 
             return currentWallet;

@@ -4,7 +4,6 @@ using CashCare.Models.Wallet;
 using CashCare.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
 namespace CashCare.Controllers.Wallet
@@ -21,7 +20,8 @@ namespace CashCare.Controllers.Wallet
         }
         public IActionResult Index(MenuStateVM? menu)
         {
-            var currentWallet = GetCurrentWallet();
+            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            var currentWallet = _walletRepository.GetCurrentWallet(userId);
             WalletViewModel WalletVM = new WalletViewModel
             {
                 Wallet = currentWallet,
@@ -36,15 +36,15 @@ namespace CashCare.Controllers.Wallet
         public IActionResult Index(WalletViewModel walletVM)
         {
             //if (!ModelState.IsValid) return View(walletVM);
-
-            var currentWallet = GetCurrentWallet();
+            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            var currentWallet = _walletRepository.GetCurrentWallet(userId);
             MenuStateVM currentMenuStatet = new MenuStateVM();
 
             switch (walletVM.BtnAction)
             {
                 case ViewModels.Enum.ButtonActionType.IncomeBTN:
 
-                    currentMenuStatet = new MenuStateVM { IncomeMenu = "show", DebtMenu = "hide", ExpenseMenu = "hide" };
+                    currentMenuStatet = new MenuStateVM { IncomeMenu = "show" };
 
                     if (!walletVM.Income.Validate())
                     {
@@ -67,7 +67,7 @@ namespace CashCare.Controllers.Wallet
 
                 case ViewModels.Enum.ButtonActionType.DebtBTN:
 
-                    currentMenuStatet = new MenuStateVM { IncomeMenu = "hide", DebtMenu = "show", ExpenseMenu = "hide" };
+                    currentMenuStatet = new MenuStateVM { DebtMenu = "show" };
 
                     if (!walletVM.Debt.Validate())
                     {
@@ -89,7 +89,7 @@ namespace CashCare.Controllers.Wallet
 
                 case ViewModels.Enum.ButtonActionType.ExpenseBTN:
 
-                    currentMenuStatet = new MenuStateVM { IncomeMenu = "hide", DebtMenu = "hide", ExpenseMenu = "show" };
+                    currentMenuStatet = new MenuStateVM { ExpenseMenu = "show" };
 
                     if (!walletVM.Expense.Validate())
                     {
@@ -108,6 +108,30 @@ namespace CashCare.Controllers.Wallet
                     _context.Expenses.Add(newExpense);
                     _context.SaveChanges();
 
+                    break;
+
+                case ViewModels.Enum.ButtonActionType.SavingBTN:
+                    currentMenuStatet = new MenuStateVM { SavingMenu = "show" };
+                    if (walletVM.Wallet.Saving.MonthlySavingAmount == 0)
+                    {
+                        return RedirectToAction("index", currentMenuStatet);
+                    }
+                    var saving = _context.Saving.FirstOrDefault(save => save.WalletId == currentWallet.Id);
+                    if (saving == null)
+                    {
+                        saving = new Saving
+                        {
+                            MonthlySavingAmount = walletVM.Wallet.Saving.MonthlySavingAmount,
+                            WalletId = currentWallet.Id,
+                        };
+                        _context.Saving.Add(saving);
+                    }
+                    else
+                    {
+                        saving.MonthlySavingAmount = walletVM.Wallet.Saving.MonthlySavingAmount;
+                        _context.Update(saving);
+                    }
+                    _context.SaveChanges();
                     break;
             }
 
@@ -270,22 +294,6 @@ namespace CashCare.Controllers.Wallet
 
             MenuStateVM currentMenuSTatet = new MenuStateVM { ExpenseMenu = "show", };
             return RedirectToAction("Index", currentMenuSTatet);
-        }
-
-        private Models.Wallet.Wallet GetCurrentWallet()
-        {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (userId != null)
-            {
-                var currentWallet = _context.Wallets
-                                                    .Include(w => w.Debts)   // Inclure les dettes
-                                                    .Include(w => w.ExpenseListe)  // Inclure les dépenses
-                                                    .Include(w => w.Incomes)  // Inclure les revenus
-                                                    .FirstOrDefault(u => u.UserId == int.Parse(userId));
-
-                return currentWallet;
-            }
-            return null;
         }
     }
 }

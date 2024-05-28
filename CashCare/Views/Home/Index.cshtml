@@ -4,7 +4,7 @@
 @{
     decimal SavingSomme = 0;
     decimal expenseSomme = 0;
-    var dailyLimit = ((Model.currentWallet.NettIncomeAfter - 500) / 30);
+    var dailyLimit = (Model.currentWallet.NettIncomeAfter  / 30);
     var dailyLeft = dailyLimit - Model.todaytotalExpense;
 }
 <form method="post" asp-controller="Home" asp-action="CreateDailyExpense" enctype="multipart/form-data">
@@ -24,7 +24,7 @@
             <div class="col-md">
                 <div class="form-floating">
                     <input asp-for="currentExpense.Description" class="form-control" id="floatingInputGridDescription" placeholder="">
-                    <label for="floatingInputGridDescription">Description: ex. Kebab</label>
+                    <label for="floatingInputGridDescription">Description: ex. Kebab, Rewe einkauf, friseur...</label>
                 </div>
             </div>
             <div class="col-md">
@@ -47,7 +47,7 @@
                     current month
                 </button>
             </h2>
-            <div id="@collapseId" class="accordion-collapse collapse" aria-labelledby="@headerId" data-bs-parent="#@accordionId">
+            <div id="@collapseId" class="accordion-collapse collapse show" aria-labelledby="@headerId" data-bs-parent="#@accordionId">
                 <div class="accordion-body">
                     <strong>You Save 400 euro this Month. congratulation</strong>
                     <table class="table">

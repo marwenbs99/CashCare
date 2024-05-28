@@ -5,8 +5,7 @@
         IncomeBTN,
         DebtBTN,
         ExpenseBTN,
+        SavingBTN,
         DeleteIncome,
-        DeleteDebt,
-        DeleteExpense,
     }
 }

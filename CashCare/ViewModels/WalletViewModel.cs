@@ -11,7 +11,6 @@ namespace CashCare.ViewModels
         public Debt Debt { get; set; }
         public Expense Expense { get; set; }
         public MenuStateVM MenuState { get; set; }
-        public Saving Saving { get; set; } = new Saving();
 
         public decimal TotalIncome
         {
@@ -41,7 +40,7 @@ namespace CashCare.ViewModels
         {
             get
             {
-                return TotalIncome - TotalDebts - TotalExpense;
+                return TotalIncome - TotalDebts - TotalExpense - Wallet.Saving.MonthlySavingAmount;
             }
         }
     }
