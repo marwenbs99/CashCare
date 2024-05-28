@@ -14,7 +14,7 @@ namespace CashCare.Models
         public decimal Amount { get; set; }
 
         [Required]
-        public DateTime Date { get; set; }
+        public DateTime Date { get; set; } = DateTime.UtcNow;
 
         [Required]
         public int AppUserId { get; set; }

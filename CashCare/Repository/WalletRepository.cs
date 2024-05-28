@@ -1,6 +1,7 @@
 ﻿using CashCare.Data;
 using CashCare.Interfaces;
 using CashCare.Models.Wallet;
+using Microsoft.EntityFrameworkCore;
 
 namespace CashCare.Repository
 {
@@ -29,6 +30,18 @@ namespace CashCare.Repository
         {
             var currentExpense = _context.Expenses.FirstOrDefault(x => x.Id == id);
             return currentExpense;
+        }
+
+        public Wallet GetCurrentWallet(int id)
+        {
+            var currentWallet = _context.Wallets
+                                                .Include(w => w.Debts)   // Inclure les dettes
+                                                .Include(w => w.ExpenseListe)  // Inclure les dépenses
+                                                .Include(w => w.Incomes)  // Inclure les revenus
+                                                .FirstOrDefault(u => u.UserId == id);
+
+            return currentWallet;
+
         }
     }
 }

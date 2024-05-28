@@ -1,67 +1,102 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@using CashCare.ViewModels;
+@model DailyExpenseViewModel
+
+@{
+    var dailyLimit = ((Model.currentWallet.NettIncomeAfter - 600) / 30);
+    var dailyLeft = dailyLimit - Model.todaytotalExpense;
 }
+<form method="post" asp-controller="Home" asp-action="CreateDailyExpense" enctype="multipart/form-data">
+<div class="card">
+    <div class="card-header">
+            <h5>Add new expense for today <span style="margin-left:18%">Your total expense for today is @Model.todaytotalExpense $</span> <span style="float:right">left to spend today @dailyLeft.ToString("F2") / @dailyLimit.ToString("F2") $ </span></h5>
+            
+    </div>
+    <div class="card-body">
+        <div class="row g-3">
+            <div class="col-md">
+                <div class="form-floating" style="padding-bottom:20px">
+                    <input asp-for="currentExpense.Amount" class="form-control" id="floatingInputGridAmount" placeholder="200$" oninput="validateDecimalInput(this)" value="">
+                    <label for="floatingInputGridAmount">Amount</label>
+                </div>
+            </div>
+            <div class="col-md">
+                <div class="form-floating">
+                    <input asp-for="currentExpense.Description" class="form-control" id="floatingInputGridDescription" placeholder="">
+                    <label for="floatingInputGridDescription">Description: ex. Kebab</label>
+                </div>
+            </div>
+            <div class="col-md">
+                <button name="BtnAction" style="width:100%; height:calc(3.5rem + 2px);" class="btn btn-success">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @{
     var accordionId = "accordionExample";
 
-        var headerId = $"heading";
-        var collapseId = $"collapse";
-        var buttonId = $"button";
-        <div class="accordion" id="@accordionId">
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="@headerId">
-                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#@collapseId" aria-expanded="true" aria-controls="@collapseId">
+    var headerId = $"heading";
+    var collapseId = $"collapse";
+    var buttonId = $"button";
+    <div class="accordion" id="@accordionId">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="@headerId">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#@collapseId" aria-expanded="true" aria-controls="@collapseId">
                     current month
-                    </button>
-                </h2>
-                <div id="@collapseId" class="accordion-collapse collapse" aria-labelledby="@headerId" data-bs-parent="#@accordionId">
-                    <div class="accordion-body">
-                        <strong>You Save 400 euro this Month. congratulation</strong>
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">income</th>
-                                    <th scope="col">Expenses</th>
-                                    <th scope="col">Saving</th>
-                                    <th scope="col">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
+                </button>
+            </h2>
+            <div id="@collapseId" class="accordion-collapse collapse" aria-labelledby="@headerId" data-bs-parent="#@accordionId">
+                <div class="accordion-body">
+                    <strong>You Save 400 euro this Month. congratulation</strong>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">income</th>
+                                <th scope="col">Expenses</th>
+                                <th scope="col">Saving</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
                             @{
                                 var heute = DateTime.Now.Day;
                                 for (var day = heute; day >= 1; day--)
-                                    {
-                                        <tr>
-                                        <th scope="row"> @{
+                                {
+                                    <tr>
+                                        <th scope="row">
+                                            @{
                                                 if (day == heute)
                                                 {
                                                     <span>today</span>
-                                                }else
+                                                }
+                                                else
                                                 {
                                                     <span>Day @day</span>
                                                 }
-                                            }</th>
-                                            <td>0$</td>
-                                            <td>80$</td>
-                                            <td>100$</td>
-                                            <td><a href="/Home/WeekDetails">Details </a></td>
-                                        </tr>
-                                    }
-                                    <tr>
-                                        <th scope="row">Result</th>
-                                        <td><b>0$</b></td>
-                                        <td><b>320$</b></td>
-                                        <td><b>400$</b></td>
+                                            }
+                                        </th>
+                                        <td>0$</td>
+                                        <td>80$</td>
+                                        <td>100$</td>
+                                        <td><a href="/Home/WeekDetails">Details </a></td>
                                     </tr>
                                 }
+                                <tr>
+                                    <th scope="row">Result</th>
+                                    <td><b>0$</b></td>
+                                    <td><b>320$</b></td>
+                                    <td><b>400$</b></td>
+                                </tr>
+                            }
 
-                            </tbody>
-                        </table>
-                    </div>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
+    </div>
 
 }
-
+</form>
+<script src="~/js/wallet.js"></script>
