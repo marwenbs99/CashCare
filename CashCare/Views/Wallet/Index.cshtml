@@ -348,14 +348,15 @@
     var myPieChart = new Chart(ctx, {
         type: 'pie',
         data: {
-            labels: ['Rest Income', 'Expenses', 'Debt'],
+            labels: ['Rest Income','Debt','Expenses','Saving'],
             datasets: [{
                 label: 'Statistics',
-                data: [@Convert.ToInt32(Model.NettIncomeAfter), @Convert.ToInt32(Model.TotalDebts), @Convert.ToInt32(Model.TotalExpense)],
+                data: [@Convert.ToInt32(Model.NettIncomeAfter), @Convert.ToInt32(Model.TotalDebts), @Convert.ToInt32(Model.TotalExpense), @Convert.ToInt32(Model.Wallet.Saving.MonthlySavingAmount)],
                 backgroundColor: [
                     'rgba(75, 192, 192, 0.2)',
                     'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)'
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 77, 40, 0.2)'
                 ],
                 borderColor: [
                     'rgba(75, 192, 192, 1)',
