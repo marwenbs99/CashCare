@@ -2,13 +2,15 @@
 @model DailyExpenseViewModel
 
 @{
+    decimal SavingSomme = 0;
+    decimal expenseSomme = 0;
     var dailyLimit = ((Model.currentWallet.NettIncomeAfter - 600) / 30);
     var dailyLeft = dailyLimit - Model.todaytotalExpense;
 }
 <form method="post" asp-controller="Home" asp-action="CreateDailyExpense" enctype="multipart/form-data">
 <div class="card">
     <div class="card-header">
-            <h5>Add new expense for today <span style="margin-left:18%">Your total expense for today is @Model.todaytotalExpense $</span> <span style="float:right">left to spend today @dailyLeft.ToString("F2") / @dailyLimit.ToString("F2") $ </span></h5>
+            <h5>Add new expense for today  <span style="float:right">left to spend today @dailyLeft.ToString("F2") / @dailyLimit.ToString("F2") $ </span></h5>
             
     </div>
     <div class="card-body">
@@ -52,41 +54,40 @@
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">income</th>
                                 <th scope="col">Expenses</th>
                                 <th scope="col">Saving</th>
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @{
-                                var heute = DateTime.Now.Day;
-                                for (var day = heute; day >= 1; day--)
-                                {
-                                    <tr>
+                                @{
+                                    foreach(var expense in Model.ListexpensePerDay)
+                                    {
+                                        expenseSomme += expense.ExpensesTotalAmount;
+                                        SavingSomme += @expense.SavingThisDay;
+
+                                        <tr>
                                         <th scope="row">
                                             @{
-                                                if (day == heute)
+                                                if (expense.DayOftheMonth == DateTime.Now.Day)
                                                 {
                                                     <span>today</span>
                                                 }
                                                 else
                                                 {
-                                                    <span>Day @day</span>
+                                                    <span>Day @expense.DayOftheMonth</span>
                                                 }
                                             }
                                         </th>
-                                        <td>0$</td>
-                                        <td>80$</td>
-                                        <td>100$</td>
+                                            <td>@expense.ExpensesTotalAmount.ToString("F2")</td>
+                                            <td>@expense.SavingThisDay.ToString("F2")</td>
                                         <td><a href="/Home/WeekDetails">Details </a></td>
                                     </tr>
                                 }
                                 <tr>
                                     <th scope="row">Result</th>
-                                    <td><b>0$</b></td>
-                                    <td><b>320$</b></td>
-                                    <td><b>400$</b></td>
+                                        <td><b>@expenseSomme.ToString("F2") $</b></td>
+                                        <td><b>@SavingSomme.ToString("F2")</b></td>
                                 </tr>
                             }
 

@@ -15,9 +15,9 @@ namespace CashCare.Repository
             return 10;
         }
 
-        public decimal GetTotalExpenseToday(int userId)
+        public decimal GetTotalExpenseToday(int userId, int dayNumber)
         {
-            var todayexpense = _context.ExpensesDaily.Where(data => data.AppUserId == userId && data.Date.DayOfYear == DateTime.Today.DayOfYear).Sum(data => data.Amount);
+            var todayexpense = _context.ExpensesDaily.Where(data => data.AppUserId == userId && data.Date.Day == dayNumber && data.Date.Month == DateTime.Now.Month).Sum(data => data.Amount);
             return todayexpense;
         }
     }

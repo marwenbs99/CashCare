@@ -2,12 +2,14 @@
 using CashCare.Interfaces;
 using CashCare.Models.Wallet;
 using CashCare.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
 namespace CashCare.Controllers.Wallet
 {
+    [Authorize]
     public class WalletController : Controller
     {
         private readonly ApplicationDbContext _context;

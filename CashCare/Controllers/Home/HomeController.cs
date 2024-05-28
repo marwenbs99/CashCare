@@ -34,7 +34,18 @@ namespace CashCare.Controllers.Home
             DailyExpenseViewModel userDailyExpense = new DailyExpenseViewModel();
 
             userDailyExpense.currentWallet.Wallet = _iwalletRepository.GetCurrentWallet(userId);
-            userDailyExpense.todaytotalExpense = _idailyExoenseRepository.GetTotalExpenseToday(userId);
+            userDailyExpense.todaytotalExpense = _idailyExoenseRepository.GetTotalExpenseToday(userId, DateTime.Now.Day);
+
+            for (int i = DateTime.Now.Day; i >= 0; i--)
+            {
+                var expenseforthisday = _idailyExoenseRepository.GetTotalExpenseToday(userId, i);
+                userDailyExpense.ListexpensePerDay.Add(new ExpensesPerDayViewModel
+                {
+                    DayOftheMonth = i,
+                    ExpensesTotalAmount = expenseforthisday,
+                    SavingThisDay = ((userDailyExpense.currentWallet.NettIncomeAfter - 600) / 30) - expenseforthisday
+                });
+            }
 
             return View(userDailyExpense);
         }
