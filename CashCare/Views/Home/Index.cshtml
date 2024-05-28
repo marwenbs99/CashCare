@@ -4,7 +4,7 @@
 @{
     decimal SavingSomme = 0;
     decimal expenseSomme = 0;
-    var dailyLimit = ((Model.currentWallet.NettIncomeAfter - 600) / 30);
+    var dailyLimit = ((Model.currentWallet.NettIncomeAfter - 500) / 30);
     var dailyLeft = dailyLimit - Model.todaytotalExpense;
 }
 <form method="post" asp-controller="Home" asp-action="CreateDailyExpense" enctype="multipart/form-data">

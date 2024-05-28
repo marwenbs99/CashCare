@@ -43,7 +43,7 @@ namespace CashCare.Controllers.Home
                 {
                     DayOftheMonth = i,
                     ExpensesTotalAmount = expenseforthisday,
-                    SavingThisDay = ((userDailyExpense.currentWallet.NettIncomeAfter - 600) / 30) - expenseforthisday
+                    SavingThisDay = ((userDailyExpense.currentWallet.NettIncomeAfter - 500) / 30) - expenseforthisday
                 });
             }
 

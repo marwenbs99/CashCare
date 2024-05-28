@@ -16,5 +16,6 @@ namespace CashCare.Data
         public DbSet<Income> Incomes { get; set; }
         public DbSet<Debt> Debts { get; set; }
         public DbSet<DailyExpense> ExpensesDaily { get; set; }
+        public DbSet<Saving> Saving { get; set; }
     }
 }

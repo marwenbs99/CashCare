@@ -12,5 +12,6 @@ namespace CashCare.Models.Wallet
         public IList<Expense> ExpenseListe { get; set; } = new List<Expense>();
         public IList<Debt> Debts { get; set; } = new List<Debt>();
         public IList<Income> Incomes { get; set; } = new List<Income>();
+        public Saving Saving { get; set; } = new Saving();
     }
 }

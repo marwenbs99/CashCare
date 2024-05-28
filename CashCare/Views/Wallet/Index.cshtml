@@ -228,6 +228,75 @@
             </div>
         </div>
     </div>
+
+    @* CETTE PARTIE Appartient au epargne !! ----------------------------------------------------------------------------------------------------------------------- *@
+
+    <div class="accordion" id="accordionId">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headerId4">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseId4" aria-expanded="true" aria-controls="collapseId4">
+                    Saving program - @Model.TotalExpense $
+                </button>
+            </h2>
+            <div id="collapseId4" class="accordion-collapse collapse @Model.MenuState.ExpenseMenu" aria-labelledby="headerId4" data-bs-parent="#accordionId">
+                <div class="accordion-body">
+                    <div class="row g-4">
+
+                        <div class="col-md">
+                            <div class="form-floating">
+                                <select asp-for="Expense.TypeOfExpense" class="form-select" id="floatingSelectGrid">
+                                    <option selected>Manuel amount</option>
+                                    <option>% of the salary</option>
+                                </select>
+                                <label for="floatingSelectGrid">Type of expense</label>
+                            </div>
+                        </div>
+
+                        <div class="col-md">
+                            <div class="form-floating">
+                                <input asp-for="Expense.Amount" class="form-control" id="floatingInputGrid" placeholder="400$" oninput="validateDecimalInput(this)">
+                                <label for="floatingInputGrid">Amount</label>
+                            </div>
+                        </div>
+
+                        <div class="col-md">
+                            <button name="BtnAction" value="@ButtonActionType.ExpenseBTN" style="width:100%; height:calc(3.5rem + 2px);" class="btn btn-success">Save</button>
+                        </div>
+                    </div>
+
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Monthly saving</th>
+                                <th scope="col">Expected in 1 year</th>
+                                <th style="text-align:right;padding-right:10%" scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                foreach (var expense in Model.Wallet.ExpenseListe)
+                                {
+                                    <tr>
+                                        <th scope="row"> @expense.TypeOfExpense.ToString()</th>
+                                        <td>@expense.details</td>
+                                        <td>@expense.Amount $</td>
+                                        <td style="text-align:right;padding-right:10%">
+                                            <a href="@Url.Action("EditExpense",new {id = expense.Id})">Edit</a>
+                                            <a href="@Url.Action("DeleteExpense",new {id = expense.Id})">Delete</a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
     <div style="height:300px;text-align:center;">
         <canvas style="display:inline-block" height="300" width="300" id="Total"></canvas>
         <canvas style="display:inline-block" height="300" width="300" id="Income"></canvas>
