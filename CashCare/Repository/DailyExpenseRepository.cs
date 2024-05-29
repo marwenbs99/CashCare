@@ -1,5 +1,6 @@
 ﻿using CashCare.Data;
 using CashCare.Interfaces;
+using CashCare.Models;
 
 namespace CashCare.Repository
 {
@@ -10,9 +11,9 @@ namespace CashCare.Repository
         {
             _context = context;
         }
-        public decimal GetTotalExpenseThisMounth(int userId)
+        public IList<DailyExpense> GetListofExpenseThisDay(int userId, int dateOfTheMonth)
         {
-            return 10;
+            return _context.ExpensesDaily.Where(ex => ex.Date.Day == dateOfTheMonth && ex.Date.Month == DateTime.Now.Month && ex.Date.Year == DateTime.Now.Year).ToList();
         }
 
         public decimal GetTotalExpenseToday(int userId, int dayNumber)

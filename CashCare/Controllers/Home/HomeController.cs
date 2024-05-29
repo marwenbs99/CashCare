@@ -17,28 +17,35 @@ namespace CashCare.Controllers.Home
         private readonly ILogger<HomeController> _logger;
         private readonly ApplicationDbContext _context;
         private readonly IwalletRepository _iwalletRepository;
-        private readonly IDailyExpenseRepository _idailyExoenseRepository;
+        private readonly IDailyExpenseRepository _idailyExpenseRepository;
 
         public HomeController(ILogger<HomeController> logger, ApplicationDbContext context, IwalletRepository iwalletRepository, IDailyExpenseRepository idailyExoenseRepository)
         {
             _logger = logger;
             _context = context;
             _iwalletRepository = iwalletRepository;
-            _idailyExoenseRepository = idailyExoenseRepository;
+            _idailyExpenseRepository = idailyExoenseRepository;
         }
 
         public IActionResult Index()
         {
             var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-
+            int limit = 0;
+            var userInscriptionDate = _context.AppUsers.Where(user => user.Id == userId).Select(user => user.DateOfInscription).FirstOrDefault();
             DailyExpenseViewModel userDailyExpense = new DailyExpenseViewModel();
 
-            userDailyExpense.currentWallet.Wallet = _iwalletRepository.GetCurrentWallet(userId);
-            userDailyExpense.todaytotalExpense = _idailyExoenseRepository.GetTotalExpenseToday(userId, DateTime.Now.Day);
 
-            for (int i = DateTime.Now.Day; i >= 0; i--)
+            userDailyExpense.currentWallet.Wallet = _iwalletRepository.GetCurrentWallet(userId);
+            userDailyExpense.todaytotalExpense = _idailyExpenseRepository.GetTotalExpenseToday(userId, DateTime.Now.Day);
+
+
+
+            if (userInscriptionDate.Month == DateTime.Now.Month && userInscriptionDate.Year == DateTime.Now.Year) limit = userInscriptionDate.Day;
+
+
+            for (int i = DateTime.Now.Day; i >= limit; i--)
             {
-                var expenseforthisday = _idailyExoenseRepository.GetTotalExpenseToday(userId, i);
+                var expenseforthisday = _idailyExpenseRepository.GetTotalExpenseToday(userId, i);
                 userDailyExpense.ListexpensePerDay.Add(new ExpensesPerDayViewModel
                 {
                     DayOftheMonth = i,
@@ -50,9 +57,13 @@ namespace CashCare.Controllers.Home
             return View(userDailyExpense);
         }
 
-        public IActionResult WeekDetails()
+        public IActionResult DayDetails(int dateOfTheMonth)
         {
-            return View();
+            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+            var listOfexpense = _idailyExpenseRepository.GetListofExpenseThisDay(userId, dateOfTheMonth);
+
+            return View(listOfexpense);
         }
 
         public IActionResult Investing()

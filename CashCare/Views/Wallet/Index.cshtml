@@ -12,7 +12,7 @@
         <div class="accordion-item">
             <h2 class="accordion-header" id="headerId1">
                 <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseId1" aria-expanded="true" aria-controls="collapseId1">
-                    Income - @Model.TotalIncome $  <span style="width:80%;text-align:right">Nett Income After Debts, Expense and aving: @Model.NettIncomeAfter $</span>
+                    Income - @Model.TotalIncome $  <span style="width:80%;text-align:right">Nett Income After Debts, Expense and Saving: @Model.NettIncomeAfter $</span>
                 </button>
             </h2>
             <div id="collapseId1" class="accordion-collapse collapse @Model.MenuState.IncomeMenu" aria-labelledby="headerId1" data-bs-parent="#accordionId">
@@ -282,7 +282,7 @@
                                         @{
                                            var x = (Model.Wallet.Saving.MonthlySavingAmount * 12).ToString("F2");
                                         }
-                                        @x
+                                        @x $
                                     </td>
                                     <td style="text-align:right;padding-right:10%">
                                         <a href="#">Delete</a>
