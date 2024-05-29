@@ -333,7 +333,7 @@
 
     foreach (var expense in Model.Wallet.ExpenseListe)
     {
-        ExpenseLabelList.Add(expense.TypeOfExpense.ToString());
+        ExpenseLabelList.Add(expense.details.ToString());
         ExpensePriceList.Add(expense.Amount);
     }
 }
