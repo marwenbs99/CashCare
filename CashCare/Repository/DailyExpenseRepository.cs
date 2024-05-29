@@ -13,7 +13,7 @@ namespace CashCare.Repository
         }
         public IList<DailyExpense> GetListofExpenseThisDay(int userId, int dateOfTheMonth)
         {
-            return _context.ExpensesDaily.Where(ex => ex.Date.Day == dateOfTheMonth && ex.Date.Month == DateTime.Now.Month && ex.Date.Year == DateTime.Now.Year).ToList();
+            return _context.ExpensesDaily.Where(ex => ex.Date.Day == dateOfTheMonth && ex.Date.Month == DateTime.Now.Month && ex.Date.Year == DateTime.Now.Year && ex.AppUserId == userId).ToList();
         }
 
         public decimal GetTotalExpenseToday(int userId, int dayNumber)

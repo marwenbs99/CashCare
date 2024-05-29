@@ -66,6 +66,25 @@ namespace CashCare.Controllers.Home
             return View(listOfexpense);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditDailyExpense(IList<DailyExpense> currentList)
+        {
+            var dayOfTheMonth = 0;
+            foreach (var expense in currentList)
+            {
+                if (expense.Amount != 0)
+                {
+                    expense.AppUserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+                    dayOfTheMonth = expense.Date.Day;
+                    _context.ExpensesDaily.Update(expense);
+                }
+                _context.SaveChanges();
+            }
+            return RedirectToAction("DayDetails", "Home", new { dateOfTheMonth = dayOfTheMonth });
+        }
+
+
         public IActionResult Investing()
         {
             return View();

@@ -5,46 +5,76 @@
 *@
 @{
 }
-<div class="accordion" id="accordionId">
-    <div class="accordion-item">
-        <h2 class="accordion-header" id="headerId">
-            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseId" aria-expanded="true" aria-controls="collapseId">
-                Week 20.05.2024 - 26.05.2024
-            </button>
-        </h2>
-        <div id="collapseId" class="accordion-collapse collapse show" aria-labelledby="headerId" data-bs-parent="#accordionId">
-            <div class="accordion-body">
-                <strong>You have $400 left for the rest of the month</strong>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">income</th>
-                            <th scope="col">Expenses</th>
-                            <th scope="col">Saving</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @{
-                            for (var day = 1; day <= 7; day++)
-                            {
+<form method="post" asp-controller="Home" asp-action="EditDailyExpense" enctype="multipart/form-data" onsubmit="return checkIfAnyFieldEnabled()">
+    <div class="accordion" id="accordionId">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headerId">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseId" aria-expanded="true" aria-controls="collapseId">
+                    Day
+                </button>
+            </h2>
+            <div id="collapseId" class="accordion-collapse collapse show" aria-labelledby="headerId" data-bs-parent="#accordionId">
+                <div class="accordion-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Day</th>
+                                <th scope="col">Description</th>
+                                <th scope="col">Amount</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                decimal somme = 0;
+                                for (var day = 0; day < Model.Count(); day++)
+                                {
+                                    somme += Model[day].Amount;
+                                    <tr>
+                                        <th scope="row">@Model[day].Date</th>
+                                        <td>
+                                            <input asp-for="@Model[day].Description" id="description-@day" disabled type="text" value="@Model[day].Description" />
+                                            <input type="hidden" asp-for="@Model[day].Id" value="@Model[day].Id" />
+                                            <input type="hidden" asp-for="@Model[day].Date" value="@Model[day].Date" />
+                                        </td>
+                                        <td>
+                                        <input asp-for="@Model[day].Amount" id="amount-@day" disabled type="text" value="@Model[day].Amount" /> 
+                                        </td>
+                                        <td><a onclick="enableEdit(@day)" class="btn btn-link">Edit</a> </td>
+                                    </tr>
+                                }
                                 <tr>
-                                    <th scope="row">Day @day</th>
-                                    <td>0$</td>
-                                    <td>30$</td>
-                                    <td>10$</td>
+                                    <th scope="row">Result</th>
+                                    <td><b>###################</b></td>
+                                    <td><b>@(somme)</b></td>
+                                    <td><button class="btn btn-success">Save</button></td>
                                 </tr>
                             }
-                            <tr>
-                                <th scope="row">Result</th>
-                                <td><b>0$</b></td>
-                                <td><b>210$</b></td>
-                                <td><b>70$</b></td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
-</div>
+</form>
+<script>
+    function enableEdit(day) {
+        document.getElementById('description-' + day).disabled = false;
+        document.getElementById('amount-' + day).disabled = false;
+    }
+
+    function checkIfAnyFieldEnabled() {
+        const inputs = document.querySelectorAll('input[type="text"]');
+        let isAnyFieldEnabled = false;
+        inputs.forEach(input => {
+            if (!input.disabled) {
+                isAnyFieldEnabled = true;
+            }
+        });
+        if (!isAnyFieldEnabled) {
+            alert("Please edit at least one field before saving.");
+            return false; // Prevent form submission
+        }
+        return true; // Allow form submission
+    }
+</script>
