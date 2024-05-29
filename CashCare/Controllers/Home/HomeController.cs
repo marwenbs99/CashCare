@@ -32,27 +32,47 @@ namespace CashCare.Controllers.Home
             var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
             int limit = 0;
             var userInscriptionDate = _context.AppUsers.Where(user => user.Id == userId).Select(user => user.DateOfInscription).FirstOrDefault();
+
             DailyExpenseViewModel userDailyExpense = new DailyExpenseViewModel();
 
 
             userDailyExpense.currentWallet.Wallet = _iwalletRepository.GetCurrentWallet(userId);
             userDailyExpense.todaytotalExpense = _idailyExpenseRepository.GetTotalExpenseToday(userId, DateTime.Now.Day);
-
-
+            var salaryDateofRecive = userDailyExpense.currentWallet.Wallet.Incomes.FirstOrDefault().DataOfRecive;
 
             if (userInscriptionDate.Month == DateTime.Now.Month && userInscriptionDate.Year == DateTime.Now.Year) limit = userInscriptionDate.Day;
 
+            DateTime userSalaryDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, salaryDateofRecive);
 
-            for (int i = DateTime.Now.Day; i >= limit; i--)
+            // Déterminer la date de début de la liste des dépenses
+            DateTime startDate = userSalaryDate;
+            if (DateTime.Now.Day <= salaryDateofRecive)
             {
-                var expenseforthisday = _idailyExpenseRepository.GetTotalExpenseToday(userId, i);
+                // Si nous sommes avant le 27 du mois, nous devons afficher les dépenses du mois précédent
+                startDate = startDate.AddMonths(-1);
+            }
+
+            for (DateTime date = DateTime.Now; date >= startDate; date = date.AddDays(-1))
+            {
+                var expenseForThisDay = _idailyExpenseRepository.GetTotalExpenseToday(userId, date.Day);
                 userDailyExpense.ListexpensePerDay.Add(new ExpensesPerDayViewModel
                 {
-                    DayOftheMonth = i,
-                    ExpensesTotalAmount = expenseforthisday,
-                    SavingThisDay = (userDailyExpense.currentWallet.NettIncomeAfter / 30) - expenseforthisday
+                    DayOftheMonth = date.Day,
+                    ExpensesTotalAmount = expenseForThisDay,
+                    SavingThisDay = (userDailyExpense.currentWallet.NettIncomeAfter / 30) - expenseForThisDay
                 });
             }
+
+            //for (int i = DateTime.Now.Day; i >= limit; i--)
+            //{
+            //    var expenseforthisday = _idailyExpenseRepository.GetTotalExpenseToday(userId, i);
+            //    userDailyExpense.ListexpensePerDay.Add(new ExpensesPerDayViewModel
+            //    {
+            //        DayOftheMonth = i,
+            //        ExpensesTotalAmount = expenseforthisday,
+            //        SavingThisDay = (userDailyExpense.currentWallet.NettIncomeAfter / 30) - expenseforthisday
+            //    });
+            //}
 
             return View(userDailyExpense);
         }
