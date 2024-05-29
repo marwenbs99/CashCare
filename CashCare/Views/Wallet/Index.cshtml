@@ -298,7 +298,7 @@
 
 
 
-    <div style="height:300px;text-align:center;">
+    <div style="height:350px;text-align:center;">
         <canvas style="display:inline-block" height="300" width="300" id="Total"></canvas>
         <canvas style="display:inline-block" height="300" width="300" id="Debt"></canvas>
         <canvas style="display:inline-block" height="300" width="300" id="Expense"></canvas>
@@ -341,7 +341,7 @@
 
 <script src="~/js/wallet.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 
 <script>
     var ctx = document.getElementById('Total').getContext('2d');
@@ -373,9 +373,25 @@
                 title: {
                     display: true,
                     text: 'distribution of the Income'
+                },
+                datalabels: {
+                    formatter: (value, ctx) => {
+                        let sum = 0;
+                        let dataArr = ctx.chart.data.datasets[0].data;
+                        dataArr.map(data => {
+                            sum += data;
+                        });
+                        let percentage = (value * 100 / sum).toFixed(2) + "%";
+                        return ctx.chart.data.labels[ctx.dataIndex] + '\n' + percentage;
+                    },
+                    color: '#000000',
+                },
+                legend: {
+                    display: false // désactiver l'affichage des légendes
                 }
             }
-        }
+        },
+        plugins: [ChartDataLabels]
     });
 
     var debtLabels = @Html.Raw(Json.Serialize(DebtLabelList));
@@ -408,9 +424,25 @@
                 title: {
                     display: true,
                     text: 'Debt sources'
+                },
+                datalabels: {
+                    formatter: (value, ctx2) => {
+                        let sum = 0;
+                        let dataArr = ctx2.chart.data.datasets[0].data;
+                        dataArr.map(data => {
+                            sum += data;
+                        });
+                        let percentage = (value * 100 / sum).toFixed(2) + "%";
+                        return ctx2.chart.data.labels[ctx2.dataIndex] + '\n' + percentage;
+                    },
+                    color: '#000000',
+                },
+                legend: {
+                    display: false // désactiver l'affichage des légendes
                 }
             }
-        }
+        },
+        plugins: [ChartDataLabels]
     });
 
     var expenseLabels = @Html.Raw(Json.Serialize(ExpenseLabelList));
@@ -445,17 +477,23 @@
                     text: 'Expense sources'
                 },
                 datalabels: {
-                    display: true,
-                    color: 'black',
-                    formatter: (value, context) => {
-                        return context.chart.data.labels[context.dataIndex];
+                    formatter: (value, ctx3) => {
+                        let sum = 0;
+                        let dataArr = ctx3.chart.data.datasets[0].data;
+                        dataArr.map(data => {
+                            sum += data;
+                        });
+                        let percentage = (value * 100 / sum).toFixed(2) + "%";
+                        return  percentage;
                     },
-                    font: {
-                        weight: 'bold'
-                    }
+                    color: '#000000',
+                },
+                legend: {
+                    display: false // désactiver l'affichage des légendes
                 }
             }
-        }
+        },
+        plugins: [ChartDataLabels]
     });
 </script>
 
