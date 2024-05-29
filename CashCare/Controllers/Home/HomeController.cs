@@ -109,6 +109,22 @@ namespace CashCare.Controllers.Home
         }
 
 
+        public IActionResult DeleteOneDailyExpense(int dailyExpenseId)
+        {
+            var expenseToDelete = _context.ExpensesDaily.FirstOrDefault(ex => ex.Id == dailyExpenseId);
+            var dayOfTheMonth = expenseToDelete.Date.Day;
+
+            try
+            {
+                _context.ExpensesDaily.Remove(expenseToDelete);
+            }
+            catch (Exception ex) { }
+
+            _context.SaveChanges();
+            return RedirectToAction("DayDetails", "Home", new { dateOfTheMonth = dayOfTheMonth });
+        }
+
+
         public IActionResult Investing()
         {
             return View();

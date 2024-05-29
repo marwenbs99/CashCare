@@ -40,7 +40,10 @@
                                         <td>
                                         <input asp-for="@Model[day].Amount" id="amount-@day" disabled type="text" value="@Model[day].Amount" /> 
                                         </td>
-                                        <td><a onclick="enableEdit(@day)" class="btn btn-link">Edit</a> </td>
+                                        <td>
+                                        <a onclick="enableEdit(@day)" class="btn btn-link">Edit</a>
+                                            <a href="@Url.Action("DeleteOneDailyExpense","Home", new {dailyExpenseId = Model[day].Id})">Delete</a>
+                                        </td>
                                     </tr>
                                 }
                                 <tr>
