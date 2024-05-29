@@ -44,9 +44,13 @@ namespace CashCare.Controllers.Home
 
             DateTime userSalaryDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, salaryDateofRecive);
 
+
+            // Nombre de jours entre 27 actuel et le 27 du mois prochain
+            int daysUntilCurrentSalary = (userSalaryDate.AddMonths(1) - userSalaryDate).Days;
+
             // Déterminer la date de début de la liste des dépenses
             DateTime startDate = userSalaryDate;
-            if (DateTime.Now.Day <= salaryDateofRecive)
+            if (DateTime.Now.Day < salaryDateofRecive)
             {
                 // Si nous sommes avant le 27 du mois, nous devons afficher les dépenses du mois précédent
                 startDate = startDate.AddMonths(-1);
@@ -59,7 +63,7 @@ namespace CashCare.Controllers.Home
                 {
                     DayOftheMonth = date.Day,
                     ExpensesTotalAmount = expenseForThisDay,
-                    SavingThisDay = (userDailyExpense.currentWallet.NettIncomeAfter / 30) - expenseForThisDay
+                    SavingThisDay = (userDailyExpense.currentWallet.NettIncomeAfter / daysUntilCurrentSalary) - expenseForThisDay
                 });
             }
 
