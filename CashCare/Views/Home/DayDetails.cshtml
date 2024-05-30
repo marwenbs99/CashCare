@@ -38,10 +38,10 @@
                                             <input type="hidden" asp-for="@Model[day].Date" value="@Model[day].Date" />
                                         </td>
                                         <td>
-                                                <input oninput="validateDecimalInput(this)" asp-for="@Model[day].Amount" id="amount-@day" disabled type="text" value="@Model[day].Amount" /> 
+                                                <input oninput="validateDecimalInput(this)" asp-for="@Model[day].Amount" id="amount-@day" disabled  value="@Model[day].Amount" /> 
                                         </td>
                                         <td>
-                                        <a onclick="enableEdit(@day)" class="btn btn-link">Edit</a>
+                                        <a onclick="enableEdit(@day)" href="#">Edit</a>
                                             <a href="@Url.Action("DeleteOneDailyExpense","Home", new {dailyExpenseId = Model[day].Id})">Delete</a>
                                         </td>
                                     </tr>

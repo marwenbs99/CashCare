@@ -1,6 +1,7 @@
 ﻿@* @{
     var currentUrl = Context.Request.Path + Context.Request.QueryString;
 } *@
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
 @using CashCare.ViewModels.Enum;
 @using CashCare.Models.Wallet.Enum;
 @using CashCare.ViewModels;
@@ -12,7 +13,7 @@
         <div class="accordion-item">
             <h2 class="accordion-header" id="headerId1">
                 <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseId1" aria-expanded="true" aria-controls="collapseId1">
-                    Income - @Model.TotalIncome $  <span style="width:80%;text-align:right">Nett Income After Debts, Expense and Saving: @Model.NettIncomeAfter $</span>
+                    @Localizer["Income"] - @Model.TotalIncome $  <span style="width:80%;text-align:right">@Localizer["Salary after all charges"]: @Model.NettIncomeAfter @Localizer["$"]</span>
                 </button>
             </h2>
             <div id="collapseId1" class="accordion-collapse collapse @Model.MenuState.IncomeMenu" aria-labelledby="headerId1" data-bs-parent="#accordionId">
@@ -28,36 +29,36 @@
                                     <option value="@IncomeType.SocialBenefits">@IncomeType.SocialBenefits.ToString()</option>
                                     <option value="@IncomeType.Others">@IncomeType.Others.ToString()</option>
                                 </select>
-                                <label for="floatingSelectGrid">Type of income</label>
+                                <label for="floatingSelectGrid">@Localizer["Type of income"]</label>
                             </div>
                         </div>
 
                         <div class="col-md">
                             <div class="form-floating">
                                 <input asp-for="Income.Amount" class="form-control" id="floatingInputGrid" placeholder="2500$" oninput="validateDecimalInput(this)" value="">
-                                <label for="floatingInputGrid">Amount</label>
+                                <label for="floatingInputGrid">@Localizer["Amount"]</label>
                             </div>
                         </div>
 
                         <div class="col-md">
                             <div class="form-floating">
                                 <input asp-for="Income.DataOfRecive" class="form-control" id="floatingInputGrid" placeholder="27" step="1" min="1" max="30" value="">
-                                <label for="floatingInputGrid">Date of recive 1-30</label>
+                                <label for="floatingInputGrid">@Localizer["Date of recive"] 1-30</label>
                             </div>
                         </div>
 
                         <div class="col-md">
-                            <button asp-for="BtnAction" value="@ButtonActionType.IncomeBTN" name="BtnAction" style="width:100%; height:calc(3.5rem + 2px);" class="btn btn-success">Save</button>
+                            <button asp-for="BtnAction" value="@ButtonActionType.IncomeBTN" name="BtnAction" style="width:100%; height:calc(3.5rem + 2px);" class="btn btn-success">@Localizer["Save"]</button>
                         </div>
                     </div>
 
                     <table class="table">
                         <thead>
                             <tr>
-                                <th scope="col">Type of income</th>
-                                <th scope="col">Amount</th>
-                                <th scope="col">Date of recive</th>
-                                <th style="text-align:right;padding-right:10%" scope="col">Action</th>
+                                <th scope="col">@Localizer["Type of income"]</th>
+                                <th scope="col">@Localizer["Amount"]</th>
+                                <th scope="col">@Localizer["Date of receive"]</th>
+                                <th style="text-align:center" scope="col">@Localizer["Actions"]</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -67,10 +68,10 @@
                                     <tr>
                                         <th scope="row"> @income.TypeOfIncome.ToString() </th>
                                         <td>@income.Amount $</td>
-                                        <td>the @income.DataOfRecive th of each month</td>
-                                        <td style="text-align:right;padding-right:10%">
-                                            <a href="@Url.Action("EditIncome",new {id = income.Id})">Edit</a>
-                                            <a value="@ButtonActionType.DeleteIncome" asp-for="BtnAction" href="@Url.Action("DeleteIncome",new {id = income.Id})">Delete</a>
+                                        <td> @income.DataOfRecive @Localizer["of each month"]</td>
+                                        <td style="text-align:center">
+                                            <a href="@Url.Action("EditIncome",new {id = income.Id})">@Localizer["Edit"]</a>
+                                            <a value="@ButtonActionType.DeleteIncome" asp-for="BtnAction" href="@Url.Action("DeleteIncome",new {id = income.Id})">@Localizer["Delete"]</a>
                                         </td>
                                     </tr>
                                 }
@@ -87,7 +88,7 @@
         <div class="accordion-item">
             <h2 class="accordion-header" id="headerId2">
                 <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseId2" aria-expanded="true" aria-controls="collapseId2">
-                    Debt - repaid per month - @Model.TotalDebts $
+                    @Localizer["Debt"] - @Localizer["repaid per month"] - @Model.TotalDebts $
                 </button>
             </h2>
             <div id="collapseId2" class="accordion-collapse collapse @Model.MenuState.DebtMenu" aria-labelledby="headerId2" data-bs-parent="#accordionId">
@@ -98,34 +99,35 @@
                             <div class="form-floating">
                                 <select asp-for="Debt.DebtType" class="form-select" id="floatingSelectGrid">
                                     <option selected>Open this select menu</option>
-                                    <option value="@DebtType.PersonalDebt">Personal Debt</option>
-                                    <option value="@DebtType.StudentDebt">Student Debt</option>
-                                    <option value="@DebtType.ConsumerDebt">Consumer Debt</option>
-                                    <option value="@DebtType.MedicalDebt">Medical Debt</option>
+                                    <option value="@DebtType.PersonalDebt">@Localizer["Personal Debt"]</option>
+                                    <option value="@DebtType.StudentDebt">@Localizer["Student Debt"] </option>
+                                    <option value="@DebtType.ConsumerDebt">@Localizer["Consumer Debt"] </option>
+                                    <option value="@DebtType.MedicalDebt">@Localizer["Medical Debt"]</option>
                                     <option value="@DebtType.Others">Others</option>
                                 </select>
-                                <label for="floatingSelectGrid">Type of Debt</label>
+                                <label for="floatingSelectGrid">@Localizer["Type of Debt"]</label>
                             </div>
                         </div>
 
                         <div class="col-md">
                             <div class="form-floating">
                                 <input asp-for="Debt.Amount" class="form-control" id="floatingInputGrid" placeholder="50$" oninput="validateDecimalInput(this)" value="">
-                                <label for="floatingInputGrid">Amount paid monthly</label>
+                                <label for="floatingInputGrid">@Localizer["Amount paid monthly"]</label>
                             </div>
                         </div>
 
                         <div class="col-md">
-                            <button value="@ButtonActionType.DebtBTN" asp-for="BtnAction" name="BtnAction" style="width:100%; height:calc(3.5rem + 2px);" class="btn btn-success">Save</button>
+                            <button value="@ButtonActionType.DebtBTN" asp-for="BtnAction" name="BtnAction" style="width:100%; height:calc(3.5rem + 2px);" class="btn btn-success">@Localizer["Save"]</button>
                         </div>
                     </div>
 
                     <table class="table">
                         <thead>
                             <tr>
-                                <th scope="col">Type of Debt</th>
-                                <th scope="col">Amount</th>
-                                <th style="text-align:right; padding-right:10%" scope="col">Action</th>
+                                <th scope="col">@Localizer["Type of Debt"]</th>
+                                <th style="width:450px;text-align:center" scope="col">@Localizer["Amount"]</th>
+                                <th  scope="col"></th>
+                                <th style="text-align:center" scope="col">@Localizer["Actions"]</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -135,10 +137,11 @@
                                 {
                                     <tr>
                                         <th scope="row"> @debt.DebtType.ToString()</th>
-                                        <td>@debt.Amount $</td>
-                                        <td style="text-align:right;padding-right:10%">
-                                            <a href="@Url.Action("EditDebt",new {id = debt.Id})">Edit</a>
-                                            <a href="@Url.Action("DeleteDebt",new {id = debt.Id})">Delete</a>
+                                        <td style="width:450px;text-align:center">@debt.Amount $</td>
+                                        <td ></td>
+                                        <td style="text-align:center">
+                                            <a href="@Url.Action("EditDebt",new {id = debt.Id})">@Localizer["Edit"]</a>
+                                            <a href="@Url.Action("DeleteDebt",new {id = debt.Id})">@Localizer["Delete"]</a>
                                         </td>
                                     </tr>
                                 }
@@ -158,7 +161,7 @@
         <div class="accordion-item">
             <h2 class="accordion-header" id="headerId3">
                 <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseId3" aria-expanded="true" aria-controls="collapseId3">
-                    Fixed expense - @Model.TotalExpense $
+                    @Localizer["Fixed expense"] - @Model.TotalExpense @Localizer["$"]
                 </button>
             </h2>
             <div id="collapseId3" class="accordion-collapse collapse @Model.MenuState.ExpenseMenu" aria-labelledby="headerId3" data-bs-parent="#accordionId">
@@ -168,14 +171,14 @@
                         <div class="col-md">
                             <div class="form-floating">
                                 <select asp-for="Expense.TypeOfExpense" class="form-select" id="floatingSelectGrid">
-                                    <option selected>Open this select menu</option>
-                                    <option value="@ExpenseType.HousingRent">Housing Rent</option>
-                                    <option value="@ExpenseType.Abonnements">Abonnements</option>
-                                    <option value="@ExpenseType.Tuition">Tuition</option>
-                                    <option value="@ExpenseType.Transportation">Transportation</option>
-                                    <option value="@ExpenseType.Others">Others</option>
+                                    <option selected>@Localizer["Open this select menu"]</option>
+                                    <option value="@ExpenseType.HousingRent">@Localizer["Housing Rent"]</option>
+                                    <option value="@ExpenseType.Abonnements">@Localizer["Subscriptions"]</option>
+                                    <option value="@ExpenseType.Tuition">@Localizer["Tuition"]</option>
+                                    <option value="@ExpenseType.Transportation">@Localizer["Transportation"]</option>
+                                    <option value="@ExpenseType.Others">@Localizer["Others"]</option>
                                 </select>
-                                <label for="floatingSelectGrid">Type of expense</label>
+                                <label for="floatingSelectGrid">@Localizer["Type of expense"]</label>
                             </div>
                         </div>
 
@@ -189,22 +192,22 @@
                         <div class="col-md">
                             <div class="form-floating">
                                 <input asp-for="Expense.Amount" class="form-control" id="floatingInputGrid" placeholder="400$" oninput="validateDecimalInput(this)">
-                                <label for="floatingInputGrid">Amount</label>
+                                <label for="floatingInputGrid">@Localizer["Amount"]</label>
                             </div>
                         </div>
 
                         <div class="col-md">
-                            <button name="BtnAction" value="@ButtonActionType.ExpenseBTN" style="width:100%; height:calc(3.5rem + 2px);" class="btn btn-success">Save</button>
+                            <button name="BtnAction" value="@ButtonActionType.ExpenseBTN" style="width:100%; height:calc(3.5rem + 2px);" class="btn btn-success">@Localizer["Save"]</button>
                         </div>
                     </div>
 
                     <table class="table">
                         <thead>
                             <tr>
-                                <th scope="col">Type of expense</th>
+                                <th scope="col">@Localizer["Type of expense"]</th>
                                 <th scope="col">Details</th>
-                                <th scope="col">Amount</th>
-                                <th style="text-align:right;padding-right:10%" scope="col">Action</th>
+                                <th scope="col">@Localizer["Amount"]</th>
+                                <th style="text-align:center" scope="col">@Localizer["Actions"]</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -214,10 +217,10 @@
                                     <tr>
                                         <th scope="row"> @expense.TypeOfExpense.ToString()</th>
                                         <td>@expense.details</td>
-                                        <td>@expense.Amount $</td>
-                                        <td style="text-align:right;padding-right:10%">
-                                            <a href="@Url.Action("EditExpense",new {id = expense.Id})">Edit</a>
-                                            <a href="@Url.Action("DeleteExpense",new {id = expense.Id})">Delete</a>
+                                        <td>@expense.Amount @Localizer["$"]</td>
+                                        <td style="text-align:center">
+                                            <a href="@Url.Action("EditExpense",new {id = expense.Id})">@Localizer["Edit"]</a>
+                                            <a href="@Url.Action("DeleteExpense",new {id = expense.Id})">@Localizer["Delete"]</a>
                                         </td>
                                     </tr>
                                 }
@@ -235,7 +238,7 @@
         <div class="accordion-item">
             <h2 class="accordion-header" id="headerId4">
                 <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseId4" aria-expanded="true" aria-controls="collapseId4">
-                    Saving program - @Model.Wallet.Saving.MonthlySavingAmount $ per Month
+                    @Localizer["Savings program"] - @Model.Wallet.Saving.MonthlySavingAmount @Localizer["$"] @Localizer["per Month"]
                 </button>
             </h2>
             <div id="collapseId4" class="accordion-collapse collapse @Model.MenuState.SavingMenu" aria-labelledby="headerId4" data-bs-parent="#accordionId">
@@ -248,7 +251,7 @@
                                     <option selected>Manuel amount</option>
                                     <option>% of the salary</option>
                                 </select>
-                                <label for="floatingSelectGrid">Saving Options</label>
+                                <label for="floatingSelectGrid">@Localizer["Savings Options"]</label>
                             </div>
                         </div>
 
@@ -260,7 +263,7 @@
                         </div>
 
                         <div class="col-md">
-                            <button name="BtnAction" value="@ButtonActionType.SavingBTN" style="width:100%; height:calc(3.5rem + 2px);" class="btn btn-success">Save</button>
+                            <button name="BtnAction" value="@ButtonActionType.SavingBTN" style="width:100%; height:calc(3.5rem + 2px);" class="btn btn-success">@Localizer["Save"]</button>
                         </div>
                     </div>
 
@@ -268,24 +271,24 @@
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">Monthly saving</th>
-                                <th scope="col">Expected in 1 year</th>
-                                <th style="text-align:right;padding-right:10%" scope="col">Action</th>
+                                <th scope="col">@Localizer["Monthly saving"]</th>
+                                <th scope="col">@Localizer["Expected in 1 year"]</th>
+                                <th style="text-align:right;padding-right:10%" scope="col">@Localizer["Actions"]</th>
                             </tr>
                         </thead>
                         <tbody>
                             @{
                                 <tr>
-                                    <th scope="row">Expecting</th>
-                                    <td>@Model.Wallet.Saving.MonthlySavingAmount.ToString("F2") $</td>
+                                    <th scope="row">@Localizer["Expecting"]</th>
+                                    <td>@Model.Wallet.Saving.MonthlySavingAmount.ToString("F2") @Localizer["$"]</td>
                                     <td>
                                         @{
                                            var x = (Model.Wallet.Saving.MonthlySavingAmount * 12).ToString("F2");
                                         }
-                                        @x $
+                                        @x @Localizer["$"]
                                     </td>
                                     <td style="text-align:right;padding-right:10%">
-                                        <a href="#">Delete</a>
+                                        <a href="#">@Localizer["Delete"]</a>
                                     </td>
                                 </tr>
                             }
