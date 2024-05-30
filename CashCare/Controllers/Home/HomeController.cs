@@ -68,17 +68,6 @@ namespace CashCare.Controllers.Home
                 });
             }
 
-            //for (int i = DateTime.Now.Day; i >= limit; i--)
-            //{
-            //    var expenseforthisday = _idailyExpenseRepository.GetTotalExpenseToday(userId, i);
-            //    userDailyExpense.ListexpensePerDay.Add(new ExpensesPerDayViewModel
-            //    {
-            //        DayOftheMonth = i,
-            //        ExpensesTotalAmount = expenseforthisday,
-            //        SavingThisDay = (userDailyExpense.currentWallet.NettIncomeAfter / 30) - expenseforthisday
-            //    });
-            //}
-
             return View(userDailyExpense);
         }
 

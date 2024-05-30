@@ -53,9 +53,9 @@
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
-                                    <th scope="col">@Localizer["Expenses"]</th>
-                                    <th scope="col">@Localizer["Saving"]</th>
-                                    <th style="text-align:center" scope="col">@Localizer["Actions"]</th>
+                                    <th style="text-align:center" scope="col">@Localizer["Expenses"]</th>
+                                    <th style="text-align:center;" scope="col">@Localizer["Saving"]</th>
+                                    <th style="text-align:center;padding-left:20%" scope="col">@Localizer["Actions"]</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -77,16 +77,16 @@
                                                 }
                                             }
                                         </th>
-                                            <td>@expense.ExpensesTotalAmount.ToString("F2")</td>
-                                            <td>@expense.SavingThisDay.ToString("F2")</td>
-                                            <td style="text-align:center"><a href="@Url.Action("DayDetails", new { dateOfTheMonth = expense.DayOftheMonth})">Details </a></td>
+                                            <td style="text-align:center">@expense.ExpensesTotalAmount.ToString("F2")</td>
+                                            <td style="text-align:center">@expense.SavingThisDay.ToString("F2")</td>
+                                            <td style="text-align:center;padding-left:20%"><a href="@Url.Action("DayDetails", new { dateOfTheMonth = expense.DayOftheMonth})">Details </a></td>
                                     </tr>
                                 }
                                 <tr>
                                         <th scope="row">@Localizer["Result"]</th>
-                                        <td><b>@Model.ExpenseSomme.ToString("F2") @Localizer["$"]</b></td>
-                                        <td><b>@Model.SavingSomme.ToString("F2") @Localizer["$"]</b></td>
-                                        <td></td>
+                                        <td style="text-align:center"><b>@Model.ExpenseSomme.ToString("F2") @Localizer["$"]</b></td>
+                                        <td style="text-align:center"><b>@Model.SavingSomme.ToString("F2") @Localizer["$"]</b></td>
+                                        <td style="text-align:center;padding-left:20%">##############</td>
                                 </tr>
                             }
                         </tbody>
