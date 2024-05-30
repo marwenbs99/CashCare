@@ -37,11 +37,11 @@
                         <li class="nav-item">
                             <form id="selectLanguage" asp-controller="Home" asp-action="SetLanguage" method="post">
                                 <input type="hidden" name="returnUrl" value="@Context.Request.Path" />
-                                <select style="margin-top:8%" name="culture" onchange="this.form.submit();">
-                                    <option selected value="en">Languages...</option>
-                                    <option value="en">English</option>
-                                    <option value="fr">Français</option>
-                                    <option value="de">Deutsch</option>
+                                <select style="margin-top:8%; border-radius:10px;color:#0070ba;font-weight:bold;" name="culture" onchange="this.form.submit();">
+                                    <option style="font-weight:bold;" selected value="en">Languages...</option>
+                                    <option style="font-weight:bold;" value="en">English</option>
+                                    <option style="font-weight:bold;" value="fr">Français</option>
+                                    <option style="font-weight:bold;" value="de">Deutsch</option>
                                 </select>
                             </form>
                         </li>
