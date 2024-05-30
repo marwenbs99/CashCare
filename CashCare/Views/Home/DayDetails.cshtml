@@ -38,7 +38,7 @@
                                             <input type="hidden" asp-for="@Model[day].Date" value="@Model[day].Date" />
                                         </td>
                                         <td>
-                                        <input asp-for="@Model[day].Amount" id="amount-@day" disabled type="text" value="@Model[day].Amount" /> 
+                                                <input oninput="validateDecimalInput(this)" asp-for="@Model[day].Amount" id="amount-@day" disabled type="text" value="@Model[day].Amount" /> 
                                         </td>
                                         <td>
                                         <a onclick="enableEdit(@day)" class="btn btn-link">Edit</a>
@@ -60,6 +60,7 @@
         </div>
     </div>
 </form>
+<script src="~/js/wallet.js"></script>
 <script>
     function enableEdit(day) {
         document.getElementById('description-' + day).disabled = false;
