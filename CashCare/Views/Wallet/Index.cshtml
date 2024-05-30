@@ -302,9 +302,14 @@
 
 
     <div style="height:350px;text-align:center;">
-        <canvas style="display:inline-block" height="300" width="300" id="Total"></canvas>
-        <canvas style="display:inline-block" height="300" width="300" id="Debt"></canvas>
-        <canvas style="display:inline-block" height="300" width="300" id="Expense"></canvas>
+        @{
+            if (Model.NettIncomeAfter != 0)
+            {
+                <canvas style="display:inline-block" height="300" width="300" id="Total"></canvas>
+                <canvas style="display:inline-block" height="300" width="300" id="Expense"></canvas>
+                <canvas style="display:inline-block" height="300" width="300" id="Debt"></canvas>
+            }            
+        }
 
     </div>
     <div>
