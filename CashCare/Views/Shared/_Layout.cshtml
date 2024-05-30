@@ -32,14 +32,23 @@
                             <b><a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Privacy">@Localizer["Stats"]</a></b>
                         </li>
                     </ul>
+                    @{
+                        var cultures = new List<SelectListItem>
+                    {
+                    new SelectListItem { Value = "en", Text = "English" },
+                    new SelectListItem { Value = "fr", Text = "Français" },
+                    new SelectListItem { Value = "de", Text = "Deutsch" }
+                    };
+                        var selectedCulture = ViewBag.SelectedCulture as string;
+                    }
+
                     <ul class="navbar-nav ml-auto">
 
                         <li class="nav-item">
                             <form id="selectLanguage" asp-controller="Home" asp-action="SetLanguage" method="post">
                                 <input type="hidden" name="returnUrl" value="@Context.Request.Path" />
-                                <select style="margin-top:8%; border-radius:10px;color:#0070ba;font-weight:bold;" name="culture" onchange="this.form.submit();">
-                                    <option style="font-weight:bold;" selected value="en">Languages...</option>
-                                    <option style="font-weight:bold;" value="en">English</option>
+                                <select style="margin-top:10%; border-radius:10px;color:#0070ba;font-weight:bold;" name="culture" onchange="this.form.submit();">
+                                    <option style="font-weight:bold;" selected value="en">English</option>
                                     <option style="font-weight:bold;" value="fr">Français</option>
                                     <option style="font-weight:bold;" value="de">Deutsch</option>
                                 </select>
@@ -76,3 +85,34 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+
+<script>
+    // Fonction pour enregistrer la sélection de langue dans le stockage local
+    function saveLanguageSelection() {
+        // Récupérer l'élément de sélection de langue
+        var languageSelect = document.querySelector('select[name="culture"]');
+
+        // Enregistrer la sélection dans le stockage local
+        localStorage.setItem('selectedLanguage', languageSelect.value);
+    }
+
+    // Fonction pour restaurer la sélection de langue depuis le stockage local
+    function restoreLanguageSelection() {
+        // Récupérer l'élément de sélection de langue
+        var languageSelect = document.querySelector('select[name="culture"]');
+
+        // Récupérer la sélection de langue depuis le stockage local
+        var selectedLanguage = localStorage.getItem('selectedLanguage');
+
+        // Si une sélection est trouvée dans le stockage local, la définir comme sélection actuelle
+        if (selectedLanguage) {
+            languageSelect.value = selectedLanguage;
+        }
+    }
+
+    // Appeler la fonction pour restaurer la sélection de langue lorsque la page est chargée
+    window.addEventListener('DOMContentLoaded', restoreLanguageSelection);
+
+    // Écouter les changements de sélection de langue et enregistrer la sélection
+    document.querySelector('select[name="culture"]').addEventListener('change', saveLanguageSelection);
+</script>

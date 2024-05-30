@@ -39,11 +39,11 @@ namespace CashCare.Controllers.Home
 
             userDailyExpense.currentWallet.Wallet = _iwalletRepository.GetCurrentWallet(userId);
             userDailyExpense.todaytotalExpense = _idailyExpenseRepository.GetTotalExpenseToday(userId, DateTime.Now.Day);
-            var salaryDateofRecive = userDailyExpense.currentWallet.Wallet.Incomes.FirstOrDefault().DataOfRecive;
+            var salaryDateofRecive = userDailyExpense.currentWallet.Wallet.Incomes.FirstOrDefault()?.DataOfRecive;
 
             if (userInscriptionDate.Month == DateTime.Now.Month && userInscriptionDate.Year == DateTime.Now.Year) limit = userInscriptionDate.Day;
 
-            DateTime userSalaryDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, salaryDateofRecive);
+            DateTime userSalaryDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, salaryDateofRecive ?? 0);
 
 
             // Nombre de jours entre 27 actuel et le 27 du mois prochain
@@ -67,6 +67,9 @@ namespace CashCare.Controllers.Home
                     SavingThisDay = (userDailyExpense.currentWallet.NettIncomeAfter / daysUntilCurrentSalary) - expenseForThisDay
                 });
             }
+
+            var currentCulture = HttpContext.Features.Get<IRequestCultureFeature>().RequestCulture.Culture.Name;
+            ViewData["SelectedCulture"] = currentCulture;
 
             return View(userDailyExpense);
         }
@@ -102,7 +105,7 @@ namespace CashCare.Controllers.Home
         public IActionResult DeleteOneDailyExpense(int dailyExpenseId)
         {
             var expenseToDelete = _context.ExpensesDaily.FirstOrDefault(ex => ex.Id == dailyExpenseId);
-            var dayOfTheMonth = expenseToDelete.Date.Day;
+            var dayOfTheMonth = expenseToDelete?.Date.Day;
 
             try
             {
@@ -146,6 +149,8 @@ namespace CashCare.Controllers.Home
                 CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
                 new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
             );
+
+            ViewData["SelectedCulture"] = culture;
 
             return LocalRedirect(returnUrl);
         }
