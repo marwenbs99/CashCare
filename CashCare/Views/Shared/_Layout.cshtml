@@ -37,7 +37,7 @@
                         <li class="nav-item">
                             <form id="selectLanguage" asp-controller="Home" asp-action="SetLanguage" method="post">
                                 <input type="hidden" name="returnUrl" value="@Context.Request.Path" />
-                                <select name="culture" onchange="this.form.submit();">
+                                <select style="margin-top:8%" name="culture" onchange="this.form.submit();">
                                     <option selected value="en">Languages...</option>
                                     <option value="en">English</option>
                                     <option value="fr">Français</option>

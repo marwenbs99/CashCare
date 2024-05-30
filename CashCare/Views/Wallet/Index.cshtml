@@ -271,23 +271,23 @@
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">@Localizer["Monthly saving"]</th>
-                                <th scope="col">@Localizer["Expected in 1 year"]</th>
-                                <th style="text-align:right;padding-right:10%" scope="col">@Localizer["Actions"]</th>
+                                <th style="text-align:center" scope="col">@Localizer["Monthly saving"]</th>
+                                <th style="text-align:center" scope="col">@Localizer["Expected in 1 year"]</th>
+                                <th style="text-align:center" scope="col">@Localizer["Actions"]</th>
                             </tr>
                         </thead>
                         <tbody>
                             @{
                                 <tr>
                                     <th scope="row">@Localizer["Expecting"]</th>
-                                    <td>@Model.Wallet.Saving.MonthlySavingAmount.ToString("F2") @Localizer["$"]</td>
-                                    <td>
+                                    <td style="text-align:center">@Model.Wallet.Saving.MonthlySavingAmount.ToString("F2") @Localizer["$"]</td>
+                                    <td style="text-align:center">
                                         @{
                                            var x = (Model.Wallet.Saving.MonthlySavingAmount * 12).ToString("F2");
                                         }
                                         @x @Localizer["$"]
                                     </td>
-                                    <td style="text-align:right;padding-right:10%">
+                                    <td style="text-align:center;">
                                         <a href="#">@Localizer["Delete"]</a>
                                     </td>
                                 </tr>
