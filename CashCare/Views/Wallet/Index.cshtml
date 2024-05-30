@@ -13,7 +13,7 @@
         <div class="accordion-item">
             <h2 class="accordion-header" id="headerId1">
                 <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseId1" aria-expanded="true" aria-controls="collapseId1">
-                    @Localizer["Income"] - @Model.TotalIncome $  <span style="width:80%;text-align:right">@Localizer["Salary after all charges"]: @Model.NettIncomeAfter @Localizer["$"]</span>
+                    @Localizer["Income"] - @Model.TotalIncome @Localizer["$"]  <span style="width:80%;text-align:right">@Localizer["Salary after all charges"]: @Model.NettIncomeAfter @Localizer["$"]</span>
                 </button>
             </h2>
             <div id="collapseId1" class="accordion-collapse collapse @Model.MenuState.IncomeMenu" aria-labelledby="headerId1" data-bs-parent="#accordionId">
@@ -24,10 +24,10 @@
                             <div class="form-floating">
                                 <select asp-for="Income.TypeOfIncome" class="form-select" id="floatingSelectGrid">
                                     <option selected>Open this select menu</option>
-                                    <option value="@IncomeType.MonthlySalary">@IncomeType.MonthlySalary.ToString()</option>
-                                    <option value="@IncomeType.RentalIncome">@IncomeType.RentalIncome.ToString()</option>
-                                    <option value="@IncomeType.SocialBenefits">@IncomeType.SocialBenefits.ToString()</option>
-                                    <option value="@IncomeType.Others">@IncomeType.Others.ToString()</option>
+                                    <option value="@IncomeType.MonthlySalary">@Localizer[IncomeType.MonthlySalary.ToString()]</option>
+                                    <option value="@IncomeType.RentalIncome">@Localizer[IncomeType.RentalIncome.ToString()]</option>
+                                    <option value="@IncomeType.SocialBenefits">@Localizer[IncomeType.SocialBenefits.ToString()]</option>
+                                    <option value="@IncomeType.Others">@Localizer[IncomeType.Others.ToString()]</option>
                                 </select>
                                 <label for="floatingSelectGrid">@Localizer["Type of income"]</label>
                             </div>
@@ -66,8 +66,8 @@
                                 foreach (var income in Model.Wallet.Incomes)
                                 {
                                     <tr>
-                                        <th scope="row"> @income.TypeOfIncome.ToString() </th>
-                                        <td>@income.Amount $</td>
+                                        <th scope="row"> @Localizer[income.TypeOfIncome.ToString()] </th>
+                                        <td>@income.Amount @Localizer["$"]</td>
                                         <td> @income.DataOfRecive @Localizer["of each month"]</td>
                                         <td style="text-align:center">
                                             <a href="@Url.Action("EditIncome",new {id = income.Id})">@Localizer["Edit"]</a>
@@ -88,7 +88,7 @@
         <div class="accordion-item">
             <h2 class="accordion-header" id="headerId2">
                 <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseId2" aria-expanded="true" aria-controls="collapseId2">
-                    @Localizer["Debt"] - @Localizer["repaid per month"] - @Model.TotalDebts $
+                    @Localizer["Debt"] - @Localizer["repaid per month"] - @Model.TotalDebts @Localizer["$"]
                 </button>
             </h2>
             <div id="collapseId2" class="accordion-collapse collapse @Model.MenuState.DebtMenu" aria-labelledby="headerId2" data-bs-parent="#accordionId">
@@ -136,8 +136,8 @@
                                 foreach (var debt in Model.Wallet.Debts)
                                 {
                                     <tr>
-                                        <th scope="row"> @debt.DebtType.ToString()</th>
-                                        <td style="width:450px;text-align:center">@debt.Amount $</td>
+                                        <th scope="row">@Localizer[debt.DebtType.ToString()] </th>
+                                        <td style="width:450px;text-align:center">@debt.Amount @Localizer["$"]</td>
                                         <td ></td>
                                         <td style="text-align:center">
                                             <a href="@Url.Action("EditDebt",new {id = debt.Id})">@Localizer["Edit"]</a>
@@ -329,19 +329,19 @@
 
     foreach (var income in Model.Wallet.Incomes)
     {
-        IncomeLabelList.Add(income.TypeOfIncome.ToString());
+        IncomeLabelList.Add(Localizer[income.TypeOfIncome.ToString()].Value);
         IncomePriceList.Add(income.Amount);
     }
 
     foreach (var debt in Model.Wallet.Debts)
     {
-        DebtLabelList.Add(debt.DebtType.ToString());
+        DebtLabelList.Add(Localizer[debt.DebtType.ToString()].Value);
         DebtPriceList.Add(debt.Amount);
     }
 
     foreach (var expense in Model.Wallet.ExpenseListe)
     {
-        ExpenseLabelList.Add(expense.details.ToString());
+        ExpenseLabelList.Add(Localizer[expense.details.ToString()].Value);
         ExpensePriceList.Add(expense.Amount);
     }
 }
@@ -356,7 +356,7 @@
     var myPieChart = new Chart(ctx, {
         type: 'pie',
         data: {
-            labels: ['Rest Income','Debt','Expenses','Saving'],
+            labels: ['@Localizer["leftover income"]', '@Localizer["Debt"]', '@Localizer["Expenses"]', '@Localizer["Saving"]'],
             datasets: [{
                 label: 'Statistics',
                 data: [@Convert.ToInt32(Model.NettIncomeAfter), @Convert.ToInt32(Model.TotalDebts), @Convert.ToInt32(Model.TotalExpense), @Convert.ToInt32(Model.Wallet.Saving.MonthlySavingAmount)],

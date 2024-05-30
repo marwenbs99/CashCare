@@ -132,6 +132,9 @@
   <data name="Consumer Debt" xml:space="preserve">
     <value>Verbraucherschulden</value>
   </data>
+  <data name="ConsumerDebt" xml:space="preserve">
+    <value>Verbraucherschulden</value>
+  </data>
   <data name="Date of receive" xml:space="preserve">
     <value>Datum des Empfangs</value>
   </data>
@@ -150,6 +153,9 @@
   <data name="Expecting" xml:space="preserve">
     <value>Erwartet</value>
   </data>
+  <data name="Expenses" xml:space="preserve">
+    <value>Kosten</value>
+  </data>
   <data name="Fixed expense" xml:space="preserve">
     <value>Fixkosten</value>
   </data>
@@ -159,11 +165,20 @@
   <data name="Income" xml:space="preserve">
     <value>Einkommen</value>
   </data>
+  <data name="leftover income" xml:space="preserve">
+    <value>Resteinkommen</value>
+  </data>
   <data name="Medical Debt" xml:space="preserve">
+    <value>Medizinische Schulden</value>
+  </data>
+  <data name="MedicalDebt" xml:space="preserve">
     <value>Medizinische Schulden</value>
   </data>
   <data name="Monthly saving" xml:space="preserve">
     <value>Monatliche Ersparnis</value>
+  </data>
+  <data name="MonthlySalary" xml:space="preserve">
+    <value>Monatliches Gehalt</value>
   </data>
   <data name="of each month" xml:space="preserve">
     <value>jedes Monats</value>
@@ -180,6 +195,12 @@
   <data name="Personal Debt" xml:space="preserve">
     <value>Studentenschulden</value>
   </data>
+  <data name="PersonalDebt" xml:space="preserve">
+    <value>Persönliche Schulden</value>
+  </data>
+  <data name="RentalIncome" xml:space="preserve">
+    <value>Mieterträge</value>
+  </data>
   <data name="repaid per month" xml:space="preserve">
     <value>Rückzahlung pro Monat</value>
   </data>
@@ -189,14 +210,23 @@
   <data name="Save" xml:space="preserve">
     <value>Speichern</value>
   </data>
+  <data name="Saving" xml:space="preserve">
+    <value>Sparen</value>
+  </data>
   <data name="Savings Options" xml:space="preserve">
     <value>Sparoptionen</value>
   </data>
   <data name="Savings program" xml:space="preserve">
     <value>Sparprogramm</value>
   </data>
+  <data name="SocialBenefits" xml:space="preserve">
+    <value>Soziale Vorteile</value>
+  </data>
   <data name="Student Debt" xml:space="preserve">
     <value>Student</value>
+  </data>
+  <data name="StudentDebt" xml:space="preserve">
+    <value>Studentenschulden</value>
   </data>
   <data name="Subscriptions" xml:space="preserve">
     <value>Abonnements</value>
