@@ -38,7 +38,7 @@ namespace CashCare.Controllers.Home
 
 
             userDailyExpense.currentWallet.Wallet = _iwalletRepository.GetCurrentWallet(userId);
-            userDailyExpense.todaytotalExpense = _idailyExpenseRepository.GetTotalExpenseToday(userId, DateTime.Now.Day);
+            userDailyExpense.todaytotalExpense = _idailyExpenseRepository.GetTotalExpenseToday(userId, DateTime.Now);
             var salaryDateofRecive = userDailyExpense.currentWallet.Wallet.Incomes.FirstOrDefault()?.DataOfRecive;
 
             if (userInscriptionDate.Month == DateTime.Now.Month && userInscriptionDate.Year == DateTime.Now.Year) limit = userInscriptionDate.Day;
@@ -59,10 +59,10 @@ namespace CashCare.Controllers.Home
 
             for (DateTime date = DateTime.Now; date >= startDate; date = date.AddDays(-1))
             {
-                var expenseForThisDay = _idailyExpenseRepository.GetTotalExpenseToday(userId, date.Day);
+                var expenseForThisDay = _idailyExpenseRepository.GetTotalExpenseToday(userId, date);
                 userDailyExpense.ListexpensePerDay.Add(new ExpensesPerDayViewModel
                 {
-                    DayOftheMonth = date.Day,
+                    DayOftheMonth = date,
                     ExpensesTotalAmount = expenseForThisDay,
                     SavingThisDay = (userDailyExpense.currentWallet.NettIncomeAfter / daysUntilCurrentSalary) - expenseForThisDay
                 });
@@ -74,7 +74,7 @@ namespace CashCare.Controllers.Home
             return View(userDailyExpense);
         }
 
-        public IActionResult DayDetails(int dateOfTheMonth)
+        public IActionResult DayDetails(DateTime dateOfTheMonth)
         {
             var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
 
@@ -87,13 +87,13 @@ namespace CashCare.Controllers.Home
         [ValidateAntiForgeryToken]
         public IActionResult EditDailyExpense(IList<DailyExpense> currentList)
         {
-            var dayOfTheMonth = 0;
+            DateTime dayOfTheMonth = DateTime.Now;
             foreach (var expense in currentList)
             {
                 if (expense.Amount != 0)
                 {
                     expense.AppUserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-                    dayOfTheMonth = expense.Date.Day;
+                    dayOfTheMonth = expense.Date;
                     _context.ExpensesDaily.Update(expense);
                 }
                 _context.SaveChanges();

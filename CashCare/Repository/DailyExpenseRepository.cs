@@ -11,14 +11,14 @@ namespace CashCare.Repository
         {
             _context = context;
         }
-        public IList<DailyExpense> GetListofExpenseThisDay(int userId, int dateOfTheMonth)
+        public IList<DailyExpense> GetListofExpenseThisDay(int userId, DateTime dateOfTheMonth)
         {
-            return _context.ExpensesDaily.Where(ex => ex.Date.Day == dateOfTheMonth && ex.Date.Month == DateTime.Now.Month && ex.Date.Year == DateTime.Now.Year && ex.AppUserId == userId).ToList();
+            return _context.ExpensesDaily.Where(ex => ex.Date.Day == dateOfTheMonth.Day && ex.Date.Month == dateOfTheMonth.Month && ex.Date.Year == dateOfTheMonth.Year && ex.AppUserId == userId).ToList();
         }
 
-        public decimal GetTotalExpenseToday(int userId, int dayNumber)
+        public decimal GetTotalExpenseToday(int userId, DateTime dayNumber)
         {
-            var todayexpense = _context.ExpensesDaily.Where(data => data.AppUserId == userId && data.Date.Day == dayNumber && data.Date.Month == DateTime.Now.Month).Sum(data => data.Amount);
+            var todayexpense = _context.ExpensesDaily.Where(data => data.AppUserId == userId && data.Date.Day == dayNumber.Day && data.Date.Month == dayNumber.Month).Sum(data => data.Amount);
             return todayexpense;
         }
     }

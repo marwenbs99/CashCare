@@ -70,7 +70,7 @@
                             <tr>
                                 <th scope="row">
                                     @{
-                                        if (expense.DayOftheMonth == DateTime.Now.Day)
+                                        if (expense.DayOftheMonth.Day == DateTime.Now.Day)
                                         {
                                             <span>@Localizer["Today"]</span>
                                         }
