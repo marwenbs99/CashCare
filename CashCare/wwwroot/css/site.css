@@ -25,3 +25,24 @@ body {
     margin-top: 0.1rem;
     font-size: 1.5rem;
 }
+.textFormat {
+    color: #0070ba;
+    font-family: 'Arial', sans-serif;
+    font-size: 1.12rem;
+    line-height: 1.1rem;
+    font-weight: 400;
+    text-decoration: solid;
+    font-weight: bolder;
+}
+.buttonFormat {
+    background-color: #0070ba;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+
+    transition: background-color 0.3s;
+}
+
+    .buttonFormat:hover {
+        background-color: #00588a;
+    }

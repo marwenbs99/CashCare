@@ -133,13 +133,26 @@ namespace CashCare.Controllers.Home
         public async Task<IActionResult> CreateDailyExpense(DailyExpenseViewModel dailyexpenseVM)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            try
+            {
+                dailyexpenseVM.currentExpense.AppUserId = int.Parse(userId);
+                _context.ExpensesDaily.Add(dailyexpenseVM.currentExpense);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
 
-            dailyexpenseVM.currentExpense.AppUserId = int.Parse(userId);
-            _context.ExpensesDaily.Add(dailyexpenseVM.currentExpense);
-            await _context.SaveChangesAsync();
+            }
+
             return RedirectToAction("Index");
 
         }
+
+        public IActionResult Unsupported()
+        {
+            return View();
+        }
+
 
         [HttpPost]
         public IActionResult SetLanguage(string culture, string returnUrl)
