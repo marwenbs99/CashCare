@@ -18,14 +18,14 @@
                 
                 <div class="col-md" >
                     <div class="form-floating">
-                        <input style="border-radius:30px;" asp-for="currentExpense.Description" class="form-control" id="floatingInputGridDescription" placeholder="">
+                        <input style="border-radius:30px;border: 2px solid #0070ba;" asp-for="currentExpense.Description" class="form-control" id="floatingInputGridDescription" placeholder="">
                         <label  for="floatingInputGridDescription">@Localizer["Description"]</label>
                     </div>
                 </div>
 
                 <div class="col-md">
                     <div class="form-floating" style="padding-bottom:20px">
-                        <input style="border-radius:30px;" asp-for="currentExpense.Amount" class="form-control" id="floatingInputGridAmount" placeholder="200$" oninput="validateDecimalInput(this)" value="">
+                        <input style="border-radius:30px; border: 2px solid #0070ba;" asp-for="currentExpense.Amount" class="form-control" id="floatingInputGridAmount" placeholder="200$" oninput="validateDecimalInput(this)" value="">
                         <label for="floatingInputGridAmount">@Localizer["Amount"]</label>
                     </div>
                 </div>
