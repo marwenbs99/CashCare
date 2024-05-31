@@ -1,100 +1,101 @@
 ﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
 @using CashCare.ViewModels;
 @model DailyExpenseViewModel
-
+<link href="~/css/site.css" rel="stylesheet" />
 @{
-    var dailyLimit = (Model.currentWallet.NettIncomeAfter  / 30);
+    var dailyLimit = (Model.currentWallet.NettIncomeAfter / 30);
     var dailyLeft = dailyLimit - Model.todaytotalExpense;
 }
 <form method="post" asp-controller="Home" asp-action="CreateDailyExpense" enctype="multipart/form-data">
-<div class="card">
-    <div class="card-header">
-            <h5>@Localizer["Add new expense for today"]   <span style="float:right">@Localizer["left to spend today"] @dailyLeft.ToString("F2") / @dailyLimit.ToString("F2") @Localizer["$"] </span></h5>
-            
-    </div>
-    <div class="card-body">
-        <div class="row g-3">
-            <div class="col-md">
-                <div class="form-floating" style="padding-bottom:20px">
-                    <input asp-for="currentExpense.Amount" class="form-control" id="floatingInputGridAmount" placeholder="200$" oninput="validateDecimalInput(this)" value="">
+    <div class="card">
+        <div class="card-header">
+            <span class="textFormat">@Localizer["Add new expense for today"] </span>
+
+        </div>
+        <div class="card-body">
+            <div class="row g-4">     
+                
+                <div class="col-md" >
+                    <div class="form-floating">
+                        <input style="border-radius:30px;" asp-for="currentExpense.Description" class="form-control" id="floatingInputGridDescription" placeholder="">
+                        <label  for="floatingInputGridDescription">@Localizer["Description"]</label>
+                    </div>
+                </div>
+
+                <div class="col-md">
+                    <div class="form-floating" style="padding-bottom:20px">
+                        <input style="border-radius:30px;" asp-for="currentExpense.Amount" class="form-control" id="floatingInputGridAmount" placeholder="200$" oninput="validateDecimalInput(this)" value="">
                         <label for="floatingInputGridAmount">@Localizer["Amount"]</label>
+                    </div>
                 </div>
-            </div>
-            <div class="col-md">
-                <div class="form-floating">
-                    <input asp-for="currentExpense.Description" class="form-control" id="floatingInputGridDescription" placeholder="">
-                        <label for="floatingInputGridDescription">@Localizer["Description"]: ex. Kebab, shoping, etc...</label>
+
+                <div class="col-md" style="text-align:left">
+                    <button name="BtnAction" style="width:100%; height:calc(3.5rem + 2px); border-radius:30px;background-color:#0070ba;color:white;height:70%" class="btn btn textFormat">@Localizer["Add"]</button>
                 </div>
-            </div>
-            <div class="col-md">
-                    <button name="BtnAction" style="width:100%; height:calc(3.5rem + 2px);" class="btn btn-success">@Localizer["Add"]</button>
+
+                <div class="col-md" style="border:dotted;text-align:center;border-radius:40px;height: 55px;padding:15px; border-color:#0070ba">
+                    <span class="textFormat" style="margin-top:20px"> @dailyLeft.ToString("F2") @Localizer["$"] / @dailyLimit.ToString("F2") @Localizer["$"] </span>
+                </div>
+
             </div>
         </div>
     </div>
-</div>
 
-@{
-    var accordionId = "accordionExample";
+    @{
+        var headerId = $"heading";
+        var collapseId = $"collapse";
+        var buttonId = $"button";
 
-    var headerId = $"heading";
-    var collapseId = $"collapse";
-    var buttonId = $"button";
-    <div class="accordion" id="@accordionId">
-        <div class="accordion-item">
-            <h2 class="accordion-header" id="@headerId">
-                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#@collapseId" aria-expanded="true" aria-controls="@collapseId">
-                        @Localizer["Current month"] - @(Model.currentWallet.NettIncomeAfter - Model.ExpenseSomme) @Localizer["$"] / @Model.currentWallet.NettIncomeAfter @Localizer["$"]
-                </button>
-            </h2>
-            <div id="@collapseId" class="accordion-collapse collapse show" aria-labelledby="@headerId" data-bs-parent="#@accordionId">
-                <div class="accordion-body">
-                  
-                    <table class="table">
-                        <thead>
+        <div class="card">
+            <div class="card-header">
+                <span class="textFormat">@Localizer["Current month"] - @(Model.currentWallet.NettIncomeAfter - Model.ExpenseSomme) @Localizer["$"] / @Model.currentWallet.NettIncomeAfter @Localizer["$"] </span>
+            </div>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th style="text-align:center" scope="col">@Localizer["Expenses"]</th>
+                        <th style="text-align:center;" scope="col">@Localizer["Saving"]</th>
+                        <th style="text-align:center;" scope="col">@Localizer["Actions"]</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        foreach (var expense in Model.ListexpensePerDay)
+                        {
+
+
                             <tr>
-                                <th scope="col">#</th>
-                                    <th style="text-align:center" scope="col">@Localizer["Expenses"]</th>
-                                    <th style="text-align:center;" scope="col">@Localizer["Saving"]</th>
-                                    <th style="text-align:center;padding-left:20%" scope="col">@Localizer["Actions"]</th>
+                                <th scope="row">
+                                    @{
+                                        if (expense.DayOftheMonth == DateTime.Now.Day)
+                                        {
+                                            <span>@Localizer["Today"]</span>
+                                        }
+                                        else
+                                        {
+                                            <span>@Localizer["Day"] @expense.DayOftheMonth</span>
+                                        }
+                                    }
+                                </th>
+                                <td style="text-align:center">@expense.ExpensesTotalAmount.ToString("F2")</td>
+                                <td style="text-align:center">@expense.SavingThisDay.ToString("F2")</td>
+                                <td style="text-align:center;"><a style="font-weight: bolder;" href="@Url.Action("DayDetails", new { dateOfTheMonth = expense.DayOftheMonth})">Details </a></td>
                             </tr>
-                        </thead>
-                        <tbody>
-                                @{
-                                    foreach(var expense in Model.ListexpensePerDay)
-                                    {
+                        }
+                        <tr>
+                            <th scope="row">@Localizer["Result"]</th>
+                            <td style="text-align:center"><b>@Model.ExpenseSomme.ToString("F2") @Localizer["$"]</b></td>
+                            <td style="text-align:center"><b>@Model.SavingSomme.ToString("F2") @Localizer["$"]</b></td>
+                            <td style="text-align:center;">#</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
 
-
-                                        <tr>
-                                        <th scope="row">
-                                            @{
-                                                if (expense.DayOftheMonth == DateTime.Now.Day)
-                                                {
-                                                        <span>@Localizer["Today"]</span>
-                                                }
-                                                else
-                                                {
-                                                        <span>@Localizer["Day"] @expense.DayOftheMonth</span>
-                                                }
-                                            }
-                                        </th>
-                                            <td style="text-align:center">@expense.ExpensesTotalAmount.ToString("F2")</td>
-                                            <td style="text-align:center">@expense.SavingThisDay.ToString("F2")</td>
-                                            <td style="text-align:center;padding-left:20%"><a href="@Url.Action("DayDetails", new { dateOfTheMonth = expense.DayOftheMonth})">Details </a></td>
-                                    </tr>
-                                }
-                                <tr>
-                                        <th scope="row">@Localizer["Result"]</th>
-                                        <td style="text-align:center"><b>@Model.ExpenseSomme.ToString("F2") @Localizer["$"]</b></td>
-                                        <td style="text-align:center"><b>@Model.SavingSomme.ToString("F2") @Localizer["$"]</b></td>
-                                        <td style="text-align:center;padding-left:20%">##############</td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
-            </div>
         </div>
-    </div>
-}
+
+    }
 </form>
 <script src="~/js/wallet.js"></script>
