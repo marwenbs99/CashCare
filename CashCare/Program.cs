@@ -33,9 +33,10 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 
 // Configurer les options de localisation
 var supportedCultures = new[] { "en", "fr", "de" };
+
 builder.Services.Configure<RequestLocalizationOptions>(options =>
 {
-    options.DefaultRequestCulture = new RequestCulture("en");
+    options.DefaultRequestCulture = new RequestCulture("fr-FR");
     options.SupportedCultures = supportedCultures.Select(c => new CultureInfo(c)).ToList();
     options.SupportedUICultures = supportedCultures.Select(c => new CultureInfo(c)).ToList();
 });
@@ -62,7 +63,7 @@ var localizationOptions = new RequestLocalizationOptions()
     .AddSupportedUICultures(supportedCultures);
 app.UseRequestLocalization(localizationOptions);
 
-var cultureInfo = new CultureInfo("en-US");
+var cultureInfo = new CultureInfo("fr-Fr");
 CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
 CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
 
