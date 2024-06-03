@@ -1,5 +1,5 @@
 ﻿@using CashCare.ViewModels
-@model IList<DailyExpense>
+@model DayDetailsViewModel
 @*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
@@ -24,33 +24,37 @@
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
+                        <input type="hidden" asp-for="@Model.Date" value="@Model.Date" />
                         <tbody>
                             @{
                                 decimal somme = 0;
-                                for (var day = 0; day < Model.Count(); day++)
+                                for (var day = 0; day < Model.ListDailyExpense.Count(); day++)
                                 {
-                                    somme += Model[day].Amount;
+                                    somme += Model.ListDailyExpense[day].Amount;
                                     <tr>
-                                        <th scope="row">@Model[day].Date</th>
+                                        <th scope="row">@Model.ListDailyExpense[day].Date.ToString("dd/MM/yyyy")</th>
                                         <td>
-                                            <input asp-for="@Model[day].Description" id="description-@day" disabled type="text" value="@Model[day].Description" />
-                                            <input type="hidden" asp-for="@Model[day].Id" value="@Model[day].Id" />
-                                            <input type="hidden" asp-for="@Model[day].Date" value="@Model[day].Date" />
+                                            <input asp-for="@Model.ListDailyExpense[day].Description" id="description-@day" disabled type="text" value="@Model.ListDailyExpense[day].Description" />
+                                            <input type="hidden" asp-for="@Model.ListDailyExpense[day].Id" value="@Model.ListDailyExpense[day].Id" />
+                                            <input type="hidden" asp-for="@Model.ListDailyExpense[day].Date" value="@Model.ListDailyExpense[day].Date" />
                                         </td>
                                         <td>
-                                                <input oninput="validateDecimalInput(this)" asp-for="@Model[day].Amount" id="amount-@day" disabled  value="@Model[day].Amount" /> 
+                                            <input oninput="validateDecimalInput(this)" asp-for="@Model.ListDailyExpense[day].Amount" id="amount-@day" disabled value="@Model.ListDailyExpense[day].Amount" />
                                         </td>
                                         <td>
-                                        <a onclick="enableEdit(@day)" href="#">Edit</a>
-                                            <a href="@Url.Action("DeleteOneDailyExpense","Home", new {dailyExpenseId = Model[day].Id})">Delete</a>
+                                            <a onclick="enableEdit(@day)" href="#">Edit</a>
+                                            <a href="@Url.Action("DeleteOneDailyExpense","Home", new {dailyExpenseId = Model.ListDailyExpense[day].Id})">Delete</a>
                                         </td>
                                     </tr>
                                 }
-                                <tr>
+                                <tr id="resultRow">
                                     <th scope="row">Result</th>
                                     <td><b>###################</b></td>
                                     <td><b>@(somme)</b></td>
-                                    <td><button class="btn btn-success">Save</button></td>
+                                    <td>
+                                        <a class="btn btn-success" onclick="addNewRow()">+</a>
+                                        <button class="btn btn-success">Save</button>
+                                    </td>
                                 </tr>
                             }
                         </tbody>
@@ -70,15 +74,57 @@
     function checkIfAnyFieldEnabled() {
         const inputs = document.querySelectorAll('input[type="text"]');
         let isAnyFieldEnabled = false;
-        inputs.forEach(input => {
-            if (!input.disabled) {
-                isAnyFieldEnabled = true;
+
+        // Vérifier et supprimer les lignes avec description et amount nulls
+        const rows = document.querySelectorAll('tbody tr');
+        rows.forEach(row => {
+            const descriptionInput = row.querySelector('input[name*=".Description"]');
+            const amountInput = row.querySelector('input[name*=".Amount"]');
+
+            if (descriptionInput && amountInput) {
+                if (!descriptionInput.value.trim() && !amountInput.value.trim()) {
+                    row.parentNode.removeChild(row);
+                } else if (!descriptionInput.disabled || !amountInput.disabled) {
+                    isAnyFieldEnabled = true;
+                }
             }
         });
+
         if (!isAnyFieldEnabled) {
             alert("Please edit at least one field before saving.");
             return false; // Prevent form submission
         }
         return true; // Allow form submission
+    }
+
+    let newRowId = 0;
+
+    function addNewRow() {
+        // Obtenir l'élément de la ligne de résultat
+        var resultRow = document.getElementById('resultRow');
+
+        // Créer une nouvelle ligne
+        var newRow = document.createElement('tr');
+
+        // Ajouter le contenu de la nouvelle ligne
+        newRow.innerHTML = `
+                                <th scope="row"><input value="@Model.Date.ToString("dd/MM/yyyy")" disabled  name="NewDailyExpense[${newRowId}].Date" /></th>
+                    <td><input type="text" name="NewDailyExpense[${newRowId}].Description" /></td>
+                        <td><input  name="NewDailyExpense[${newRowId}].Amount" oninput="validateDecimalInput(this)"  /></td>
+                    <td>
+                        <a class="btn btn-danger" onclick="removeRow(this)">Remove</a>
+                    </td>
+                `;
+
+        // Insérer la nouvelle ligne avant la ligne de résultat
+        resultRow.parentNode.insertBefore(newRow, resultRow);
+
+        newRowId++;
+    }
+
+    function removeRow(button) {
+        // Supprimer la ligne correspondante
+        var row = button.parentNode.parentNode;
+        row.parentNode.removeChild(row);
     }
 </script>

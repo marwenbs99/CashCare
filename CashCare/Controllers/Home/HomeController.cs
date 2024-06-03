@@ -77,35 +77,46 @@ namespace CashCare.Controllers.Home
         public IActionResult DayDetails(DateTime dateOfTheMonth)
         {
             var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            DayDetailsViewModel dayDetailsViewModel = new DayDetailsViewModel();
+            dayDetailsViewModel.ListDailyExpense = _idailyExpenseRepository.GetListofExpenseThisDay(userId, dateOfTheMonth);
+            dayDetailsViewModel.Date = dateOfTheMonth;
 
-            var listOfexpense = _idailyExpenseRepository.GetListofExpenseThisDay(userId, dateOfTheMonth);
-
-            return View(listOfexpense);
+            return View(dayDetailsViewModel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult EditDailyExpense(IList<DailyExpense> currentList)
+        public IActionResult EditDailyExpense(DayDetailsViewModel dayDetailsViewModel)
         {
-            DateTime dayOfTheMonth = DateTime.Now;
-            foreach (var expense in currentList)
+            int UserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            foreach (var expense in dayDetailsViewModel.ListDailyExpense)
             {
                 if (expense.Amount != 0)
                 {
-                    expense.AppUserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-                    dayOfTheMonth = expense.Date;
+                    expense.AppUserId = UserId;
                     _context.ExpensesDaily.Update(expense);
                 }
-                _context.SaveChanges();
+
             }
-            return RedirectToAction("DayDetails", "Home", new { dateOfTheMonth = dayOfTheMonth });
+
+            if (dayDetailsViewModel.NewDailyExpense.Count() > 0)
+            {
+                foreach (var newData in dayDetailsViewModel.NewDailyExpense)
+                {
+                    newData.AppUserId = UserId;
+                    newData.Date = dayDetailsViewModel.Date;
+                    _context.ExpensesDaily.Add(newData);
+                }
+            }
+            _context.SaveChanges();
+            return RedirectToAction("DayDetails", "Home", new { dateOfTheMonth = dayDetailsViewModel.Date });
         }
 
 
         public IActionResult DeleteOneDailyExpense(int dailyExpenseId)
         {
             var expenseToDelete = _context.ExpensesDaily.FirstOrDefault(ex => ex.Id == dailyExpenseId);
-            var dayOfTheMonth = expenseToDelete?.Date.Day;
+            var dayOfTheMonth = expenseToDelete?.Date;
 
             try
             {
