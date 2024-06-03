@@ -1,4 +1,5 @@
 ﻿<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
 <div class="outer-container">
 
     <div class="container">
@@ -29,7 +30,7 @@
                 <div style="height:75%; border-radius:20px;background-color:white">
                     <i class="fas fa-envelope" style="color:#0070ba;padding-top:20px;padding-left:20px;font-size:20px"></i> <br />
                     <label style="padding-left:16px;font-size:18px">bensalemarwen@gmail.com</label>
-                    <b><a href="#" style="text-decoration:none;float:right;padding-right:20px"> Edit </a></b>
+                    <b><a href="/Account/EditMail" style="text-decoration:none;float:right;padding-right:20px"> Edit </a></b>
                 </div>
 
             </div>
@@ -43,12 +44,10 @@
                 <div style="height:65%; border-radius:20px;background-color:white">
                     <i class="fas fa-phone" style="color:#0070ba;padding-top:20px;padding-left:20px;font-size:20px"></i> <br />
                     <label style="padding-left:16px;font-size:18px">+491*****2197</label>
-                    <b><a href="#" style="text-decoration:none;float:right;padding-right:20px"> Edit </a></b>
+                    <b><a href="/Account/EditPhone" style="text-decoration:none;float:right;padding-right:20px"> Edit </a></b>
                 </div>
 
             </div>
-
-
 
         </div>
     </div>
@@ -58,11 +57,19 @@
     <div class="box" style="width:100%">
         <div style="border-radius:20px;background-color:white; height:90px;">
             <i class="fas fa-unlock" style="color:#0070ba;padding-top:20px;padding-left:20px;font-size:20px"></i> <label style="padding-left:16px;font-size:18px">Password</label>
-            <b> <a href="#" style="text-decoration:none;float:right;padding-right:50px;padding-top:20px">Update</a></b>
+            <b> <a href="/Account/EditPassword" style="text-decoration:none;float:right;padding-right:50px;padding-top:30px">Update</a></b>
             <br />
             <label style="padding-left:56px;font-size:18px;color:#545d68">Set or update your password</label>
         </div>
     </div>
 </div>
 
+<script>
+    function openPopup() {
+        document.getElementById('popup').style.display = 'block';
+    }
+    function closePopup() {
+        document.getElementById('popup').style.display = 'none';
+    }
+</script>
 <link href="~/css/account.css" rel="stylesheet" />

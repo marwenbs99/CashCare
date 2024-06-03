@@ -108,5 +108,20 @@ namespace CashCare.Controllers.Account
         {
             return View();
         }
+
+        public ActionResult EditMail()
+        {
+            return View();
+        }
+
+        public ActionResult EditPhone()
+        {
+            return View();
+        }
+
+        public ActionResult EditPassword()
+        {
+            return View();
+        }
     }
 }
