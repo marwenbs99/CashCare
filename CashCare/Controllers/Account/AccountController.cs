@@ -104,5 +104,9 @@ namespace CashCare.Controllers.Account
 
             return RedirectToAction("Login", "Account");
         }
+        public ActionResult EditAccount()
+        {
+            return View();
+        }
     }
 }

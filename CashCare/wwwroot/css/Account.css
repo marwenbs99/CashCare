@@ -1,0 +1,17 @@
+﻿.outer-container {
+    display: flex;
+    justify-content: center; /* Centers the container horizontally */
+    align-items: center; /* Optional: Centers the container vertically */
+}
+
+.container {
+    display: flex;
+    justify-content: center; /* Centers the boxes horizontally within the container */
+}
+
+.box {
+    border-radius: 20px;
+    background-color:transparent;
+    width: 450px;
+    margin: 0 5px; /* Adds space between the boxes */
+}
