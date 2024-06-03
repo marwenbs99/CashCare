@@ -41,33 +41,36 @@ namespace CashCare.Controllers.Home
             userDailyExpense.todaytotalExpense = _idailyExpenseRepository.GetTotalExpenseToday(userId, DateTime.Now);
             var salaryDateofRecive = userDailyExpense.currentWallet.Wallet.Incomes.FirstOrDefault()?.DataOfRecive;
 
-            if (userInscriptionDate.Month == DateTime.Now.Month && userInscriptionDate.Year == DateTime.Now.Year) limit = userInscriptionDate.Day;
-
-            DateTime userSalaryDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, salaryDateofRecive ?? 0);
-
-
-            // Nombre de jours entre 27 actuel et le 27 du mois prochain
-            int daysUntilCurrentSalary = (userSalaryDate.AddMonths(1) - userSalaryDate).Days;
-
-            // Déterminer la date de début de la liste des dépenses
-            DateTime startDate = userSalaryDate;
-            if (DateTime.Now.Day < salaryDateofRecive)
+            if (salaryDateofRecive != null)
             {
-                // Si nous sommes avant le 27 du mois, nous devons afficher les dépenses du mois précédent
-                startDate = startDate.AddMonths(-1);
-            }
 
-            for (DateTime date = DateTime.Now; date >= startDate; date = date.AddDays(-1))
-            {
-                var expenseForThisDay = _idailyExpenseRepository.GetTotalExpenseToday(userId, date);
-                userDailyExpense.ListexpensePerDay.Add(new ExpensesPerDayViewModel
+                if (userInscriptionDate.Month == DateTime.Now.Month && userInscriptionDate.Year == DateTime.Now.Year) limit = userInscriptionDate.Day;
+
+                DateTime userSalaryDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, salaryDateofRecive ?? 0);
+
+
+                // Nombre de jours entre 27 actuel et le 27 du mois prochain
+                int daysUntilCurrentSalary = (userSalaryDate.AddMonths(1) - userSalaryDate).Days;
+
+                // Déterminer la date de début de la liste des dépenses
+                DateTime startDate = userSalaryDate;
+                if (DateTime.Now.Day < salaryDateofRecive)
                 {
-                    DayOftheMonth = date,
-                    ExpensesTotalAmount = expenseForThisDay,
-                    SavingThisDay = (userDailyExpense.currentWallet.NettIncomeAfter / daysUntilCurrentSalary) - expenseForThisDay
-                });
-            }
+                    // Si nous sommes avant le 27 du mois, nous devons afficher les dépenses du mois précédent
+                    startDate = startDate.AddMonths(-1);
+                }
 
+                for (DateTime date = DateTime.Now; date >= startDate; date = date.AddDays(-1))
+                {
+                    var expenseForThisDay = _idailyExpenseRepository.GetTotalExpenseToday(userId, date);
+                    userDailyExpense.ListexpensePerDay.Add(new ExpensesPerDayViewModel
+                    {
+                        DayOftheMonth = date,
+                        ExpensesTotalAmount = expenseForThisDay,
+                        SavingThisDay = (userDailyExpense.currentWallet.NettIncomeAfter / daysUntilCurrentSalary) - expenseForThisDay
+                    });
+                }
+            }
             var currentCulture = HttpContext.Features.Get<IRequestCultureFeature>().RequestCulture.Culture.Name;
             ViewData["SelectedCulture"] = currentCulture;
 
