@@ -8,8 +8,12 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/CashCare.styles.css" asp-append-version="true" />
+    <link href="~/css/toastr.min.css" rel="stylesheet" />
 </head>
 <body style="background-color:#f1f2f3">
+
+   
+
     <header>
         <nav style="background-color:#0070ba; height:80px" class="navbar navbar-expand-sm navbar-toggleable-sm border-bottom box-shadow mb-3">
             <div class="container">
@@ -82,7 +86,10 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/toastify.min.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
+
+    @Html.Partial("_Notification")
 </body>
 </html>
 

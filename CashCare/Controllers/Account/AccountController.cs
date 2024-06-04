@@ -134,21 +134,32 @@ namespace CashCare.Controllers.Account
         }
 
         [HttpPost]
-        [ActionName("EditEmail")]
+        [ActionName("EditMail")]
         public ActionResult EditMailPost(EditMailViewModel newMail)
         {
             var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
             if (!ModelState.IsValid)
             {
-                return View();
+                TempData["NotificationMessage"] = $"Please enter a correct email!";
+                return View(newMail);
             }
 
             try
             {
                 AppUser currentUser = _context.AppUsers.FirstOrDefault(user => user.Id == userId);
+                if (currentUser?.Email == newMail.Email)
+                {
+                    TempData["Statut"] = "Warning";
+                    TempData["NotificationMessage"] = $"Make sure to enter a new mail!";
+
+                    return View(newMail);
+                }
                 currentUser.Email = newMail.Email;
                 _context.AppUsers.Update(currentUser);
                 _context.SaveChanges();
+
+                TempData["Statut"] = "Success";
+                TempData["NotificationMessage"] = $"Your mail was successfully changed!";
             }
             catch (Exception ex)
             {
@@ -173,6 +184,9 @@ namespace CashCare.Controllers.Account
             var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
             if (!ModelState.IsValid)
             {
+                TempData["Statut"] = "Warning";
+                TempData["NotificationMessage"] = $"Make sure to fill in all fields carefully.";
+
                 return View();
             }
 
@@ -182,6 +196,8 @@ namespace CashCare.Controllers.Account
                 currentUser.PhoneNumber = currentPhone.PhoneNumber;
                 _context.AppUsers.Update(currentUser);
                 _context.SaveChanges();
+                TempData["Statut"] = "Success";
+                TempData["NotificationMessage"] = $"Your phone number was successfully changed!";
             }
             catch (Exception ex)
             {
@@ -199,11 +215,20 @@ namespace CashCare.Controllers.Account
         [ActionName("EditPassword")]
         public ActionResult EditPasswordPost(EditPasswordVM editPasswordVM)
         {
-            if (!ModelState.IsValid || !editPasswordVM.NewPassword.Equals(editPasswordVM.ConfirmPassword))
+            if (!ModelState.IsValid)
             {
+                TempData["Statut"] = "Warning";
+                TempData["NotificationMessage"] = $"Make sure to fill in all fields carefully.";
+
                 return View();
             }
+            if (!editPasswordVM.NewPassword.Equals(editPasswordVM.ConfirmPassword))
+            {
+                TempData["Statut"] = "Warning";
+                TempData["NotificationMessage"] = $"Make sure to repeat your new password carefully.";
 
+                return View();
+            }
             var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
             AppUser currentUser = _context.AppUsers.FirstOrDefault(user => user.Id == userId);
             var passwordHasher = new PasswordHasher<AppUser>();
@@ -212,12 +237,18 @@ namespace CashCare.Controllers.Account
 
             if (verificationResult != PasswordVerificationResult.Success)
             {
+                TempData["Statut"] = "Error";
+                TempData["NotificationMessage"] = $"Your current password was wrong!";
+
                 return View();
             }
 
             currentUser.Password = passwordHasher.HashPassword(currentUser, editPasswordVM.NewPassword);
             _context.AppUsers.Update(currentUser);
             _context.SaveChanges();
+
+            TempData["Statut"] = "Success";
+            TempData["NotificationMessage"] = $"your password was successfully changed!!";
 
             return RedirectToAction("EditAccount");
         }
@@ -236,6 +267,9 @@ namespace CashCare.Controllers.Account
         {
             if (!ModelState.IsValid)
             {
+                TempData["Statut"] = "Warning";
+                TempData["NotificationMessage"] = $"Make sure to fill in all fields carefully.";
+
                 return View(editUserNameVM);
             }
 
@@ -245,6 +279,9 @@ namespace CashCare.Controllers.Account
             currentUser.FirstName = editUserNameVM.FirstName[0].ToString().ToUpper() + editUserNameVM.FirstName.Substring(1);
             currentUser.LastName = editUserNameVM.LastName;
             _context.AppUsers.Update(currentUser); _context.SaveChanges();
+
+            TempData["Statut"] = "Success";
+            TempData["NotificationMessage"] = $"First name & Last name was successfully changed!";
 
             return RedirectToAction("EditAccount");
         }
