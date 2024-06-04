@@ -11,11 +11,11 @@
 
             <div style="border-top-left-radius: 20px;border-top-right-radius: 20px;height:40%; background-color:#0070ba">
                 <b><label style="color:white;padding:20px;">Profile</label></b>
-                <b style="float:right"><label style="color:white;padding:20px;">Account opened in 2024</label></b>
+                <b style="float:right"><label style="color:white;padding:20px;">Account opened in @Model.CurrentUser.DateOfInscription.Year</label></b>
             </div>
             <div style="background-color:white;height:150px;border-end-end-radius:20px;border-end-start-radius:20px">
                 <label style="color:black;padding:20px;font-size:24px">@Model.CurrentUser.FirstName @Model.CurrentUser.LastName</label>
-                <b><a style="float:right;padding:26px;font-size:16px;text-decoration:none" href="#">change name</a></b>
+                <b><a href="@Url.Action("EditUserName","Account")" style="float:right;padding:26px;font-size:16px;text-decoration:none" href="#">change name</a></b>
                 <br />
                 <b><a href="#" style="padding:26px;float:left; text-decoration:none;font-size:16px">complete your personal profile</a></b>
             </div>
@@ -33,7 +33,7 @@
                 <div style="height:75%; border-radius:20px;background-color:white">
                     <i class="fas fa-envelope" style="color:#0070ba;padding-top:20px;padding-left:20px;font-size:20px"></i> <br />
                     <label style="padding-left:16px;font-size:18px">@Model.CurrentUser.Email</label>
-                    <b><a href="@Url.Action("EditMail","Account", new{Email = @Model.CurrentUser.Email})" style="text-decoration:none;float:right;padding-right:20px"> Edit </a></b>
+                    <b><a href="@Url.Action("EditMail","Account")" style="text-decoration:none;float:right;padding-right:20px"> Edit </a></b>
                 </div>
 
             </div>
@@ -47,7 +47,7 @@
                 <div style="height:65%; border-radius:20px;background-color:white">
                     <i class="fas fa-phone" style="color:#0070ba;padding-top:20px;padding-left:20px;font-size:20px"></i> <br />
                     <label style="padding-left:16px;font-size:18px">@Model.CurrentUser.PhoneNumber</label>
-                    <b><a href="@Url.Action("EditPhone","Account", new{PhoneNumber = Model.CurrentUser.PhoneNumber})" style="text-decoration:none;float:right;padding-right:20px"> Edit </a></b>
+                    <b><a href="@Url.Action("EditPhone","Account")" style="text-decoration:none;float:right;padding-right:20px"> Edit </a></b>
                 </div>
 
             </div>

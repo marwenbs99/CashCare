@@ -124,9 +124,13 @@ namespace CashCare.Controllers.Account
             return View();
         }
 
-        public ActionResult EditMail(EditMailViewModel currentMail)
+        public ActionResult EditMail()
         {
-            return View(currentMail);
+            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            AppUser currentUser = _context.AppUsers.FirstOrDefault(user => user.Id == userId);
+            EditMailViewModel vm = new EditMailViewModel();
+            vm.Email = currentUser.Email;
+            return View(vm);
         }
 
         [HttpPost]
@@ -153,10 +157,13 @@ namespace CashCare.Controllers.Account
             return RedirectToAction("EditAccount");
         }
 
-        public ActionResult EditPhone(EditPhoneVM currentPhone)
+        public ActionResult EditPhone()
         {
-            currentPhone.PhoneNumber = MasquerNumero(currentPhone.PhoneNumber);
-            return View(currentPhone);
+            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            AppUser currentUser = _context.AppUsers.FirstOrDefault(user => user.Id == userId);
+            EditPhoneVM vm = new EditPhoneVM();
+            vm.PhoneNumber = MasquerNumero(currentUser.PhoneNumber);
+            return View(vm);
         }
 
         [HttpPost]
@@ -210,6 +217,13 @@ namespace CashCare.Controllers.Account
             return RedirectToAction("EditAccount");
         }
 
+        public ActionResult EditUserName()
+        {
+            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            AppUser currentUser = _context.AppUsers.FirstOrDefault(user => user.Id == userId);
+
+            return View(new EditUserNameVM { FirstName = currentUser.FirstName, LastName = currentUser.LastName });
+        }
 
         public static string MasquerNumero(string numero)
         {

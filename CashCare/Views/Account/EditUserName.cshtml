@@ -1,0 +1,41 @@
+﻿<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+@using CashCare.ViewModels
+@model EditUserNameVM
+
+<form method="post" asp-controller="Account" asp-action="EditUserName" enctype="multipart/form-data">
+
+    <div id="popup" class="popup" style="height:320px;margin-top: 160px;">
+        <i class="fas fa-user" style="color:#0070ba;font-size:25px;padding-right:10px"></i>
+        <label style="font-size:24px">Edit user name</label>
+
+
+        <br />
+        <br />
+
+        <div style="">
+
+            <div class="form-floating" style="padding-bottom:20px">
+                <input  style="border: 2px solid #0070ba;" type="Password" class="form-control" id="floatingInputGridDescription" placeholder="">
+                <label for="floatingInputGridDescription">Your first name</label>
+            </div>
+
+            <div class="form-floating" style="padding-bottom:20px">
+                <input  style="border: 2px solid #0070ba;" type="Password" class="form-control" id="floatingInputGridDescription" placeholder="">
+                <label for="floatingInputGridDescription">Your last name</label>
+            </div>
+
+            <div style="flex:1;text-align:center">
+                <b> <a href="/Account/EditAccount" style="text-decoration:none;float:right;padding-right:20px;padding-top:20px;color:#0070ba" type="button">Close</a></b>
+                <button class="btn btn-link" type="submit" style="text-decoration:none;float:right;padding-right:20px;padding-top:20px;color:#0070ba;font-weight: bold;">Save</button>
+            </div>
+
+        </div>
+
+
+        <br />
+
+
+    </div>
+</form>
+<link href="~/css/account.css" rel="stylesheet" />
