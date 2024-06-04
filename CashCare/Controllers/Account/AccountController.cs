@@ -83,7 +83,7 @@ namespace CashCare.Controllers.Account
             AppUser newUser = new()
             {
                 Email = SignupVM.Email,
-                FirstName = SignupVM.FirstName,
+                FirstName = SignupVM.FirstName[0].ToString().ToUpper() + SignupVM.FirstName.Substring(1),
                 LastName = SignupVM.LastName,
                 PhoneNumber = SignupVM.PhoneNumber,
                 Password = SignupVM.Password,
@@ -199,13 +199,18 @@ namespace CashCare.Controllers.Account
         [ActionName("EditPassword")]
         public ActionResult EditPasswordPost(EditPasswordVM editPasswordVM)
         {
+            if (!ModelState.IsValid || !editPasswordVM.NewPassword.Equals(editPasswordVM.ConfirmPassword))
+            {
+                return View();
+            }
+
             var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
             AppUser currentUser = _context.AppUsers.FirstOrDefault(user => user.Id == userId);
             var passwordHasher = new PasswordHasher<AppUser>();
             var verificationResult = passwordHasher.VerifyHashedPassword(currentUser, currentUser.Password, editPasswordVM.CurrentPassword);
 
 
-            if (!ModelState.IsValid || !editPasswordVM.NewPassword.Equals(editPasswordVM.ConfirmPassword) || verificationResult != PasswordVerificationResult.Success)
+            if (verificationResult != PasswordVerificationResult.Success)
             {
                 return View();
             }
@@ -237,7 +242,7 @@ namespace CashCare.Controllers.Account
             var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
             AppUser currentUser = _context.AppUsers.FirstOrDefault(user => user.Id == userId);
 
-            currentUser.FirstName = editUserNameVM.FirstName;
+            currentUser.FirstName = editUserNameVM.FirstName[0].ToString().ToUpper() + editUserNameVM.FirstName.Substring(1);
             currentUser.LastName = editUserNameVM.LastName;
             _context.AppUsers.Update(currentUser); _context.SaveChanges();
 
