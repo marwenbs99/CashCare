@@ -185,7 +185,29 @@ namespace CashCare.Controllers.Account
 
         public ActionResult EditPassword()
         {
-            return View();
+            return View(new EditPasswordVM());
+        }
+
+        [HttpPost]
+        [ActionName("EditPassword")]
+        public ActionResult EditPasswordPost(EditPasswordVM editPasswordVM)
+        {
+            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            AppUser currentUser = _context.AppUsers.FirstOrDefault(user => user.Id == userId);
+            var passwordHasher = new PasswordHasher<AppUser>();
+            var verificationResult = passwordHasher.VerifyHashedPassword(currentUser, currentUser.Password, editPasswordVM.CurrentPassword);
+
+
+            if (!ModelState.IsValid || !editPasswordVM.NewPassword.Equals(editPasswordVM.ConfirmPassword) || verificationResult != PasswordVerificationResult.Success)
+            {
+                return View();
+            }
+
+            currentUser.Password = passwordHasher.HashPassword(currentUser, editPasswordVM.NewPassword);
+            _context.AppUsers.Update(currentUser);
+            _context.SaveChanges();
+
+            return RedirectToAction("EditAccount");
         }
 
 
