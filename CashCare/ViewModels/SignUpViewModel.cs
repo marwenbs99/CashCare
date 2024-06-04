@@ -14,7 +14,7 @@ namespace CashCare.ViewModels
         public required string Email { get; set; }
 
         [Required]
-        public int PhoneNumber { get; set; }
+        public string PhoneNumber { get; set; }
 
         [Required]
         public required string Password { get; set; }

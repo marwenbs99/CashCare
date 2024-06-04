@@ -1,8 +1,5 @@
 ﻿@using CashCare.ViewModels
 @model SignUpViewModel
-@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
 @{
     Layout = null; 
 }
@@ -11,27 +8,23 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="~/css/signup.css" asp-append-version="true" />
-    @* <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" /> *@
     <title>Login</title>
 </head>
 <body>
-    <form method="post" asp-action="Signup" enctype="multipart/form-data">
-        <div class="container">
-
+    <form method="post" asp-action="Signup" enctype="multipart/form-data" onsubmit="return checkPhoneFormat()">
+        <div class="container">      
         <div id="content" class="contentContainer activeContent contentContainerBordered">
             <div class="topside">
                 <a href="/"><img src="/assets/cashnow.png" /></br></a>
                 <b><span class="TitelTop">Sign up for CashCare</span></b>
-            </div>
-
+            </div>       
             <input asp-for="FirstName" class="Email" type="text" id="Email" placeholder="First name" />
 
             <input asp-for="LastName" class="Email" type="text" id="Email" placeholder="Last name" />
 
             <input asp-for="Email" class="Email" type="text" id="Email" placeholder="E-Mail Adresse" />
-
-            <input asp-for="PhoneNumber" class="Email" type="text" id="Email" placeholder="mobile number" />
+                <b><label id="warning" style="color:red;display:none;text-align:left;font-size:14px">- Please enter a valid telephone number for Germany or France.</label></b>
+            <input asp-for="PhoneNumber" class="Email" type="text" id="floatingInputGridDescription" placeholder="mobile number" />
 
             <input asp-for="Password" class="Email" type="password" id="password" placeholder="Password" />
 
@@ -57,3 +50,5 @@
     </form>
 </body>
 </html>
+<link rel="stylesheet" href="~/css/signup.css" asp-append-version="true" />
+<script src="~/js/account.js"></script>
