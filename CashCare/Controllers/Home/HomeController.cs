@@ -147,6 +147,13 @@ namespace CashCare.Controllers.Home
         public async Task<IActionResult> CreateDailyExpense(DailyExpenseViewModel dailyexpenseVM)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (dailyexpenseVM.currentExpense.Amount == 0 || dailyexpenseVM.currentExpense.Description == string.Empty)
+            {
+                TempData["Statut"] = "Warning";
+                TempData["NotificationMessage"] = $"Make sure to fill in all fields carefully!";
+
+                return RedirectToAction("Index");
+            }
             try
             {
                 dailyexpenseVM.currentExpense.AppUserId = int.Parse(userId);
