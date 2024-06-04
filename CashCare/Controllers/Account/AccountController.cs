@@ -225,6 +225,25 @@ namespace CashCare.Controllers.Account
             return View(new EditUserNameVM { FirstName = currentUser.FirstName, LastName = currentUser.LastName });
         }
 
+        [HttpPost]
+        [ActionName("EditUserName")]
+        public ActionResult EditUserNamePost(EditUserNameVM editUserNameVM)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(editUserNameVM);
+            }
+
+            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            AppUser currentUser = _context.AppUsers.FirstOrDefault(user => user.Id == userId);
+
+            currentUser.FirstName = editUserNameVM.FirstName;
+            currentUser.LastName = editUserNameVM.LastName;
+            _context.AppUsers.Update(currentUser); _context.SaveChanges();
+
+            return RedirectToAction("EditAccount");
+        }
+
         public static string MasquerNumero(string numero)
         {
             // Vérifiez que le numéro a une longueur correcte
