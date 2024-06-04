@@ -152,10 +152,14 @@ namespace CashCare.Controllers.Home
                 dailyexpenseVM.currentExpense.AppUserId = int.Parse(userId);
                 _context.ExpensesDaily.Add(dailyexpenseVM.currentExpense);
                 await _context.SaveChangesAsync();
+
+                TempData["Statut"] = "Success";
+                TempData["NotificationMessage"] = $"Expense added successfully!";
             }
             catch (Exception ex)
             {
-
+                TempData["Statut"] = "Warning";
+                TempData["NotificationMessage"] = $"Make sure to fill in all fields carefully!";
             }
 
             return RedirectToAction("Index");

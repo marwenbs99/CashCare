@@ -140,20 +140,23 @@ namespace CashCare.Controllers.Account
             var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
             if (!ModelState.IsValid)
             {
+                TempData["Statut"] = "Warning";
                 TempData["NotificationMessage"] = $"Please enter a correct email!";
+
                 return View(newMail);
             }
 
             try
             {
                 AppUser currentUser = _context.AppUsers.FirstOrDefault(user => user.Id == userId);
-                if (currentUser?.Email == newMail.Email)
-                {
-                    TempData["Statut"] = "Warning";
-                    TempData["NotificationMessage"] = $"Make sure to enter a new mail!";
+                //if (currentUser?.Email == newMail.Email)
+                //{
+                //    TempData["Statut"] = "Warning";
+                //    TempData["NotificationMessage"] = $"Make sure to enter a new mail!";
 
-                    return View(newMail);
-                }
+                //    return View(newMail);
+                //}
+
                 currentUser.Email = newMail.Email;
                 _context.AppUsers.Update(currentUser);
                 _context.SaveChanges();
@@ -201,7 +204,8 @@ namespace CashCare.Controllers.Account
             }
             catch (Exception ex)
             {
-
+                TempData["Statut"] = "Error";
+                TempData["NotificationMessage"] = $"Error";
             }
             return RedirectToAction("EditAccount");
         }
@@ -248,7 +252,7 @@ namespace CashCare.Controllers.Account
             _context.SaveChanges();
 
             TempData["Statut"] = "Success";
-            TempData["NotificationMessage"] = $"your password was successfully changed!!";
+            TempData["NotificationMessage"] = $"your password was successfully changed!";
 
             return RedirectToAction("EditAccount");
         }

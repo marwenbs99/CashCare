@@ -32,4 +32,21 @@
 </form>
 
 <link href="~/css/account.css" rel="stylesheet" />
-<script src="~/js/account.js"></script>
+
+<script>
+    function checkPhoneFormat() {
+        var phoneNumberInput = document.getElementById('floatingInputGridDescription');
+        var phoneNumber = phoneNumberInput.value;
+
+        // Regex pour l'Allemagne et la France
+        var regexGermany = /^\+49\d{10,12}$/; // Exemple: +4917623709481
+        var regexFrance = /^\+33\d{9}$/; // Exemple: +33612345678
+
+        if (regexGermany.test(phoneNumber) || regexFrance.test(phoneNumber)) {
+            return true; // Numéro valide
+        } else {
+            toastr.error('@Html.Raw("Please enter a valid telephone number for Germany or France.")', 'Error');
+            return false; // Numéro invalide
+        }
+    }
+</script>
