@@ -111,6 +111,9 @@ namespace CashCare.Controllers.Account
             try
             {
                 AppUser currentUser = _context.AppUsers.FirstOrDefault(user => user.Id == userId);
+
+                currentUser.PhoneNumber = MasquerNumero(currentUser.PhoneNumber);
+
                 return View(new EditAccountVM { CurrentUser = currentUser });
             }
             catch (Exception ex)
@@ -152,6 +155,7 @@ namespace CashCare.Controllers.Account
 
         public ActionResult EditPhone(EditPhoneVM currentPhone)
         {
+            currentPhone.PhoneNumber = MasquerNumero(currentPhone.PhoneNumber);
             return View(currentPhone);
         }
 
@@ -168,7 +172,7 @@ namespace CashCare.Controllers.Account
             try
             {
                 AppUser currentUser = _context.AppUsers.FirstOrDefault(user => user.Id == userId);
-                currentUser.PhoneNumber = int.Parse(currentPhone.PhoneNumber);
+                currentUser.PhoneNumber = currentPhone.PhoneNumber;
                 _context.AppUsers.Update(currentUser);
                 _context.SaveChanges();
             }
@@ -182,6 +186,28 @@ namespace CashCare.Controllers.Account
         public ActionResult EditPassword()
         {
             return View();
+        }
+
+
+        public static string MasquerNumero(string numero)
+        {
+            // Vérifiez que le numéro a une longueur correcte
+            if (numero.Length < 6)
+            {
+                return "";
+            }
+
+            // Gardez les trois premiers caractères et les quatre derniers
+            string debut = numero.Substring(0, 3);
+            string fin = numero.Substring(numero.Length - 4);
+
+            // Remplacez les caractères intermédiaires par des astérisques
+            string masque = new string('*', numero.Length - 7);
+
+            // Combinez les parties pour obtenir le numéro masqué
+            string numeroMasque = debut + masque + fin;
+
+            return numeroMasque;
         }
     }
 }

@@ -13,7 +13,7 @@ namespace CashCare.Models
         [Required]
         public required string Email { get; set; }
 
-        public int PhoneNumber { get; set; }
+        public string PhoneNumber { get; set; } = string.Empty;
         [Required]
         public required string Password { get; set; }
         public DateTime DateOfInscription { get; set; } = DateTime.Now;
