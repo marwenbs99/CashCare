@@ -1,5 +1,9 @@
 ﻿<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
+@using CashCare.ViewModels
+@model EditPhoneVM
+
+<form method="post" asp-controller="Account" asp-action="EditPhone" enctype="multipart/form-data" onsubmit="return checkIfAnyFieldEnabled()">
 <div id="popup" class="popup" style="height:190px">
     <i class="fas fa-phone" style="color:#0070ba;font-size:25px;padding-right:10px"></i>
     <label style="font-size:24px">Edit Phone number</label>
@@ -11,13 +15,13 @@
     <div style="display:flex">
 
         <div class="form-floating" style="flex:3">
-            <input style="border: 2px solid #0070ba;" type="email" class="form-control" id="floatingInputGridDescription" placeholder="">
-            <label for="floatingInputGridDescription">+491*****2197</label>
+            <input asp-for="@Model.PhoneNumber" style="border: 2px solid #0070ba;" type="text" class="form-control" id="floatingInputGridDescription" placeholder="">
+            <label for="floatingInputGridDescription">Your Phone number</label>
         </div>
 
         <div style="flex:1;text-align:center">
             <b> <a href="/Account/EditAccount" style="text-decoration:none;float:right;padding-right:20px;padding-top:20px;color:#0070ba" type="button">Close</a></b>
-            <b><a href="#" name="" value="" onclick="" type="submit" style="text-decoration:none;float:right;padding-right:20px;padding-top:20px;color:#0070ba">Save</a></b>
+                <button class="btn btn-link" type="submit" style="text-decoration:none;float:right;padding-right:20px;padding-top:20px;color:#0070ba;font-weight: bold;">Save</button>
         </div>
 
     </div>
@@ -27,4 +31,6 @@
 
 
 </div>
+</form>
+
 <link href="~/css/account.css" rel="stylesheet" />

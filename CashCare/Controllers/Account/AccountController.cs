@@ -106,17 +106,77 @@ namespace CashCare.Controllers.Account
         }
         public ActionResult EditAccount()
         {
+            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+            try
+            {
+                AppUser currentUser = _context.AppUsers.FirstOrDefault(user => user.Id == userId);
+                return View(new EditAccountVM { CurrentUser = currentUser });
+            }
+            catch (Exception ex)
+            {
+
+            }
+
             return View();
         }
 
-        public ActionResult EditMail()
+        public ActionResult EditMail(EditMailViewModel currentMail)
         {
-            return View();
+            return View(currentMail);
         }
 
-        public ActionResult EditPhone()
+        [HttpPost]
+        [ActionName("EditEmail")]
+        public ActionResult EditMailPost(EditMailViewModel newMail)
         {
-            return View();
+            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+
+            try
+            {
+                AppUser currentUser = _context.AppUsers.FirstOrDefault(user => user.Id == userId);
+                currentUser.Email = newMail.Email;
+                _context.AppUsers.Update(currentUser);
+                _context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return RedirectToAction("EditAccount");
+        }
+
+        public ActionResult EditPhone(EditPhoneVM currentPhone)
+        {
+            return View(currentPhone);
+        }
+
+        [HttpPost]
+        [ActionName("EditPhone")]
+        public ActionResult EditPhonePost(EditPhoneVM currentPhone)
+        {
+            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+
+            try
+            {
+                AppUser currentUser = _context.AppUsers.FirstOrDefault(user => user.Id == userId);
+                currentUser.PhoneNumber = int.Parse(currentPhone.PhoneNumber);
+                _context.AppUsers.Update(currentUser);
+                _context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return RedirectToAction("EditAccount");
         }
 
         public ActionResult EditPassword()

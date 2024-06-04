@@ -1,5 +1,8 @@
 ﻿<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
+@using CashCare.ViewModels
+@model EditAccountVM
+
 <div class="outer-container">
 
     <div class="container">
@@ -11,7 +14,7 @@
                 <b style="float:right"><label style="color:white;padding:20px;">Account opened in 2024</label></b>
             </div>
             <div style="background-color:white;height:150px;border-end-end-radius:20px;border-end-start-radius:20px">
-                <label style="color:black;padding:20px;font-size:24px">Marwen Ben Salem</label>
+                <label style="color:black;padding:20px;font-size:24px">@Model.CurrentUser.FirstName @Model.CurrentUser.LastName</label>
                 <b><a style="float:right;padding:26px;font-size:16px;text-decoration:none" href="#">change name</a></b>
                 <br />
                 <b><a href="#" style="padding:26px;float:left; text-decoration:none;font-size:16px">complete your personal profile</a></b>
@@ -29,8 +32,8 @@
 
                 <div style="height:75%; border-radius:20px;background-color:white">
                     <i class="fas fa-envelope" style="color:#0070ba;padding-top:20px;padding-left:20px;font-size:20px"></i> <br />
-                    <label style="padding-left:16px;font-size:18px">bensalemarwen@gmail.com</label>
-                    <b><a href="/Account/EditMail" style="text-decoration:none;float:right;padding-right:20px"> Edit </a></b>
+                    <label style="padding-left:16px;font-size:18px">@Model.CurrentUser.Email</label>
+                    <b><a href="@Url.Action("EditMail","Account", new{Email = @Model.CurrentUser.Email})" style="text-decoration:none;float:right;padding-right:20px"> Edit </a></b>
                 </div>
 
             </div>
@@ -43,8 +46,8 @@
 
                 <div style="height:65%; border-radius:20px;background-color:white">
                     <i class="fas fa-phone" style="color:#0070ba;padding-top:20px;padding-left:20px;font-size:20px"></i> <br />
-                    <label style="padding-left:16px;font-size:18px">+491*****2197</label>
-                    <b><a href="/Account/EditPhone" style="text-decoration:none;float:right;padding-right:20px"> Edit </a></b>
+                    <label style="padding-left:16px;font-size:18px">@Model.CurrentUser.PhoneNumber +491*****2197</label>
+                    <b><a href="@Url.Action("EditPhone","Account", new{PhoneNumber = Model.CurrentUser.PhoneNumber})" style="text-decoration:none;float:right;padding-right:20px"> Edit </a></b>
                 </div>
 
             </div>
