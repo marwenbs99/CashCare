@@ -1,7 +1,10 @@
 ﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
 @using CashCare.ViewModels;
 @model DailyExpenseViewModel
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 <link href="~/css/site.css" rel="stylesheet" />
+
 @{
     var dailyLimit = (Model.currentWallet.NettIncomeAfter / 30);
     var dailyLeft = dailyLimit - Model.todaytotalExpense;
@@ -25,36 +28,49 @@
 
                 </div>
                 <div class="card-body">
-                    <div >
+                    <div>
 
-                        <div >
+                        <div>
                             <div class="form-floating">
                                 <input style="border: 2px solid #0070ba;" asp-for="currentExpense.Description" class="form-control" id="floatingInputGridDescription" placeholder="">
                                 <label for="floatingInputGridDescription">@Localizer["Description"]</label>
                             </div>
                         </div>
                         <br />
-                        <div >
+                        <div>
                             <div class="form-floating" style="padding-bottom:20px">
                                 <input style=" border: 2px solid #0070ba;" asp-for="currentExpense.Amount" class="form-control" id="floatingInputGridAmount" placeholder="200$" oninput="validateDecimalInput(this)" value="">
                                 <label for="floatingInputGridAmount">@Localizer["Amount"]</label>
                             </div>
                         </div>
 
-                        <div  style="text-align:left">
+                        <div style="text-align:left">
                             <button name="BtnAction" style="width:100%; height:calc(3.5rem + 2px); border-radius:10px;background-color:#0070ba;color:white;height:45px" class="btn btn textFormat">@Localizer["Add"]</button>
                         </div>
-
-
 
                     </div>
                 </div>
             </div>
 
+            <br />
+            
+            
+            <div class="card" style="border-top-left-radius:20px;border-radius:20px;height:320px">
+@*                 <div class="card-header" style="background-color:#0070ba;border-top-left-radius:20px;border-top-right-radius:20px;height:45px">
+
+
+                    <label style="color:white;width:100%;height:100%;padding-left:20px;padding-top:8px ; font-size:18px" class="textFormat">
+                        @Localizer["Performance"]
+                        <span style="float:right;"> <i class="fas fa-chart-line"></i></span>
+                    </label>
+                    
+                </div> *@
+               
+            </div>
+           
         </div>
 
         <div style="flex:0.08">
-
         </div>
 
         <div style="flex:2">
