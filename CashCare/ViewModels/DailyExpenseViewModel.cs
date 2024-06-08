@@ -1,4 +1,6 @@
 ﻿using CashCare.Models;
+using CashCare.Models.Wallet;
+using System.Linq;
 
 namespace CashCare.ViewModels
 {
@@ -14,10 +16,12 @@ namespace CashCare.ViewModels
             get
             {
                 decimal somme = 0;
+
                 foreach (var expense in this.ListexpensePerDay)
                 {
                     somme += expense.ExpensesTotalAmount;
                 }
+
                 return somme;
             }
         }
@@ -27,12 +31,38 @@ namespace CashCare.ViewModels
             get
             {
                 decimal somme = 0;
+
                 foreach (var expense in this.ListexpensePerDay)
                 {
                     somme += expense.SavingThisDay;
                 }
+
                 return somme;
             }
+        }
+
+        public decimal ExpenseUntil(int dayOfMonth)
+        {
+            decimal somme = 0;
+
+            for (int i = 0; i != dayOfMonth; i++)
+            {
+                somme += this.ListexpensePerDay.OrderBy(x => x.DayOftheMonth).ToList()[i].ExpensesTotalAmount;
+            }
+
+            return somme;
+        }
+
+        public  decimal SavingUntil(int dayOfMonth)
+        {
+            decimal somme = 0;
+
+            for (int i = 0; i != dayOfMonth; i++)
+            {
+                somme+= this.ListexpensePerDay[i].SavingThisDay;
+            }
+
+            return somme;
         }
     }
 }
