@@ -49,7 +49,7 @@ namespace CashCare.Controllers.Home
                 DateTime userSalaryDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, salaryDateofRecive ?? 0);
 
 
-                // Nombre de jours entre 27 actuel et le 27 du mois prochain
+                // exemple : Nombre de jours entre 27 actuel et le 27 du mois prochain
                 int daysUntilCurrentSalary = (userSalaryDate.AddMonths(1) - userSalaryDate).Days;
 
                 // Déterminer la date de début de la liste des dépenses
@@ -71,6 +71,15 @@ namespace CashCare.Controllers.Home
                     });
                 }
             }
+
+            IList<decimal> savingUntilDate = new List<decimal>();
+
+            var test = userDailyExpense.ListexpensePerDay.Count();
+            for (int c = 0; c <= test; c++)
+            {
+                savingUntilDate.Add(Convert.ToInt32(userDailyExpense.SavingUntil(c)));
+            }
+
             var currentCulture = HttpContext.Features.Get<IRequestCultureFeature>().RequestCulture.Culture.Name;
             ViewData["SelectedCulture"] = currentCulture;
 
