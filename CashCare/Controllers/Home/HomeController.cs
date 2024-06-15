@@ -72,14 +72,6 @@ namespace CashCare.Controllers.Home
                 }
             }
 
-            IList<decimal> savingUntilDate = new List<decimal>();
-
-            var test = userDailyExpense.ListexpensePerDay.Count();
-            for (int c = 0; c <= test; c++)
-            {
-                savingUntilDate.Add(Convert.ToInt32(userDailyExpense.SavingUntil(c)));
-            }
-
             var currentCulture = HttpContext.Features.Get<IRequestCultureFeature>().RequestCulture.Culture.Name;
             ViewData["SelectedCulture"] = currentCulture;
 

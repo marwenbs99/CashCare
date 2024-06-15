@@ -14,9 +14,11 @@ namespace CashCare.ViewModels
             get
             {
                 var tempo = new List<decimal>();
-                for (int c = 0; c <= this.ListexpensePerDay.Count(); c++)
+                decimal somme = 0;
+                for (int c = this.ListexpensePerDay.Count()-1; c >= 0 ; c--)
                 {
-                    tempo.Add(Convert.ToInt32(this.SavingUntil(c)));
+                    somme += this.ListexpensePerDay[c].SavingThisDay;
+                    tempo.Add(Convert.ToInt32(somme));
                 }
                 return tempo;
             }
